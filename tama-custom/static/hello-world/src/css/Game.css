@@ -1,0 +1,81 @@
+@font-face {
+    font-family: 'Kirby Classic';
+    src: url('../fonts/kirby-classic.ttf') format('truetype');
+}
+
+.egg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 539px;
+    max-width: 400px;
+    border-radius: 50%;
+    background-color: #f9f882;
+    margin: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 128, 0.5);
+    /*box-shadow: h-offset v-offset blur spread color;*/
+}
+
+.character-name {
+    font-family: 'Kirby Classic';
+    font-size: 20px;
+    font-weight: bold;
+    color: #f37c90;
+    text-shadow: 0 0 10px #ffffff;
+    text-align: center;
+    margin-top: 10%;
+}
+
+.character-age {
+    font-size: 100%;
+    font-weight: bold;
+    color: blue;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.square {
+    height: 200px;
+    width: 200px;
+    background-color: #ccc;
+    border-radius: 2%;
+    margin-top: 2%;
+    border: 5px solid #ff0066;
+    /*border: width style color;*/
+    border-radius: 10%;
+    box-shadow: 0 4px 6px rgba(0, 0, 128, 0.5);
+}
+
+
+.gif {
+    background: 50% 50% no-repeat;
+    /* 50% 50% centers image in div */
+    width: 191px;
+    height: 191px;
+    border-radius: 7%;
+
+
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.buttons {
+    display: flex;
+    width: 100%;
+    margin-top: 1%;
+    justify-content: center;
+}
+
+.buttons :hover {
+    background-color: #ccc;
+    border-radius: 2%;
+    cursor: pointer;
+}
+
+.buttonsUp {
+    display: flex;
+    justify-content: center;
+}
