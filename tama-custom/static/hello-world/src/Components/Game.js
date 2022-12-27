@@ -67,7 +67,7 @@ export const Game = () => {
 
 
     
-    // Función para actualizar la edad del Tamagoshi
+    // Function to update the age of the Tamagoshi
     useInterval(() => {
         setAge(age + 1);
         if (age === 99) {
@@ -220,7 +220,6 @@ export const Game = () => {
             </div>
 
             
-            <h1 className="character-name">Game time: {elapsedTimeFormatted} </h1>
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Kirby State</Modal.Title>
@@ -237,9 +236,6 @@ export const Game = () => {
     )
 }
 
-/* La función useInterval toma dos argumentos:
-callback: La función que se ejecutará de manera periódica.
-  delay: El tiempo en milisegundos entre cada ejecución de la función. */
 function useInterval(callback, delay) {
     const savedCallback = useRef();
 
