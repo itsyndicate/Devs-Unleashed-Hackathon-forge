@@ -22,18 +22,27 @@
 }
 
 .square {
+    position: fixed;
     height: 200px;
     width: 200px;
-    background-color: #ccc;
     border-radius: 2%;
     margin-top: 2%;
-    border: 5px solid #ff0066;
+
     /*border: width style color;*/
-    border-radius: 10%;
-    box-shadow: 0 4px 6px rgba(0, 0, 128, 0.5);
+}
+.egg {
+    background-color: #f9f882;
+    margin: auto;
 }
 
-
+.stats {
+    position: absolute;
+    width: 300px;
+    height: auto;
+    display:block;
+    margin-left:auto;
+    margin-right: auto;
+}
 .gif {
     background: 50% 50% no-repeat;
     /* 50% 50% centers image in div */
