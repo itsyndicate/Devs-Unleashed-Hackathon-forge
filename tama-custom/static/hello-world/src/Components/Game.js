@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import swal from 'sweetalert';
+import api, { route } from "@forge/api";
 import {Image, ProgressBar} from 'react-bootstrap';
 import {Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -61,8 +62,6 @@ export const Game = () => {
             }, 3000
         );
     };
-
-
     // Function to update the age of the Tamagoshi
     useInterval(() => {
         setAge(age + 1);
@@ -193,6 +192,7 @@ export const Game = () => {
             </div>
 
             <div>
+                <button onClick={createIssue}>CREATE</button>
                 <div className="buttons">
                     <button onClick={() => {
                         setHunger(Math.min(hunger + 10, 100));
@@ -209,34 +209,12 @@ export const Game = () => {
 
                         <MdOutlineHealthAndSafety/> Heal
                     </button>
-                    <button className="buttons" onClick={() => {
-                    }}>stop
-                    </button>
                 </div>
             </div>
         </div>
     )
 }
-function makeNewPosition(){
 
-    // Get viewport dimensions (remove the dimension of the div)
-    let h = window.height() - 50;
-    let w = window.width() - 50;
-
-    let nh = Math.floor(Math.random() * h);
-    let nw = Math.floor(Math.random() * w);
-
-    return [nh,nw];
-
-}
-function Move(){
-    let isMoving = true;
-    let newq = makeNewPosition();
-    while (isMoving){
-        let tama = document.getElementById("character");
-        tama.animate({top: newq[0], left: newq[1]}, 1000);
-    }
-}
 function useInterval(callback, delay) {
     const savedCallback = useRef();
 

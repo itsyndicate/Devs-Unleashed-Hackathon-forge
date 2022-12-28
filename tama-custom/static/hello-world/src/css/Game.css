@@ -35,7 +35,7 @@
 }
 
 .stats {
-    position: absolute;
+    position: relative;
     width: 300px;
     height: auto;
     display:block;
