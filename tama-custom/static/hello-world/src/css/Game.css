@@ -26,12 +26,12 @@
  }
 
 .right {
-    transition: left 1s;
+    transition: left 1.2s;
     left: 100%;
 }
 
 .left {
-    transition: left 1s;
+    transition: left 1.2s;
     left: 0;
 }
 

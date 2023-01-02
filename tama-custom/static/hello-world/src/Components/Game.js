@@ -15,6 +15,8 @@ import {GiLaurelsTrophy} from 'react-icons/gi';
 import {MdOutlineAdsClick} from 'react-icons/md';
 import {getElement} from "bootstrap/js/src/util";
 import button from "bootstrap/js/src/button";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
 
 const AsyncReq = async () => {
     const response = await requestJira('/rest/api/3/groups/picker');
@@ -57,6 +59,9 @@ export const Game = () => {
     // Agrega la variable showGif y establece su valor inicial en false
     const [showGif, setShowGif] = useState(false);
     const [gif, setGif] = useState(null);
+    const isNewUser = true;
+
+    window.postMessage("login")
 
     // Modifica la función showGif para que cambie el valor de showGif a true
     // y establezca un temporizador para que vuelva a cambiar el valor de showGif a false
@@ -181,11 +186,19 @@ export const Game = () => {
 
     const [direction, setDirection] = useState('left');
     const [containerWidth, setContainerWidth] = useState(5);
+    let timer = null;
 
-    useInterval(() => {
-        setDirection(direction === 'right' ? 'left' : 'right');
-        setContainerWidth(Math.floor(Math.random() * 101));
-    }, 1200)
+    function startMove() {
+        timer = setInterval(() => {
+            setDirection(direction === 'right' ? 'left' : 'right');
+            setContainerWidth(Math.floor(Math.random() * 101));
+        }, 1200)
+
+    }
+
+    function stopMove() {
+        clearTimeout(timer);
+    }
 
     return (
         <div className="egg">
@@ -198,7 +211,7 @@ export const Game = () => {
                 Health: <ProgressBar now={health} variant="info" label={`${health}%`}/>
             </div>
             <div className="square" style={{width: containerWidth + '%'}}>
-                <div className={'square-content ' + direction}  id="character">
+                <div className={'square-content ' + direction} id="character">
                     {/* Show the GIF if showGif is true and show the tamagoshi if showGif is false */}
                     {showGif ? <img className='gif' src={gif} alt="Gif"/> :
                         <TamagoshiImage strength={strength} health={health}/>}
@@ -209,26 +222,12 @@ export const Game = () => {
             <div>
                 {/*test request to JIRA API*/}
                 <button id="test" class="asdasd" onClick={AsyncReq}>TEST</button>
+                <button onClick={startMove}>Move</button>
                 <button onClick={() => {
-                    // let id = null;
-                    const tama = document.getElementById("character");
-                    tama.style.left = (parseInt(tama.style.left) + 30) + 'px';
-                    console.log("moving")
-
-                    // let x = 0;
-                    // clearInterval(id);
-                    // id = setInterval(frame, 10)
-                    // function frame() {
-                    //     if (x === 350) {
-                    //         clearInterval(id);
-                    //     }
-                    //     else {
-                    //         x++;
-                    //         tama.style.left = (parseInt(tama.style.left) + 30) + 'px';
-                    //     }
-                    // }
-
-                }}>Move
+                    stopMove();
+                    window.stop = stop;
+                    window.start = start;
+                }}>Stop
                 </button>
                 <button onClick={() => {
                     const link = window.parent.document.getElementsByClassName("css-178ag6o")[4];
