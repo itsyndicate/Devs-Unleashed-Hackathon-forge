@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import swal from 'sweetalert';
-import api, { route } from "@forge/api";
+import api, {route} from "@forge/api";
+import {requestJira} from '@forge/bridge';
 import {Image, ProgressBar} from 'react-bootstrap';
 import {Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -13,28 +14,33 @@ import {BiTime} from 'react-icons/bi';
 import {GiLaurelsTrophy} from 'react-icons/gi';
 import {MdOutlineAdsClick} from 'react-icons/md';
 import {getElement} from "bootstrap/js/src/util";
+import button from "bootstrap/js/src/button";
 
+const AsyncReq = async () => {
+    const response = await requestJira('/rest/api/3/groups/picker');
+    console.log(await response.text());
+}
 // Components
-const TamagoshiImage = ({hunger, health}) => {
+const TamagoshiImage = ({strength, health}) => {
     let tamagoshiImage;
     //si hambre es menor o igual a 30 o felicidad es menor o igual a 30 o salud es menor o igual a 30
-    if (hunger <= 30 || health <= 30) {
+    if (strength <= 30 || health <= 30) {
         tamagoshiImage = 'Okh86g4.png';
     }
     //si hambre es igual a 0 o felicidad es igual a 0 o salud es igual a 0
-    else if (hunger === 0 || health === 0) {
+    else if (strength === 0 || health === 0) {
         tamagoshiImage = '29jrgnP.png';
     }
     //si hambre es mayor a 90 o felicidad es mayor a 90 o salud es mayor a 90
-    else if (hunger > 95 && health > 90) {
+    else if (strength > 95 && health > 90) {
         tamagoshiImage = 'kQooJxm.png';
     }
     //si hambre es mayor a 80 y felicidad es mayor a 80 y salud es mayor a 80
-    else if (hunger > 80 && health > 80) {
+    else if (strength > 80 && health > 80) {
         tamagoshiImage = 'wWoMWxA.png';
     }
     //si hambre es mayor a 30 y felicidad es mayor a 30 y salud es mayor a 30
-    else if (hunger > 30 && health > 30) {
+    else if (strength > 30 && health > 30) {
         tamagoshiImage = 'EHOnPps.png';
     }
     return <Image src={tamagoshiImage} alt="Tamagoshi"/>;
@@ -43,7 +49,7 @@ const TamagoshiImage = ({hunger, health}) => {
 
 export const Game = () => {
     // Estados para los parámetros de Tamagoshi
-    const [hunger, setHunger] = useState(50);
+    const [strength, setStrength] = useState(50);
     const [age, setAge] = useState(0);
     const [health, setHealth] = useState(100);
     const [record, setRecord] = useState(0);
@@ -95,10 +101,10 @@ export const Game = () => {
     }, 1000); // Actualiza cada segundo
     // Función para actualizar el estado de hambre del Tamagoshi
     useInterval(() => {
-        setHunger(hunger - 1);
-        if (hunger === 0) {
+        setStrength(strength - 1);
+        if (strength === 0) {
             swal({
-                title: 'Kirby has starved to death',
+                title: 'Kirby is weak',
                 text: 'Do you want to reset the game?',
                 icon: 'warning',
                 buttons: ['Cancel', 'OK'],
@@ -172,6 +178,15 @@ export const Game = () => {
         }
     }, []);
 
+
+    const [direction, setDirection] = useState('left');
+    const [containerWidth, setContainerWidth] = useState(5);
+
+    useInterval(() => {
+        setDirection(direction === 'right' ? 'left' : 'right');
+        setContainerWidth(Math.floor(Math.random() * 101));
+    }, 1200)
+
     return (
         <div className="egg">
             <h1 className="character-name">Kirby</h1>
@@ -179,23 +194,51 @@ export const Game = () => {
             <h2 className="character-age"><GiLaurelsTrophy/> Record: {record} Years</h2>
 
             <div className="stats">
-                Hungry: <ProgressBar now={hunger} variant="warning" label={`${hunger}%`}/>
+                Strength: <ProgressBar now={strength} variant="warning" label={`${strength}%`}/>
                 Health: <ProgressBar now={health} variant="info" label={`${health}%`}/>
             </div>
-            <div className="square" id="character">
-                <div className="square-content">
-                    {/* Muestra el GIF si showGif es true y muestra el tamagoshi si showGif es false */}
+            <div className="square" style={{width: containerWidth + '%'}}>
+                <div className={'square-content ' + direction}  id="character">
+                    {/* Show the GIF if showGif is true and show the tamagoshi if showGif is false */}
                     {showGif ? <img className='gif' src={gif} alt="Gif"/> :
-                        <TamagoshiImage hunger={hunger} health={health}/>}
+                        <TamagoshiImage strength={strength} health={health}/>}
 
                 </div>
             </div>
 
             <div>
-                <button onClick={createIssue}>CREATE</button>
+                {/*test request to JIRA API*/}
+                <button id="test" class="asdasd" onClick={AsyncReq}>TEST</button>
+                <button onClick={() => {
+                    // let id = null;
+                    const tama = document.getElementById("character");
+                    tama.style.left = (parseInt(tama.style.left) + 30) + 'px';
+                    console.log("moving")
+
+                    // let x = 0;
+                    // clearInterval(id);
+                    // id = setInterval(frame, 10)
+                    // function frame() {
+                    //     if (x === 350) {
+                    //         clearInterval(id);
+                    //     }
+                    //     else {
+                    //         x++;
+                    //         tama.style.left = (parseInt(tama.style.left) + 30) + 'px';
+                    //     }
+                    // }
+
+                }}>Move
+                </button>
+                <button onClick={() => {
+                    const link = window.parent.document.getElementsByClassName("css-178ag6o")[4];
+                    // const test = document.getElementsByClassName("asdasd");
+                }}>Fight
+                </button>
+                <button>Edit</button>
                 <div className="buttons">
                     <button onClick={() => {
-                        setHunger(Math.min(hunger + 10, 100));
+                        setStrength(Math.min(strength + 10, 100));
                         setGif('giphy0.webp');
                         displayGif();
                     }}>
@@ -226,6 +269,7 @@ function useInterval(callback, delay) {
         function tick() {
             savedCallback.current();
         }
+
         if (delay !== null) {
             let id = setInterval(tick, delay);
             return () => clearInterval(id);
