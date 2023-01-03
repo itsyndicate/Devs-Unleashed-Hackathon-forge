@@ -45,7 +45,6 @@
     /*border: width style color;*/
 }
 .egg {
-    background-color: #f9f882;
     margin: auto;
 }
 
@@ -68,7 +67,7 @@
 }
 
 img {
-    width: 200px;
+    width: 250px;
     height: 200px;
 }
 

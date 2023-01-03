@@ -24,27 +24,27 @@ const AsyncReq = async () => {
 }
 // Components
 const TamagoshiImage = ({strength, health}) => {
-    let tamagoshiImage;
-    //si hambre es menor o igual a 30 o felicidad es menor o igual a 30 o salud es menor o igual a 30
-    if (strength <= 30 || health <= 30) {
-        tamagoshiImage = 'Okh86g4.png';
-    }
-    //si hambre es igual a 0 o felicidad es igual a 0 o salud es igual a 0
-    else if (strength === 0 || health === 0) {
-        tamagoshiImage = '29jrgnP.png';
-    }
-    //si hambre es mayor a 90 o felicidad es mayor a 90 o salud es mayor a 90
-    else if (strength > 95 && health > 90) {
-        tamagoshiImage = 'kQooJxm.png';
-    }
-    //si hambre es mayor a 80 y felicidad es mayor a 80 y salud es mayor a 80
-    else if (strength > 80 && health > 80) {
-        tamagoshiImage = 'wWoMWxA.png';
-    }
-    //si hambre es mayor a 30 y felicidad es mayor a 30 y salud es mayor a 30
-    else if (strength > 30 && health > 30) {
-        tamagoshiImage = 'EHOnPps.png';
-    }
+    let tamagoshiImage = 'project_example_1.png';
+    // //si hambre es menor o igual a 30 o felicidad es menor o igual a 30 o salud es menor o igual a 30
+    // if (strength <= 30 || health <= 30) {
+    //     tamagoshiImage = 'project_example_1.png';
+    // }
+    // //si hambre es igual a 0 o felicidad es igual a 0 o salud es igual a 0
+    // else if (strength === 0 || health === 0) {
+    //     tamagoshiImage = 'project_example_1.png';
+    // }
+    // //si hambre es mayor a 90 o felicidad es mayor a 90 o salud es mayor a 90
+    // else if (strength > 95 && health > 90) {
+    //     tamagoshiImage = 'kQooJxm.png';
+    // }
+    // //si hambre es mayor a 80 y felicidad es mayor a 80 y salud es mayor a 80
+    // else if (strength > 80 && health > 80) {
+    //     tamagoshiImage = 'wWoMWxA.png';
+    // }
+    // //si hambre es mayor a 30 y felicidad es mayor a 30 y salud es mayor a 30
+    // else if (strength > 30 && health > 30) {
+    //     tamagoshiImage = 'EHOnPps.png';
+    // }
     return <Image src={tamagoshiImage} alt="Tamagoshi"/>;
 }
 
@@ -59,9 +59,6 @@ export const Game = () => {
     // Agrega la variable showGif y establece su valor inicial en false
     const [showGif, setShowGif] = useState(false);
     const [gif, setGif] = useState(null);
-    const isNewUser = true;
-
-    window.postMessage("login")
 
     // Modifica la función showGif para que cambie el valor de showGif a true
     // y establezca un temporizador para que vuelva a cambiar el valor de showGif a false
@@ -185,7 +182,7 @@ export const Game = () => {
 
 
     const [direction, setDirection] = useState('left');
-    const [containerWidth, setContainerWidth] = useState(5);
+    const [containerWidth, setContainerWidth] = useState(100);
     let timer = null;
 
     function startMove() {
@@ -234,7 +231,6 @@ export const Game = () => {
                     // const test = document.getElementsByClassName("asdasd");
                 }}>Fight
                 </button>
-                <button>Edit</button>
                 <div className="buttons">
                     <button onClick={() => {
                         setStrength(Math.min(strength + 10, 100));
