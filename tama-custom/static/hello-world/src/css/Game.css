@@ -14,7 +14,7 @@
 }
 
 .character-age {
-    font-size: 100%;
+    font-size: xx-large;
     font-weight: bold;
     color: blue;
     text-align: center;
@@ -23,7 +23,7 @@
 
 #character {
     position: absolute;
- }
+}
 
 .right {
     transition: left 1.2s;
@@ -44,18 +44,32 @@
 
     /*border: width style color;*/
 }
+
 .egg {
     margin: auto;
 }
 
 .stats {
     position: relative;
-    width: 300px;
+    width: 25%;
     height: auto;
-    display:block;
-    margin-left:auto;
+    display: block;
+    margin-left: auto;
     margin-right: auto;
 }
+
+.stat-icons {
+    max-height: 50px;
+    width: 50px;
+    float: left;
+    position: relative;
+}
+
+.stat-progress {
+    height: 50px;
+    position: relative;
+}
+
 .gif {
     background: 50% 50% no-repeat;
     /* 50% 50% centers image in div */
@@ -72,7 +86,7 @@ img {
 }
 
 .buttons {
- }
+}
 
 .buttons :hover {
     background-color: #ccc;

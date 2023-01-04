@@ -52,9 +52,9 @@ const TamagoshiImage = ({strength, health}) => {
 export const Game = () => {
     // Estados para los parámetros de Tamagoshi
     const [strength, setStrength] = useState(50);
-    const [age, setAge] = useState(0);
+    const [tasks, setTaskCount] = useState(0);
     const [health, setHealth] = useState(100);
-    const [record, setRecord] = useState(0);
+    // const [record, setRecord] = useState(0);
     const [elapsedTime, setElapsedTime] = useState(0);
     // Agrega la variable showGif y establece su valor inicial en false
     const [showGif, setShowGif] = useState(false);
@@ -70,34 +70,6 @@ export const Game = () => {
             }, 3000
         );
     };
-    // Function to update the age of the Tamagoshi
-    useInterval(() => {
-        setAge(age + 1);
-        if (age === 99) {
-            swal({
-                title: 'Kirby has had a long life, congratulations!',
-                text: 'Do you want to reset the game?',
-                icon: 'Success',
-                buttons: ['Cancel', 'OK'],
-                dangerMode: true,
-                content: {
-                    element: 'div',
-                    attributes: {
-                        className: 'custom-swal-text, custom-swal'
-                    }
-                }
-            }).then((result) => {
-                if (result) {
-                    // Restart the game
-                    window.location.reload();
-                } else {
-                    // Close the page
-                    window.close();
-                }
-            });
-        }
-    }, 30000);
-    // Función para actualizar el tiempo de juego
     useInterval(() => {
         setElapsedTime(elapsedTime + 1);
     }, 1000); // Actualiza cada segundo
@@ -155,13 +127,8 @@ export const Game = () => {
             });
         }
     }, 3000);
-    // Función para actualizar el record de edad
-    const updateRecord = () => {
-        if (age > record) {
-            setRecord(age);
-            localStorage.setItem('record', age);
-        }
-    }
+
+    // localStorage.setItem('record', age);
     // Formatea el tiempo de juego
     const minutes = Math.floor(elapsedTime / 60);
     const seconds = elapsedTime % 60;
@@ -169,16 +136,13 @@ export const Game = () => {
     // window.onload = func;
     // Agrega un 0 a la izquierda si el número es menor a 10
     const elapsedTimeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    // Actualiza el record de edad cuando cambia la edad
-    useEffect(updateRecord, [age, record]);
-    // Carga el record de edad desde el localStorage
-    useEffect(() => {
-        // Código que utiliza la variable "record"
-        const storedRecord = localStorage.getItem('record');
-        if (storedRecord) {
-            setRecord(parseInt(storedRecord));
-        }
-    }, []);
+    // useEffect(updateRecord, [age, record]);
+    // useEffect(() => {
+    // const storedRecord = localStorage.getItem('record');
+    // if (storedRecord) {
+    //     setRecord(parseInt(storedRecord));
+    // }
+    // }, []);
 
 
     const [direction, setDirection] = useState('left');
@@ -199,13 +163,14 @@ export const Game = () => {
 
     return (
         <div className="egg">
-            <h1 className="character-name">Kirby</h1>
-            <h2 className="character-age"><BiTime/> Age: {age} Years</h2>
-            <h2 className="character-age"><GiLaurelsTrophy/> Record: {record} Years</h2>
+            <h1 className="character-name">TaskoGotchi</h1>
+            <h2 className="character-age"><BiTime/> Tasks Eaten: {tasks}</h2>
 
             <div className="stats">
-                Strength: <ProgressBar now={strength} variant="warning" label={`${strength}%`}/>
-                Health: <ProgressBar now={health} variant="info" label={`${health}%`}/>
+                <Image className="stat-icons" src={"strength.svg"}/>
+                <ProgressBar now={strength} className="stat-progress" variant="danger" label={`${strength}%`}/>
+                <Image className="stat-icons" src={"game-icons_health-potion.svg"}/>
+                <ProgressBar now={health} className="stat-progress" variant="success" label={`${health}%`}/>
             </div>
             <div className="square" style={{width: containerWidth + '%'}}>
                 <div className={'square-content ' + direction} id="character">
