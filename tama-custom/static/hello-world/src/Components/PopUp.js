@@ -1,10 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import '../css/FAQ.css';
 import {Image} from "react-bootstrap";
-
+import styled from 'styled-components';
 let tamagoshiImage = 'project_example_1.png';
+
+
+// const activeStyle = {
+//     background: 'hotpink',
+//     color: 'white'
+// };
+// const [activeStyle, setActiveStyle] = useState("blue")
 
 export const PopUp = ({toggleLogin}) => {
     return (

@@ -64,10 +64,12 @@
     float: left;
     position: relative;
 }
+
 .square-content {
     max-width: 350px;
     margin: 0 auto;
 }
+
 .stat-progress {
     height: 40px;
     position: relative;
@@ -83,21 +85,22 @@
 
 }
 
-img {
-    width: 350px;
-    height: 300px;
-}
-
 .buttons {
 }
 
-.buttons :hover {
-    background-color: #ccc;
-    border-radius: 2%;
+.feed {
+    display: flex;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
     cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    border: 0;
+    color: #fff;
+    max-height: 150px;
 }
 
-.buttonsUp {
-    display: flex;
-    justify-content: center;
+.feed-img {
+    max-height: fit-content;
 }

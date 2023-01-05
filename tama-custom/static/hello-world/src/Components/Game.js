@@ -45,7 +45,7 @@ const TamagoshiImage = ({strength, health}) => {
     // else if (strength > 30 && health > 30) {
     //     tamagoshiImage = 'EHOnPps.png';
     // }
-    return <Image src={tamagoshiImage} alt="Tamagoshi"/>;
+    return <Image style={{maxWidth: "350px", maxHeight: "300px"}}  src={tamagoshiImage} alt="Tamagoshi"/>;
 }
 
 
@@ -170,7 +170,8 @@ export const Game = () => {
                 <Image className="stat-icons" src={"strength.svg"}/>
                 <ProgressBar now={strength} className="stat-progress" variant="danger" label={`${strength}%`}/>
                 <Image className="stat-icons" style={{marginTop: "10px"}} src={"game-icons_health-potion.svg"}/>
-                <ProgressBar now={health} style={{marginTop: "10px"}} className="stat-progress" variant="success" label={`${health}%`}/>
+                <ProgressBar now={health} style={{marginTop: "10px"}} className="stat-progress" variant="success"
+                             label={`${health}%`}/>
             </div>
             <div className="square" style={{width: containerWidth + '%'}}>
                 {/*COMMENT FOR MOVING CHARACTER*/}
@@ -181,6 +182,11 @@ export const Game = () => {
                         <TamagoshiImage strength={strength} health={health}/>}
 
                 </div>
+                <button className="feed" onClick={() => {
+                    setStrength(Math.min(strength + 10, 100));
+                    setGif('giphy0.webp');
+                    displayGif();
+                }}><img src="cat-food.svg" className="feed-img" /></button>
             </div>
 
             <div>
@@ -199,13 +205,7 @@ export const Game = () => {
                 }}>Fight
                 </button>
                 <div className="buttons">
-                    <button onClick={() => {
-                        setStrength(Math.min(strength + 10, 100));
-                        setGif('giphy0.webp');
-                        displayGif();
-                    }}>
-                        <IoFastFoodOutline/> Feed
-                    </button>
+
                     <button onClick={() => {
                         setHealth(Math.min(health + 10, 100));
                         setGif('tumblr_n0w505oIli1ru09vqo1_500.gifv');
