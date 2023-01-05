@@ -169,8 +169,8 @@ export const Game = () => {
             <div className="stats">
                 <Image className="stat-icons" src={"strength.svg"}/>
                 <ProgressBar now={strength} className="stat-progress" variant="danger" label={`${strength}%`}/>
-                <Image className="stat-icons" src={"game-icons_health-potion.svg"}/>
-                <ProgressBar now={health} className="stat-progress" variant="success" label={`${health}%`}/>
+                <Image className="stat-icons" style={{marginTop: "10px"}} src={"game-icons_health-potion.svg"}/>
+                <ProgressBar now={health} style={{marginTop: "10px"}} className="stat-progress" variant="success" label={`${health}%`}/>
             </div>
             <div className="square" style={{width: containerWidth + '%'}}>
                 <div className={'square-content ' + direction} id="character">
