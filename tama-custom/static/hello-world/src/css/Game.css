@@ -22,7 +22,7 @@
 }
 
 #character {
-    position: absolute;
+    position: relative;
 }
 
 .right {
@@ -36,10 +36,10 @@
 }
 
 .square {
-    height: 200px;
-    min-width: 200px;
+    height: 300px;
+    min-width: 350px;
     border-radius: 2%;
-    margin-top: 2%;
+    margin: 0 auto 2px auto;
     position: relative;
 
     /*border: width style color;*/
@@ -59,14 +59,17 @@
 }
 
 .stat-icons {
-    max-height: 50px;
-    width: 50px;
+    max-height: 40px;
+    width: 40px;
     float: left;
     position: relative;
 }
-
+.square-content {
+    max-width: 350px;
+    margin: 0 auto;
+}
 .stat-progress {
-    height: 50px;
+    height: 40px;
     position: relative;
 }
 
@@ -81,8 +84,8 @@
 }
 
 img {
-    width: 250px;
-    height: 200px;
+    width: 350px;
+    height: 300px;
 }
 
 .buttons {

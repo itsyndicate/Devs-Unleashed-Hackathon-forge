@@ -173,7 +173,9 @@ export const Game = () => {
                 <ProgressBar now={health} style={{marginTop: "10px"}} className="stat-progress" variant="success" label={`${health}%`}/>
             </div>
             <div className="square" style={{width: containerWidth + '%'}}>
-                <div className={'square-content ' + direction} id="character">
+                {/*COMMENT FOR MOVING CHARACTER*/}
+                {/*<div className={'square-content ' + direction} id="character">*/}
+                <div className='square-content' id="character">
                     {/* Show the GIF if showGif is true and show the tamagoshi if showGif is false */}
                     {showGif ? <img className='gif' src={gif} alt="Gif"/> :
                         <TamagoshiImage strength={strength} health={health}/>}
