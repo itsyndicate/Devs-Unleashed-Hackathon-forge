@@ -65,6 +65,12 @@
     position: relative;
 }
 
+.rating {
+    font-size: 50px;
+    text-align: center;
+    color: #f1c020;
+}
+
 .square-content {
     max-width: 350px;
     margin: 0 auto;
@@ -89,18 +95,36 @@
 }
 
 .feed {
-    display: flex;
     background-color: transparent;
     background-repeat: no-repeat;
     border: none;
     cursor: pointer;
-    overflow: hidden;
-    outline: none;
     border: 0;
     color: #fff;
-    max-height: 150px;
+    position: absolute;
+    bottom: -20px;
+    z-index: 1
 }
 
 .feed-img {
     max-height: fit-content;
+    z-index: 1;
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.editButton {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    border: 0;
+    color: #fff;
+    position: relative;
+    bottom: -20px;
+    z-index: 1
 }

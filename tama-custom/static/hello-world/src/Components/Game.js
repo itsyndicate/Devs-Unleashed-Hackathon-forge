@@ -17,6 +17,9 @@ import {getElement} from "bootstrap/js/src/util";
 import button from "bootstrap/js/src/button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {Box, Rating, StyledEngineProvider, Typography} from "@mui/material";
+import CharRating from './Rating';
+import {PopUpEdit} from "./PopUp";
 
 const AsyncReq = async () => {
     const response = await requestJira('/rest/api/3/groups/picker');
@@ -45,7 +48,7 @@ const TamagoshiImage = ({strength, health}) => {
     // else if (strength > 30 && health > 30) {
     //     tamagoshiImage = 'EHOnPps.png';
     // }
-    return <Image style={{maxWidth: "350px", maxHeight: "300px"}}  src={tamagoshiImage} alt="Tamagoshi"/>;
+    return <Image style={{maxWidth: "350px", maxHeight: "300px"}} src={tamagoshiImage} alt="Tamagoshi"/>;
 }
 
 
@@ -148,6 +151,12 @@ export const Game = () => {
     const [direction, setDirection] = useState('left');
     const [containerWidth, setContainerWidth] = useState(100);
     let timer = null;
+    const [charRating, setCharRating] = useState(1);
+    const [isEditVisible, setIsEditVisible] = useState(false);
+
+    const toggleEdit = () => {
+        setIsEditVisible(!isEditVisible);
+    }
 
     function startMove() {
         timer = setInterval(() => {
@@ -172,21 +181,24 @@ export const Game = () => {
                 <Image className="stat-icons" style={{marginTop: "10px"}} src={"game-icons_health-potion.svg"}/>
                 <ProgressBar now={health} style={{marginTop: "10px"}} className="stat-progress" variant="success"
                              label={`${health}%`}/>
+                <CharRating rate={charRating} starClicked={charRating}/>
             </div>
             <div className="square" style={{width: containerWidth + '%'}}>
                 {/*COMMENT FOR MOVING CHARACTER*/}
                 {/*<div className={'square-content ' + direction} id="character">*/}
                 <div className='square-content' id="character">
+                    {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
+                     <button className="editButton" style={{left: "-20%"}} onClick={toggleEdit}><img src="edit.svg" className="edit-img"/></button>
                     {/* Show the GIF if showGif is true and show the tamagoshi if showGif is false */}
-                    {showGif ? <img className='gif' src={gif} alt="Gif"/> :
+                    {showGif ? <img  draggable="false"  className='gif' src={gif} alt="Gif"/> :
                         <TamagoshiImage strength={strength} health={health}/>}
-
+                    <button className="feed" onClick={() => {
+                        setStrength(Math.min(strength + 10, 100));
+                        setGif('giphy0.webp');
+                        displayGif();
+                    }}><img draggable="false" src="cat-food.svg" className="feed-img"/></button>
                 </div>
-                <button className="feed" onClick={() => {
-                    setStrength(Math.min(strength + 10, 100));
-                    setGif('giphy0.webp');
-                    displayGif();
-                }}><img src="cat-food.svg" className="feed-img" /></button>
+
             </div>
 
             <div>
