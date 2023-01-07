@@ -23,7 +23,6 @@
     z-index: 2;
 }
 .soundButton, .notificationButton, .musicButton {
-    display: flex;
     position: relative;
     background-color: transparent;
     background-repeat: no-repeat;

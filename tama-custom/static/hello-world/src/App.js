@@ -6,7 +6,6 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { PopUp } from "./Components/PopUp";
 import { Game } from './Components/Game';
 import {Image} from "react-bootstrap";
-import button from "bootstrap/js/src/button";
 
 
 const TamagoshiGame = () => {

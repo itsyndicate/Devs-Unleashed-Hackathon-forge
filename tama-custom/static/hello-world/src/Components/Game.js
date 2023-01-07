@@ -14,13 +14,13 @@ import {BiTime} from 'react-icons/bi';
 import {GiLaurelsTrophy} from 'react-icons/gi';
 import {MdOutlineAdsClick} from 'react-icons/md';
 import {getElement} from "bootstrap/js/src/util";
-import button from "bootstrap/js/src/button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {Box, Rating, StyledEngineProvider, Typography} from "@mui/material";
+import {Box, Rating, Typography} from "@mui/material";
+import { StyledEngineProvider } from "@mui/styled-engine-sc";
 import CharRating from './Rating';
 import {PopUpEdit} from "./PopUp";
-
+import ToggleButtonGroupControlled from './PopUp';
 const AsyncReq = async () => {
     const response = await requestJira('/rest/api/3/groups/picker');
     console.log(await response.text());
@@ -187,10 +187,15 @@ export const Game = () => {
                 {/*COMMENT FOR MOVING CHARACTER*/}
                 {/*<div className={'square-content ' + direction} id="character">*/}
                 <div className='square-content' id="character">
-                    {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
-                     <button className="editButton" style={{left: "-20%"}} onClick={toggleEdit}><img src="edit.svg" className="edit-img"/></button>
+                    {/*<StyledEngineProvider injectFirst>*/}
+
+                        {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
+                    {/*</StyledEngineProvider>*/}
+                    <button className="editButton" style={{left: "-20%"}} onClick={toggleEdit}><img src="edit.svg"
+                                                                                                    className="edit-img"/>
+                    </button>
                     {/* Show the GIF if showGif is true and show the tamagoshi if showGif is false */}
-                    {showGif ? <img  draggable="false"  className='gif' src={gif} alt="Gif"/> :
+                    {showGif ? <img draggable="false" className='gif' src={gif} alt="Gif"/> :
                         <TamagoshiImage strength={strength} health={health}/>}
                     <button className="feed" onClick={() => {
                         setStrength(Math.min(strength + 10, 100));
