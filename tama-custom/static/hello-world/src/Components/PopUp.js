@@ -2,6 +2,7 @@ import * as React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faQuestionCircle, faTimes} from "@fortawesome/free-solid-svg-icons";
 import '../css/FAQ.css';
+import {GenerateItemsTable} from "./generateTable";
 import {Image} from "react-bootstrap";
 import * as PropTypes from "prop-types";
 import button from "bootstrap/js/src/button";
@@ -33,6 +34,7 @@ export const PopUp = ({toggleLogin}) => {
     );
 }
 
+
 export const CharTable = () => {
     const [count, setCount] = React.useState("1");
 
@@ -40,22 +42,24 @@ export const CharTable = () => {
         setCount(newValue);
     };
     return (
-        <div style={{display: "flex", justifyContent: "center"}}>
-            <Tabs
-                defaultActiveKey="body"
-                id="uncontrolled-tab-example"
-                className="mb-3"
-            >
-                <Tab eventKey="body" title="Body" onClick={handleChar} count="1">
-                    <h1>body</h1>
-                </Tab>
-                <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2">
-                    <h1>hats</h1>
-                </Tab>
-                <Tab eventKey="Weapons" title="Weapons" onClick={handleChar} count="3">
-                    <h1>weapons</h1>
-                </Tab>
-            </Tabs>
+        <div className="Items" style={{display: "flex", justifyContent: "center", position: "relative"}}>
+            <div className="items-table">
+                <Tabs
+                    defaultActiveKey="body"
+                    id="uncontrolled-tab-example"
+                    className="mb-3"
+                >
+                    <Tab eventKey="body" title="Body" onClick={handleChar} count="1">
+                       <GenerateItemsTable itemName="example" />
+                    </Tab>
+                    <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2">
+                        <h1>hats</h1>
+                    </Tab>
+                    <Tab eventKey="Weapons" title="Weapons" onClick={handleChar} count="3">
+                        <h1>weapons</h1>
+                    </Tab>
+                </Tabs>
+            </div>
             <Image style={{maxHeight: "350px"}} src={tamagoshiImage} alt="Tamagoshi"/>
             <button className="diceButton"><img src="dice.svg" className="edit-img"/>
             </button>
@@ -121,7 +125,7 @@ function ToggleButtonGroupControlled() {
 
     return (
         <div>
-            <div style={{position: "fixed", marginLeft: "300px"}}>
+            <div style={{position: "fixed", left: "100%"}}>
                 <button className="soundButton" onClick={toggleSound}><img src={soundImage}
                                                                            className="edit-img"/>
                 </button>
@@ -132,22 +136,22 @@ function ToggleButtonGroupControlled() {
                     src={notificationImage}
                     className="edit-img"/></button>
             </div>
-            <div>
-            <Tabs
-                defaultActiveKey="Character"
-                id="uncontrolled-tab-example"
-                className="mb-3"
-            >
-                <Tab eventKey="Character" title="Character" onClick={handleChange} value="1">
-                    <CharTable/>
-                </Tab>
-                <Tab eventKey="Hand" title="Hand" onClick={handleChange} value="2">
-                    <h1>hand</h1>
-                </Tab>
-            </Tabs>
+            <div className="Tabs" style={{display: "table", margin: "27px auto 0px auto"}}>
+                <Tabs
+                    defaultActiveKey="Character"
+                    id="uncontrolled-tab-example"
+                    className="mb-3"
+                    fixed="top"
+                >
+                    <Tab eventKey="Character" title="Character" onClick={handleChange} value="1">
+                        <CharTable/>
+                    </Tab>
+                    <Tab eventKey="Hand" title="Hand" onClick={handleChange} value="2">
+                        <h1>hand</h1>
+                    </Tab>
+                </Tabs>
             </div>
 
         </div>
     );
 }
-

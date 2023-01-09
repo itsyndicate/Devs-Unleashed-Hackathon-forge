@@ -4,7 +4,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #f9f882;
-    border: 1px solid black;
+    border: 3px solid black;
     width: 70%;
     height: 70%;
     overflow: auto;
@@ -16,12 +16,79 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: whitesmoke;
-    border: 1px solid deepskyblue;
+    border: 3px solid deepskyblue;
     width: 90%;
     height: 70%;
     overflow: hidden;
     z-index: 2;
 }
+
+.Tabs ul {
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    border-bottom: none;
+    border-radius: 0;
+
+}
+
+.Tabs ul li {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    border-bottom: none;
+    border-radius: 0;
+    border: 3px solid #0f6af2;
+
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: #0f6af2;
+    --bs-nav-tabs-link-active-color: #ffffff;
+    color: var(--bs-nav-tabs-link-active-color);
+    border-radius: 0;
+    border: 3px solid #0f6af2;
+
+}
+
+
+.Tabs ul li button {
+    height: 100%;
+    justify-content: center;
+    border-bottom: none;
+    top: 50%;
+    left: 50%;
+    border-radius: 0;
+    border: 3px solid #0f6af2;
+
+    font-size: 40px;
+
+    width: 500px;
+    display: flow-root;
+    --bs-nav-pills-link-active-color: #fff;
+    --bs-nav-pills-link-active-bg: #0d6efd;
+}
+
+.Items ul {
+    height: fit-content;
+    width: auto;
+}
+.Items ul li {
+    height: 100%;
+    width: auto;
+}
+
+.Items ul li button {
+    border: 3px solid #0f6af2;
+    margin-inside: 3px;
+    width: auto;
+    font-size: 20px;
+    border-radius: 0;
+    max-height: 48px;
+
+}
+
+
 .soundButton, .notificationButton, .musicButton {
     position: relative;
     background-color: transparent;
@@ -84,7 +151,7 @@ img {
     text-decoration: none;
     color: white;
     position: relative;
-    border: 1px solid deepskyblue;
+    border: 3px solid deepskyblue;
     left: 35%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
