@@ -9,7 +9,7 @@ import {Image} from "react-bootstrap";
 
 
 const TamagoshiGame = () => {
-  const isNewUser = true;
+  const isNewUser = false;
   const [isFAQVisible, setIsFAQVisible] = useState(false);
   const [isLoginVisible, setIsLoginVisible] = useState(isNewUser);
 

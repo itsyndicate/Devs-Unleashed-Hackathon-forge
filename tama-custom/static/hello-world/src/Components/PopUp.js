@@ -37,7 +37,12 @@ export const PopUp = ({toggleLogin}) => {
 
 export const CharTable = () => {
     const [count, setCount] = React.useState("1");
-
+    const items = [
+        {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
+        {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
+        {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
+        {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'}
+    ]
     const handleChar = (event, newValue) => {
         setCount(newValue);
     };
@@ -50,13 +55,15 @@ export const CharTable = () => {
                     className="mb-3"
                 >
                     <Tab eventKey="body" title="Body" onClick={handleChar} count="1">
-                       <GenerateItemsTable itemName="example" />
+                        <GenerateItemsTable items={items}/>
                     </Tab>
                     <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2">
-                        <h1>hats</h1>
+                        <GenerateItemsTable items={items}/>
+
                     </Tab>
                     <Tab eventKey="Weapons" title="Weapons" onClick={handleChar} count="3">
-                        <h1>weapons</h1>
+                        <GenerateItemsTable items={items}/>
+
                     </Tab>
                 </Tabs>
             </div>
@@ -125,7 +132,7 @@ function ToggleButtonGroupControlled() {
 
     return (
         <div>
-            <div style={{position: "fixed", left: "100%"}}>
+            <div style={{position: "fixed", left: "80%"}}>
                 <button className="soundButton" onClick={toggleSound}><img src={soundImage}
                                                                            className="edit-img"/>
                 </button>

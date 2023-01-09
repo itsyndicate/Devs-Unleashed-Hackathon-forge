@@ -13,3 +13,11 @@ resources:
     path: static/hello-world/build
 app:
   id: ari:cloud:ecosystem::app/e024604e-407a-4a86-8818-1fec82595eda
+permissions:
+  scopes:
+    - write:confluence-content
+    - read:jira-user
+    - read:user:jira
+    - read:application-role:jira
+    - read:avatar:jira
+    - read:group:jira
