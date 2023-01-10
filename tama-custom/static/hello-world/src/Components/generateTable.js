@@ -3,9 +3,9 @@ import {requestJira} from "@forge/bridge";
 import {useState} from "react";
 
 const getUsers = async () => {
-    const response = (await requestJira('/rest/api/3/users/search?')).json();
-    const accountId = response[0].accountId;
-    console.log(accountId);
+    const response = (await requestJira('/rest/api/3/users/search?'));
+    const data = await response.json();
+    console.log(data[0].accountId);
 }
 
 const getTasks = async () => {
