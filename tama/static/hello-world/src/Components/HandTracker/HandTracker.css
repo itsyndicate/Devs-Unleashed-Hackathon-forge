@@ -1,0 +1,121 @@
+*{
+  font-family: "montseratt", sans-serif;
+}
+
+/*.container-hand-tracker{*/
+/*  text-align: center;*/
+/*}*/
+
+/*.container-data{*/
+/*  margin-top: 3em;*/
+/*}*/
+/*.canvas{*/
+/*  width: 1273px;*/
+/*  height: 541px;*/
+/*}*/
+/*.button-csv{*/
+/*  border: 1px solid rgb(98, 0, 209);*/
+/*  align-self: center;*/
+/*  padding:1em;*/
+/*  border-radius: 5px;*/
+/*  text-decoration: none;*/
+/*  background-color: rgb(98, 0, 209);*/
+/*  color: #fff;*/
+/*  font-weight: 500;*/
+/*  width:20em;*/
+/*}*/
+
+/*.button-csv:hover{*/
+/*  background-color: #fff;*/
+/*  border: 1px solid rgb(98, 0, 209);*/
+/*  color:rgb(98, 0, 209);*/
+/*  cursor: pointer;*/
+/*}*/
+
+/*.output-canvas{*/
+/*  position: absolute;*/
+/*  !*!*position: relative;*!*!*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  !*text-align: "center";*!*/
+/*  z-index: 109;*/
+/*  !*width: 640px;*!*/
+/*  !*height: 480px;*!*/
+/*  background-color: black;*/
+/*}*/
+/*.main-container{*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  position: relative;*/
+/*}*/
+
+/*.input-box{*/
+/*  width: 10em;*/
+/*  text-align: center;*/
+/*  margin:auto;*/
+/*  padding:0.2em;*/
+/*}*/
+
+/*.selection-label{*/
+/*  margin-bottom: 2em;*/
+/*}*/
+
+/*.utility-container{*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*}*/
+
+/*!**/
+/*For webcam component */
+/*      style={{*/
+/*        position: "absolute",*/
+/*        marginRight:"auto",*/
+/*        marginLeft:"auto",*/
+/*        left:0,*/
+/*        right:0,*/
+/*        textAlign:"center"*/
+/*      }} */
+/**!*/
+
+
+.container-hand-tracker{
+  margin: 0 auto;
+  width: 1273px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 2;
+  top: -128px;
+  left: -200px;
+}
+.main-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+h1{
+  text-align: center;
+  margin: 0;
+}
+video{
+  display: block;
+  margin: auto;
+}
+.output-canvas{
+  background: #F5F5F5;
+}
+.canvas{
+  position: absolute;
+}
+.canvas_container{
+  position: relative;
+}
+.tama_container{
+  position: absolute;
+}
