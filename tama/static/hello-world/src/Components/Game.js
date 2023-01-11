@@ -21,26 +21,16 @@ import { StyledEngineProvider } from "@mui/styled-engine-sc";
 import CharRating from './Rating';
 import {PopUpEdit, PopUpFeed, PopUpFight} from "./PopUp";
 import ToggleButtonGroupControlled from './PopUp';
+import GameWindow from "./GameFolder/GameWindow";
+import FightingGame from "./GameFolder/FightingGame";
+import WaitingRoom from "./GameFolder/WaitingRoom";
 
-// import { fetch } from '@forge/api';
 const AsyncReq = async () => {
     const response = await requestJira('backend.guard-lite.com');
     console.log(await response.text());
 }
-// const result = await fetch(
-//     "http://backend.guard-lite.com/"
-// );
-// const status = result.status;
-// console.log(status)
 
-// fetch('http://backend.guard-lite.com')
-//     .then(res => res.json())
-//     .then(res => console.log(res))
-// const socket = new WebSocket('ws://backend.guard-lite.com')
-// socket.onopen = () =>{
-//     console.log("Connection established")
-// }
-// Components
+
 
 
 async function getServ() {
@@ -109,11 +99,65 @@ export const Game = () => {
         const response = await requestJira('/rest/api/3/users/search?').then(res => res.json()).then(res => setUsers(res))
     }
     const getTasks = async () => {
-        // const response = await requestJira('/rest/api/3/users/search?').then(res => res.json()).then(res => setTasks(0))
         const response = await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status')
             .then(res => res.json())
             .then(res => setTasks(res['total']))
     }
+
+
+    const [jiraUserID, setJiraUserID] = useState('')
+    const [jiraUserName, setJiraUserName] = useState('')
+    const [jiraProjectID, setJiraProjectID] = useState('')
+    const [jiraProjectName, setJiraProjectName] = useState('')
+    const getJiraInfo = async () => {
+        await requestJira('/rest/api/3/users/search?')
+            .then(res => res.json())
+            .then(res => setJiraUserID(res[0].accountId))
+
+        await requestJira('/rest/api/3/users/search?')
+            .then(res => res.json())
+            .then(res => setJiraUserName(res[0].displayName))
+
+        await requestJira('/rest/api/2/project')
+            .then(res => res.json())
+            .then(res => setJiraProjectName(res[0].name))
+
+        await requestJira('/rest/api/2/project')
+            .then(res => res.json())
+            .then(res => setJiraProjectID(res[0].id))
+    }
+    getJiraInfo()
+
+
+
+    let newUser = {}
+    const registerPlayer = async (newUser) => {
+        const response = await fetch('https://backend.guard-lite.com/api/v1/register-player/', {
+            method: "POST",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser)
+        });
+        if (!response.ok) {
+            throw new Error(`Error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        return result;
+
+    }
+    if(jiraUserID !== '' && jiraUserName !== '' && jiraProjectID !== '' && jiraProjectName !== ''){
+        newUser =  {
+            player_name: jiraUserName,
+            account_id: jiraUserID,
+            project_id: jiraProjectID,
+            project_name: jiraProjectName
+        }
+        registerPlayer(newUser)
+    }
+
+
     const displayGif = () => {
         setShowGif(true);
         setTimeout(() => {
@@ -203,6 +247,7 @@ export const Game = () => {
     const [isEditVisible, setIsEditVisible] = useState(false);
     const [isFightVisible, setIsFightVisible] = useState(false);
     const [isFeedVisible, setIsFeedVisible] = useState(false);
+    const [isFightGameVisible, setIsFightGameVisible] = useState(false);
 
     const toggleEdit = () => {
         setIsEditVisible(!isEditVisible);
@@ -210,6 +255,9 @@ export const Game = () => {
     const toggleFight = () => {
         setIsFightVisible(!isFightVisible)
         getUsers()
+    }
+    const toggleFightGame = () => {
+        setIsFightGameVisible(!isFightGameVisible)
     }
     const toggleFeed = () => {
         setIsFeedVisible(!isFeedVisible)
@@ -232,7 +280,6 @@ export const Game = () => {
         <div className="egg">
             <h1 className="character-name">TaskoGotchi</h1>
             <h2 className="character-age"><BiTime/> Tasks Eaten: {tasks}</h2>
-
             <div className="stats">
                 <Image className="stat-icons" src={"strength.svg"}/>
                 <ProgressBar now={strength} className="stat-progress" variant="danger" label={`${strength}%`}/>
@@ -253,7 +300,13 @@ export const Game = () => {
                         <button className="editButton" style={{left: "-50%"}} onClick={toggleEdit}><img src="edit.svg" className="edit-img"/>
 
                         </button>
-                        {isFightVisible && <PopUpFight users={users} toggleFight={toggleFight}/>}
+                        {isFightVisible && <PopUpFight
+                            users={users}
+                            jiraUserId={jiraUserID}
+                            jiraProjectID={jiraProjectID}
+                            toggleFight={toggleFight}
+                            toggleFightGame={toggleFightGame}
+                        />}
                         <button className="fight" onClick={toggleFight}>
                             <img draggable="false" src="fight.png" className="fight-img"/>
                         </button>
@@ -262,6 +315,7 @@ export const Game = () => {
                     {showGif ? <img draggable="false" className='gif' src={gif} alt="Gif"/> :
                         <TamagoshiImage strength={strength} health={health}/>}
 
+                    {isFightGameVisible && <WaitingRoom/>}
 
                     {isFeedVisible && <PopUpFeed tasks={tasks} toggleFeed={toggleFeed}/>}
                     <button className="feed" onClick={toggleFeed}>

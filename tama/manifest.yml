@@ -16,11 +16,10 @@ app:
 
 
 permissions:
-#  content:
-#    scripts:
-#      - 'unsafe-inline'
-#    styles:
-#      - 'unsafe-inline'
+  content:
+    scripts:
+      - 'unsafe-inline'
+      - 'unsafe-eval'
 
   scopes:
     - write:confluence-content
@@ -37,15 +36,15 @@ permissions:
     - read:issue-meta:jira
 
   external:
-#    scripts:
-#      - 'https://cdn.jsdelivr.net'
-#      - 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.3.1626903359/hands.min.js'
-#      - 'https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.1/drawing_utils.js'
-#      - 'https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js'
-#      - 'https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js'
+    scripts:
+      - 'https://cdn.jsdelivr.net'
+      - 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.3.1626903359/hands.min.js'
+      - 'https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.1/drawing_utils.js'
+      - 'https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js'
+      - 'https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js'
     fetch:
       client:
-#        - 'https://cdn.jsdelivr.net'
+        - 'https://cdn.jsdelivr.net'
         - '*.guard-lite.com'
       backend:
         - '*.guard-lite.com'

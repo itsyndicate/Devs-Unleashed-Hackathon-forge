@@ -24,14 +24,15 @@ let tamagoshiImage = 'project_example_1.png';
 
 export const PopUp = ({toggleLogin}) => {
     return (
-        <div className="loginMenu" style={{height: '50%'}}>
-            <div className="menu-popup">
-                <button onClick={toggleLogin} style={{position: 'absolute', top: '10px', right: '10px'}}>
-                    <FontAwesomeIcon icon={faTimes}/>
-                </button>
-                <button>Submit</button>
-            </div>
-        </div>
+        // <div className="loginMenu" style={{height: '50%'}}>
+        //     <div className="menu-popup">
+        //         <button onClick={toggleLogin} style={{position: 'absolute', top: '10px', right: '10px'}}>
+        //             <FontAwesomeIcon icon={faTimes}/>
+        //         </button>
+        //         <button>Submit</button>
+        //     </div>
+        // </div>
+        <></>
     );
 }
 
@@ -99,7 +100,10 @@ export const PopUpFight = (props) => {
 
     return (
         <div className="fightMenu">
-            <OpponentsList users={props.users}/>
+            <OpponentsList users={props.users}
+                           jiraUserId={props.jiraUserId}
+                           jiraProjectID={props.jiraProjectID}
+                           toggleFightGame={props.toggleFightGame}/>
 
             <div className="fight-menu-content">
                 <button onClick={props.toggleFight} className="crossBtn">

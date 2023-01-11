@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 import './HandTracker.css';
 import Webcam from 'react-webcam';
-import {Hands} from '@mediapipe/hands'; 
-import * as handss from '@mediapipe/hands';
+
 import * as cam from '@mediapipe/camera_utils';
 import {useRef, useEffect} from 'react';
 import { drawLandmarks } from '@mediapipe/drawing_utils';
@@ -10,8 +9,10 @@ import Tamagotchi from "../Tamagotchi/Tamagotchi"
 import handDefault from '../../images/handDefault.png'
 import handGrabb from '../../images/handGrab.png'
 import taskk from  '../../images/task.png'
-// import handJS from '../hand'
-function HandTracker(props) {
+
+import handJS from '../hand'
+import {Hands} from "@mediapipe/hands";
+function HandTracker() {
   const webCamRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -28,12 +29,13 @@ function HandTracker(props) {
   let isTaskTaken = false;
   let difference_between_centers = {x: 0, y: 0}
   let camera = null;
+
   const onResults = (results)=>{
     // const videoWidth = webCamRef.current.video.videoWidth;
     // const videoHeight = webCamRef.current.video.videoHeight;
     const videoWidth = 1273;
     const videoHeight = 541;
-    //Sets height and width of canvas 
+    //Sets height and width of canvas
     canvasRef.current.width = videoWidth;
     canvasRef.current.height = videoHeight;
 
@@ -56,7 +58,7 @@ function HandTracker(props) {
       let ys = 0;
       for(const landmarks of results.multiHandLandmarks) {
         //drawConnectors(canvasCtx, landmarks, hands.HAND_CONNECTIONS,
-          //{color: "#00FF00", lineWidth: 2});
+        //{color: "#00FF00", lineWidth: 2});
         //drawLandmarks(canvasCtx, landmarks, {color: "#00ffd0", lineWidth: 1}); //#5d0db8 purple
         for (const landmark of landmarks) {
           xs += landmark.x;
@@ -65,6 +67,7 @@ function HandTracker(props) {
 
         handClosed = isHandClosed(landmarks)
       }
+
       xs = (numberOfTips - xs) * canvasRef.current.width / numberOfTips;
       ys *= canvasRef.current.height / numberOfTips;
 
@@ -97,12 +100,13 @@ function HandTracker(props) {
         isTaskTaken = false;
       }
     }
-    const numOfTasks = props.tasks
+
     canvasCtx.fillStyle = "red";
     canvasCtx.drawImage(task,taskCoordinates.x, taskCoordinates.y);
 
     canvasCtx.restore();
   }
+
   const isHandClosed = (landmarks) => {
     for (let i = 0; i < 4; i++) {
       if (landmarks[tipIds[i]].y < landmarks[tipIds2[i]].y) {
@@ -117,52 +121,51 @@ function HandTracker(props) {
     console.log(distance)
     isTaskTaken = distance <= handWidth / 2 + taskWidth / 2;
   }
-  useEffect(()=> {
-      // const hands = new Hands({
-      //   locateFile:(file)=>{
-      //     return handss + file;
-      //   },
-      // });
-    // const hands = new Hands(handss)
 
-    const hands = new Hands({locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-      }});
-
+  useEffect(()=>{
+    const hands = new Hands({
+      locateFile:(file)=>{
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.3.1626903359/${file}`;
+      },
+    });
+    // const hands = new Hands(handJS);
 
     hands.setOptions({
+      modelComplexity: 1,
       maxNumHands: 1,
       minDetectionConfidence: 0.75,
       minTrackingConfidence: 0.7
     });
 
     hands.onResults(onResults);
-    if (typeof webCamRef.current !== 'undefined' && webCamRef.current !== null) {
-      camera = new cam.Camera(webCamRef.current.video, {
-        onFrame: async () => {
-          await hands.send({image: webCamRef.current.video})
+
+    if(typeof webCamRef.current !== 'undefined' && webCamRef.current !== null){
+      camera = new cam.Camera(webCamRef.current.video,{
+        onFrame: async()=>{
+          await hands.send({image:webCamRef.current.video})
         }
       });
-      camera.start()
+      camera.start();
     }
-  },[])
+  }, []);
   return(
-    <div className="container-hand-tracker">
-      <div className="main-container">
-        <h1>Please Use One Hand</h1>
-        <Webcam ref={webCamRef} />
-        <div className='canvas'>
-          <div className="canvas_container">
-            <Tamagotchi/>
-            <canvas
-              ref={canvasRef}
-              className="output-canvas"
-            >
-            </canvas>
+      <div className="container-hand-tracker">
+        <div className="main-container">
+          <h1>Please Use One Hand</h1>
+          <Webcam ref={webCamRef} />
+          <div className='canvas'>
+            <div className="canvas_container">
+              <Tamagotchi/>
+              <canvas
+                  ref={canvasRef}
+                  className="output-canvas"
+              >
+              </canvas>
+            </div>
           </div>
+
         </div>
       </div>
-    </div>
   )
 }
 
