@@ -50,7 +50,11 @@ export const Game = () => {
     // const [record, setRecord] = useState(0);
     const [showGif, setShowGif] = useState(false);
     const [gif, setGif] = useState(null);
-    const projectID = 'test-cront';
+    const getProject = async () => {
+        const response = (await requestJira('/rest/api/3/project'));
+        const data = await response.json();
+        return (data[0].id);
+    }
 
     const displayGif = () => {
         setShowGif(true);
@@ -65,7 +69,7 @@ export const Game = () => {
         return (data[0].accountId);
     }
 
-    async function getHealth(userID) {
+    async function getHealth(userID, projectID) {
         // const userID = await getUsers();
         const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
             method: "GET",
@@ -83,7 +87,8 @@ export const Game = () => {
 
     const checkHealth = async () => {
         const userID = await getUsers();
-        setHealth(await getHealth(userID));
+        const projectId = await getProject();
+        setHealth(await getHealth(userID, projectId));
         useInterval(async () => {
             setHealth(await getHealth(userID));
         }, 60000);
