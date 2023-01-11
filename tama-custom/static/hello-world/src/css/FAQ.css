@@ -17,8 +17,8 @@
     transform: translate(-50%, -50%);
     background-color: whitesmoke;
     border: 3px solid deepskyblue;
-    width: 100%;
-    height: 70%;
+    width: 90%;
+    height: 80%;
     overflow: hidden;
     z-index: 2;
 }
@@ -104,6 +104,8 @@
     border: 0;
     color: #fff;
     z-index: 1;
+    width: 100px;
+    height: 100px;
 }
 
 img {

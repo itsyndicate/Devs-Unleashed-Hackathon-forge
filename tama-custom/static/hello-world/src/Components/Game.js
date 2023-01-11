@@ -6,6 +6,8 @@ import {Image, ProgressBar} from 'react-bootstrap';
 import {Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../css/Game.css';
+import {Character} from "./character";
+
 //icons
 import {GrGamepad} from 'react-icons/gr';
 import {IoFastFoodOutline} from 'react-icons/io5';
@@ -128,12 +130,15 @@ export const Game = () => {
 
                     {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
                     {/*</StyledEngineProvider>*/}
-                    <button className="editButton" style={{left: "-20%"}} onClick={toggleEdit}><img src="edit.svg"
-                                                                                                    className="edit-img"/>
+                    <button className="editButton" id="EditButton" style={{left: "-20%"}} onClick={toggleEdit}><img
+                        src="edit.svg"
+                        className="edit-img"/>
                     </button>
                     {/* Show the GIF if showGif is true and show the tamagoshi if showGif is false */}
                     {showGif ? <img draggable="false" className='gif' src={gif} alt="Gif"/> :
-                        <TamagoshiImage strength={strength} health={health}/>}
+                        <Character costumeImg1={localStorage.getItem("costumeImg")}
+                                   hatImg1={localStorage.getItem("hatImg")}
+                                   weaponImg1={localStorage.getItem("weaponImg")}/>}
                     <button className="feed" onClick={() => {
                         setStrength(Math.min(strength + 10, 100));
                         setGif('giphy0.webp');

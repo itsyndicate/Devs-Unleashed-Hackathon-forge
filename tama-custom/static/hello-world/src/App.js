@@ -14,9 +14,12 @@ const TamagoshiGame = () => {
     const [isFAQVisible, setIsFAQVisible] = useState(false);
     const [isLoginVisible, setIsLoginVisible] = useState(isNewUser);
 
-    const projectID = 'test-cront';
 
-
+    const getProject = async () => {
+        const response = (await requestJira('/rest/api/3/project'));
+        const data = await response.json();
+        return (data[0].id);
+    }
     const getUsers = async () => {
         const response = (await requestJira('/rest/api/3/users/search?'));
         const data = await response.json();
@@ -24,6 +27,7 @@ const TamagoshiGame = () => {
     }
     const toggleLogin = async () => {
         const userID = await getUsers();
+        const projectID = await getProject();
         const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
             method: "GET",
             mode: 'cors',

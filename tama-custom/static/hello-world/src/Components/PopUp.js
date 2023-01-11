@@ -6,6 +6,7 @@ import {Image} from "react-bootstrap";
 import * as PropTypes from "prop-types";
 import button from "bootstrap/js/src/button";
 import '../css/generateTable.css';
+import mergeImages from 'merge-images';
 
 import {Game} from "./Game";
 import FAQ from "./FAQ";
@@ -13,6 +14,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import {useState} from "react";
 import {Character} from "./character";
+import {requestJira} from "@forge/bridge";
 
 let tamagoshiImage = 'project_example_1.png';
 
@@ -76,6 +78,82 @@ export const CharTable = () => {
     const [costumeImg, setCostumeImg] = useState("./body/body-01.svg");
     const [hatImg, setHatImg] = useState("./hat/hat_4.1-01.png");
     const [weaponImg, setWeaponImg] = useState("./weapon/weapon_1.2-01.png");
+
+    const [notificationImage, setNotificationImage] = React.useState("mdi_notifications.svg");
+    const [musicImage, setMusicImage] = React.useState("ph_music-notes-fill.svg");
+    const [soundImage, setSoundImage] = React.useState("sound.svg");
+
+
+    const saveCharacter = async () => {
+        localStorage.setItem("hatImg", hatImg);
+        localStorage.setItem("costumeImg", costumeImg);
+        localStorage.setItem("weaponImg", weaponImg);
+        const getUsers = async () => {
+            const response = (await requestJira('/rest/api/3/users/search?'));
+            const data = await response.json();
+            return (data[0].accountId);
+        }
+        const getProject = async () => {
+            const response = (await requestJira('/rest/api/3/project'));
+            const data = await response.json();
+            return (data[0].id);
+        }
+        const userID = await getUsers();
+        const projectID = await getProject();
+        const userData = {
+            "player_name": userID,
+            "account_id": userID,
+            "project_id": projectID,
+            "project_name": "tama"
+        }
+        const tamagotchiData = {
+            "image": {
+                "costumeImg": costumeImg,
+                "hatImg": hatImg,
+                "weaponImg": weaponImg
+            },
+            "health": 100,
+            "strength": 100,
+            "account_id": userID,
+            "project_id": projectID
+        }
+        await fetch(`https://backend.guard-lite.com/api/v1/register-player`, {
+            method: "POST",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        }).then((response) => response.json()).then((data) => {
+            console.log('Success:', data);
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+
+        console.log(tamagotchiData);
+        await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
+            method: "POST",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(tamagotchiData),
+        }).then((response) => response.json()).then((data) => {
+            console.log('Success:', data);
+        });
+        // let close = document.getElementsByClassName("editMenu")
+        // close.style.display = "none";
+    };
+
+    const toggleNotification = () => {
+        setNotificationImage(notificationImage === 'mdi_notifications.svg' ? 'mdi_notifications-off.svg' : 'mdi_notifications.svg');
+    }
+    const toggleMusic = () => {
+        setMusicImage(musicImage === 'ph_music-notes-fill.svg' ? 'mdi_music-off.svg' : 'ph_music-notes-fill.svg');
+    }
+    const toggleSound = () => {
+        setSoundImage(soundImage === 'sound.svg' ? 'teenyicons_sound-off-solid.svg' : 'sound.svg');
+    }
     const changeImage = (sourceImg, catalog) => {
         console.log(catalog)
         if (catalog === "costume") {
@@ -138,14 +216,29 @@ export const CharTable = () => {
                     id="uncontrolled-tab-example"
                     className="mb-3"
                 >
-                    <Tab eventKey="body" title="Costumes" onClick={handleChar} count="1" style={{overflowX: "hidden", overflowY: "auto", height: "600px", border: "2px solid #0f6af2;"}}>
+                    <Tab eventKey="body" title="Costumes" onClick={handleChar} count="1" style={{
+                        overflowX: "hidden",
+                        overflowY: "auto",
+                        height: "600px",
+                        border: "2px solid #0f6af2;"
+                    }}>
                         <GenerateItemsTable value="body" items={costumes} ItemsName="costume"/>
                     </Tab>
-                    <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2" style={{overflowX: "hidden", overflowY: "auto", height: "600px",  border: "2px solid #0f6af2;"}}>
+                    <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2" style={{
+                        overflowX: "hidden",
+                        overflowY: "auto",
+                        height: "600px",
+                        border: "2px solid #0f6af2;"
+                    }}>
                         <GenerateItemsTable items={hats} value="hat" ItemsName="hat"/>
 
                     </Tab>
-                    <Tab eventKey="Weapons" title="Weapons" onClick={handleChar} count="3" style={{overflowX: "hidden", overflowY: "auto", height: "600px", border: "2px solid #0f6af2;"}}>
+                    <Tab eventKey="Weapons" title="Weapons" onClick={handleChar} count="3" style={{
+                        overflowX: "hidden",
+                        overflowY: "auto",
+                        height: "600px",
+                        border: "2px solid #0f6af2;"
+                    }}>
                         <GenerateItemsTable value="legs" items={weapons} ItemsName="weapon"/>
 
                     </Tab>
@@ -156,7 +249,19 @@ export const CharTable = () => {
             </div>
             <Character costumeImg1={costumeImg} hatImg1={hatImg} weaponImg1={weaponImg}/>
             <button className="diceButton"><img src="dice.svg" className="edit-img"/>
+
+                <button className="soundButton" onClick={toggleSound}><img src={soundImage}
+                                                                           className="edit-img"/>
+                </button>
+                <button className="musicButton" onClick={toggleMusic}><img src={musicImage}
+                                                                           className="edit-img"/>
+                </button>
+                <button className="notificationButton" onClick={toggleNotification}><img
+                    src={notificationImage}
+                    className="edit-img"/></button>
             </button>
+            <button onClick={saveCharacter} id="saveChar">Save</button>
+            <button >Exit</button>
         </div>
     );
 };
@@ -196,19 +301,7 @@ export const PopUpEdit = ({toggleEdit}) => {
 
 function ToggleButtonGroupControlled() {
     const [value, setValue] = useState([1, 3]);
-    const [notificationImage, setNotificationImage] = React.useState("mdi_notifications.svg");
-    const [musicImage, setMusicImage] = React.useState("ph_music-notes-fill.svg");
-    const [soundImage, setSoundImage] = React.useState("sound.svg");
 
-    const toggleNotification = () => {
-        setNotificationImage(notificationImage === 'mdi_notifications.svg' ? 'mdi_notifications-off.svg' : 'mdi_notifications.svg');
-    }
-    const toggleMusic = () => {
-        setMusicImage(musicImage === 'ph_music-notes-fill.svg' ? 'mdi_music-off.svg' : 'ph_music-notes-fill.svg');
-    }
-    const toggleSound = () => {
-        setSoundImage(soundImage === 'sound.svg' ? 'teenyicons_sound-off-solid.svg' : 'sound.svg');
-    }
     /*
      * The second argument that will be passed to
      * `handleChange` from `ToggleButtonGroup`
@@ -219,17 +312,7 @@ function ToggleButtonGroupControlled() {
 
     return (
         <div>
-            <div style={{position: "fixed", left: "80%"}}>
-                <button className="soundButton" onClick={toggleSound}><img src={soundImage}
-                                                                           className="edit-img"/>
-                </button>
-                <button className="musicButton" onClick={toggleMusic}><img src={musicImage}
-                                                                           className="edit-img"/>
-                </button>
-                <button className="notificationButton" onClick={toggleNotification}><img
-                    src={notificationImage}
-                    className="edit-img"/></button>
-            </div>
+
             <div className="Tabs" style={{display: "table", margin: "27px auto 0px auto"}}>
                 <Tabs
                     defaultActiveKey="Character"
