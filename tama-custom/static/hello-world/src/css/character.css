@@ -6,7 +6,7 @@
     border: 1px solid #aaa;
 }
 
-.character-face, .character-body, .character-legs, .character-arms {
+.character-face, .character-body, .character-legs, .character-hats {
     position: absolute;
     border: 1px solid #aaa;
     width: 100px;
@@ -38,7 +38,10 @@
     top: 0;
 }
 
-.character-arms {
+.character-hats {
     left: 0;
     top: 0;
+}
+.character-hats > img {
+    width: 400px;
 }

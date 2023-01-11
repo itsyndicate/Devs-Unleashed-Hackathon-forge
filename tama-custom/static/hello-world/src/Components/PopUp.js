@@ -41,6 +41,22 @@ export const CharTable = () => {
     const bodies = [
         {src: './body/body-01.svg'}
     ]
+
+
+
+
+
+
+
+    const hats = [
+        {src: './hat/hat_1.1-01-01.svg'}, {src: './hat/hat_1.2-01-01.svg'}, {src: './hat/hat_1.3-01-01.svg'}, {src: './hat/hat_2.1-01-01.svg'},
+        {src: './hat/hat_2.2-01-01.svg'}, {src: './hat/hat_2.3-01-01.svg'}, {src: './hat/hat_2.4-01-01.svg'}, {src: './hat/hat_3.1-01-01.svg'},
+        {src: './hat/hat_3.2-01-01.svg'}, {src: './hat/hat_3.3-01-01.svg'}, {src: './hat/hat_4.1-01-01.svg'}, {src: './hat/hat_4.2-01-01.svg'},
+        {src: './hat/hat_4.3-01-01.svg'}, {src: './hat/hat_5.1-01-01.svg'}, {src: './hat/hat_5.2-01-01.svg'}, {src: './hat/hat_5.3-01-01.svg'},
+        {src: './hat/hat_5.4-01-01.svg'}, {src: './hat/hat_6.1-01-01.svg'}, {src: './hat/hat_6.2-01-01.svg'}, {src: './hat/hat_6.3-01-01.svg'},
+
+    ]
+
     const items = [
         {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
         {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
@@ -65,7 +81,7 @@ export const CharTable = () => {
 
 
         }
-        if (catalog === "weapon") {
+        if (catalog === "legs") {
             setLegImg(sourceImg);
 
         }
@@ -92,7 +108,7 @@ export const CharTable = () => {
     }
 
     const GenerateItemsTable = (items) => {
-        console.log(items.ItemsName)
+        console.log(items.ItemsName);
         const rows = splitArray(items).map((row, index) => {
             return (<div className="arsenal-row" key={index}>{row.map(({src}, idx) => {
                 return (<div className="arsenal-data" key={index.toString() + idx}>
@@ -120,11 +136,11 @@ export const CharTable = () => {
                         <GenerateItemsTable value="body" items={bodies} ItemsName="body" />
                     </Tab>
                     <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2">
-                        <GenerateItemsTable items={items} value="hat" ItemsName="hat" />
+                        <GenerateItemsTable items={hats} value="hat" ItemsName="hat" />
 
                     </Tab>
-                    <Tab eventKey="Weapons" title="Weapons" onClick={handleChar} count="3">
-                        <GenerateItemsTable value="weapon" items={items} ItemsName="body" />
+                    <Tab eventKey="Weapons" title="Legs" onClick={handleChar} count="3">
+                        <GenerateItemsTable value="legs" items={items} ItemsName="legs" />
 
                     </Tab>
                 </Tabs>
@@ -132,7 +148,7 @@ export const CharTable = () => {
             <div>
 
             </div>
-            <Character bodyImg1={bodyImg} armsImg1={hatImg} legsImg1={legsImg} />
+            <Character bodyImg1={bodyImg} hatImg1={hatImg} legsImg1={legsImg} />
             <button className="diceButton"><img src="dice.svg" className="edit-img"/>
             </button>
         </div>
