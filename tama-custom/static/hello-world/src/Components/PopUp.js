@@ -43,37 +43,43 @@ export const CharTable = () => {
     ]
 
 
-
-
-
-
-
     const hats = [
         {src: './hat/hat_1.1-01-01.svg'}, {src: './hat/hat_1.2-01-01.svg'}, {src: './hat/hat_1.3-01-01.svg'}, {src: './hat/hat_2.1-01-01.svg'},
         {src: './hat/hat_2.2-01-01.svg'}, {src: './hat/hat_2.3-01-01.svg'}, {src: './hat/hat_2.4-01-01.svg'}, {src: './hat/hat_3.1-01-01.svg'},
         {src: './hat/hat_3.2-01-01.svg'}, {src: './hat/hat_3.3-01-01.svg'}, {src: './hat/hat_4.1-01-01.svg'}, {src: './hat/hat_4.2-01-01.svg'},
         {src: './hat/hat_4.3-01-01.svg'}, {src: './hat/hat_5.1-01-01.svg'}, {src: './hat/hat_5.2-01-01.svg'}, {src: './hat/hat_5.3-01-01.svg'},
-        {src: './hat/hat_5.4-01-01.svg'}, {src: './hat/hat_6.1-01-01.svg'}, {src: './hat/hat_6.2-01-01.svg'}, {src: './hat/hat_6.3-01-01.svg'},
-
+        {src: './hat/hat_5.4-01-01.svg'}, {src: './hat/hat_6.1-01-01.svg'}, {src: './hat/hat_6.2-01-01.svg'}, {src: './hat/hat_6.3-01-01.svg'}
+    ]
+    const weapons = [
+        {src: './weapon/weapon_1.1-01-01.svg'}, {src: './weapon/weapon_1.2-01-01.svg'}, {src: './weapon/weapon_1.3-01-01.svg'}, {src: './weapon/weapon_1.4-01-01.svg'},
+        {src: './weapon/weapon_2.1-01-01.svg'}, {src: './weapon/weapon_2.2-01-01.svg'}, {src: './weapon/weapon_2.3-01-01.svg'}, {src: './weapon/weapon_2.4-01-01.svg'},
+        {src: './weapon/weapon_2.5-01-01.svg'}, {src: './weapon/weapon_2.6-01-01.svg'}, {src: './weapon/weapon_2.7-01-01.svg'}, {src: './weapon/weapon_2.8-01-01.svg'},
+        {src: './weapon/weapon_2.9-01-01.svg'}
     ]
 
-    const items = [
-        {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
-        {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
-        {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
-        {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'}
+    const costumes = [
+        {src: './costume/costume_1.1-01-01.svg'}, {src: './costume/costume_1.2-01-01.svg'}, {src: './costume/costume_1.3-01-01.svg'}, {src: './costume/costume_1.4-01-01.svg'},
+        {src: './costume/costume_2.1-01-01.svg'}, {src: './costume/costume_2.2-01-01.svg'}, {src: './costume/costume_2.3-01-01.svg'}, {src: './costume/costume_2.4-01-01.svg'},
+        {src: './costume/costume_2.5-01-01.svg'}, {src: './costume/costume_3.1-01-01.svg'}, {src: './costume/costume_3.2-01-01.svg'}, {src: './costume/costume_3.3-01-01.svg'},
+        {src: './costume/costume_3.4-01-01.svg'}, {src: './costume/costume_3.5-01-01.svg'}, {src: './costume/costume_3.6-01-01-01.svg'}, {src: './costume/costume_4.1-01-01.svg'},
     ]
+
+    // const items = [
+    //     {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
+    //     {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
+    //     {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
+    //     {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'}
+    // ]
     const handleChar = (event, newValue) => {
         setCount(newValue);
     };
-    const [bodyImg, setBodyImg] = useState(tamagoshiImage);
-    const [hatImg, setHatImg] = useState(tamagoshiImage);
-    const [legsImg, setLegImg] = useState(tamagoshiImage);
-
+    const [costumeImg, setCostumeImg] = useState("./body/body-01.svg");
+    const [hatImg, setHatImg] = useState("./hat/hat_4.1-01.png");
+    const [weaponImg, setWeaponImg] = useState("./weapon/weapon_1.2-01.png");
     const changeImage = (sourceImg, catalog) => {
         console.log(catalog)
-        if (catalog === "body") {
-            setBodyImg(sourceImg);
+        if (catalog === "costume") {
+            setCostumeImg(sourceImg);
 
         }
         if (catalog === "hat") {
@@ -81,11 +87,10 @@ export const CharTable = () => {
 
 
         }
-        if (catalog === "legs") {
-            setLegImg(sourceImg);
+        if (catalog === "weapon") {
+            setWeaponImg(sourceImg);
 
-        }
-        else {
+        } else {
             console.log("no catalog received")
         }
 
@@ -112,7 +117,8 @@ export const CharTable = () => {
         const rows = splitArray(items).map((row, index) => {
             return (<div className="arsenal-row" key={index}>{row.map(({src}, idx) => {
                 return (<div className="arsenal-data" key={index.toString() + idx}>
-                    <button className="eqItemsButton" onClick={() => changeImage(src, items.ItemsName)}><img src={src} alt=""/>
+                    <button className="eqItemsButton" onClick={() => changeImage(src, items.ItemsName)}><img src={src}
+                                                                                                             alt=""/>
                     </button>
                 </div>);
             })}</div>);
@@ -132,15 +138,15 @@ export const CharTable = () => {
                     id="uncontrolled-tab-example"
                     className="mb-3"
                 >
-                    <Tab eventKey="body" title="Body" onClick={handleChar} count="1">
-                        <GenerateItemsTable value="body" items={bodies} ItemsName="body" />
+                    <Tab eventKey="body" title="Costumes" onClick={handleChar} count="1" style={{overflowX: "hidden", overflowY: "auto", height: "600px", border: "2px solid #0f6af2;"}}>
+                        <GenerateItemsTable value="body" items={costumes} ItemsName="costume"/>
                     </Tab>
-                    <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2">
-                        <GenerateItemsTable items={hats} value="hat" ItemsName="hat" />
+                    <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2" style={{overflowX: "hidden", overflowY: "auto", height: "600px",  border: "2px solid #0f6af2;"}}>
+                        <GenerateItemsTable items={hats} value="hat" ItemsName="hat"/>
 
                     </Tab>
-                    <Tab eventKey="Weapons" title="Legs" onClick={handleChar} count="3">
-                        <GenerateItemsTable value="legs" items={items} ItemsName="legs" />
+                    <Tab eventKey="Weapons" title="Weapons" onClick={handleChar} count="3" style={{overflowX: "hidden", overflowY: "auto", height: "600px", border: "2px solid #0f6af2;"}}>
+                        <GenerateItemsTable value="legs" items={weapons} ItemsName="weapon"/>
 
                     </Tab>
                 </Tabs>
@@ -148,7 +154,7 @@ export const CharTable = () => {
             <div>
 
             </div>
-            <Character bodyImg1={bodyImg} hatImg1={hatImg} legsImg1={legsImg} />
+            <Character costumeImg1={costumeImg} hatImg1={hatImg} weaponImg1={weaponImg}/>
             <button className="diceButton"><img src="dice.svg" className="edit-img"/>
             </button>
         </div>
@@ -231,11 +237,8 @@ function ToggleButtonGroupControlled() {
                     className="mb-3"
                     fixed="top"
                 >
-                    <Tab eventKey="Character" title="Character" onClick={handleChange} value="1">
+                    <Tab eventKey="Character" title="Editor" onClick={handleChange} value="1">
                         <CharTable/>
-                    </Tab>
-                    <Tab eventKey="Hand" title="Hand" onClick={handleChange} value="2">
-                        <h1>hand</h1>
                     </Tab>
                 </Tabs>
             </div>

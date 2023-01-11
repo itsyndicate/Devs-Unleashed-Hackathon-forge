@@ -17,7 +17,7 @@
     transform: translate(-50%, -50%);
     background-color: whitesmoke;
     border: 3px solid deepskyblue;
-    width: 90%;
+    width: 100%;
     height: 70%;
     overflow: hidden;
     z-index: 2;
@@ -34,6 +34,7 @@
 
 .Tabs ul li {
     height: 100%;
+    width: 90%;
     display: flex;
     justify-content: center;
     border-bottom: none;
@@ -42,6 +43,11 @@
 
 }
 
+.items-table .tab-content {
+    border: 2px solid #0f6af2;
+    margin-inside: 10px;
+
+}
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     background-color: #0f6af2;
     --bs-nav-tabs-link-active-color: #ffffff;
@@ -63,7 +69,7 @@
 
     font-size: 40px;
 
-    width: 500px;
+    width: 100%;
     display: flow-root;
     --bs-nav-pills-link-active-color: #fff;
     --bs-nav-pills-link-active-bg: #0d6efd;

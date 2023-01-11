@@ -1,47 +1,135 @@
 
 .container {
     position: relative;
-    width: 500px;
-    height: 500px;
-    border: 1px solid #aaa;
+    width: 1200px;
+    height: 1200px;
+
 }
 
-.character-face, .character-body, .character-legs, .character-hats {
+.character-face, .character-body, .character-legs, .character-hats, .character-weapon, .character-costume {
     position: absolute;
-    border: 1px solid #aaa;
-    width: 100px;
-    height: 100px;
+    pointer-events: none;
 
+}
+
+.character-costume {
+    width: 1160px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.character-costume > img {
+    width: 1160px;
 }
 
 .character-face {
-    left: 0;
-    top: 0;
-    z-index: 1;
+    width: 1160px;
+    z-index: 2;
+    pointer-events: none;
+
 }
 
 .character-body {
-    left: 0;
-    top: 0;
-    width: 460px;
-    height: 328px;
+    width: 1160px;
     z-index: 0;
+    pointer-events: none;
+    top: 0;
+
 }
 
 .character-body > img {
-    width: 460px;
-    height: 328px;
+    width: 1160px;
 }
 
 .character-legs {
     left: 0;
     top: 0;
+    pointer-events: none;
+
 }
 
 .character-hats {
+    z-index: 3;
+    pointer-events: none;
+
+}
+
+.character-hats > img {
+    width: 1160px;
+}
+
+.character-weapon {
+    pointer-events: none;
     left: 0;
     top: 0;
+    z-index: 1;
 }
-.character-hats > img {
-    width: 400px;
+
+.character-weapon > img {
+
+    width: 1160px;
+
+}
+
+.character-arm-left {
+    position: absolute;
+    width: 1160px;
+    pointer-events: none;
+
+}
+
+.character-arm-right {
+    position: absolute;
+    width: 1160px;
+    pointer-events: none;
+    z-index: 3;
+
+}
+
+.character-sleeve-left {
+    position: absolute;
+    width: 1160px;
+    pointer-events: none;
+
+}
+
+.character-sleeve-right {
+    position: absolute;
+    width: 1160px;
+    z-index: 4;
+    pointer-events: none;
+
+}
+
+.character-leg-left {
+    position: absolute;
+    top: 0;
+    width: 1160px;
+    pointer-events: none;
+
+}
+
+.character-leg-right {
+    position: absolute;
+    top: 0;
+
+    width: 1160px;
+    pointer-events: none;
+
+}
+
+.character-shadow {
+    position: absolute;
+    width: 1160px;
+    z-index: -1;
+    pointer-events: none;
+
+}
+
+.character-tail {
+    position: absolute;
+    width: 1160px;
+    z-index: -1;
+    pointer-events: none;
+
 }

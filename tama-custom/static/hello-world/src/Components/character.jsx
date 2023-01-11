@@ -1,20 +1,73 @@
 import '../css/character.css';
 
-export const Character = ({bodyImg1, legsImg1, hatImg1}) => {
+export const Character = ({costumeImg1, weaponImg1, hatImg1}) => {
     return (
         <div className="container">
+
             <div className="character-hats">
                 <img src={hatImg1}/>
 
             </div>
             <div className="character-face">
+                <img src="./face/face-01-01.svg"/>
             </div>
-            <div className="character-body">
-                <img src={bodyImg1}/>
-            </div>
-            <div className="character-legs">
-                <img src={legsImg1}/>
+            <div className="character-weapon">
+                <img src={weaponImg1}/>
 
+            </div>
+
+            <div className="character-arm-left">
+                <img src="./arm_left/arm_left-01-01.svg"/>
+
+            </div>
+
+            <div className="character-arm-right">
+                <img src="./arm_right/arm_right-01-01.svg"/>
+
+            </div>
+
+            <div className="character-sleeve-left">
+                <img src="./arm_left/sleeve_left_cost1-01-01.svg"/>
+
+            </div>
+            <div className="character-sleeve-right">
+                <img  src="./arm_right/sleeve_right_cost1-01-01.svg" />
+
+            </div>
+
+            {/*<div className="character-traus-left">*/}
+            {/*    <img src="./leg_left/traus_left_cost1-01-01.svg" />*/}
+
+            {/*</div>*/}
+            {/*<div className="character-traus-right">*/}
+            {/*    <img src="./leg_right/traus_left_cost1-01-01.svg"/>*/}
+            {/*</div>*/}
+
+            <div className="character-leg-left">
+                <img src="./leg_left/leg_left-01-01.svg"/>
+
+            </div>
+            <div className="character-leg-right">
+                <img src="leg_right/leg_right-01-01.svg"/>
+
+            </div>
+
+            <div className="character-shadow">
+                <img src="./shadow/shadow-01.svg"/>
+
+            </div>
+
+            <div className="character-tail">
+                <img src="./tail/tail-01.svg"/>
+
+            </div>
+
+            <div className="character-body">
+                <img src="./body/body-01.svg"/>
+            </div>
+
+            <div className="character-costume">
+                <img src={costumeImg1}/>
             </div>
         </div>
     );
