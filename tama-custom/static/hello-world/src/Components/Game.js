@@ -17,10 +17,11 @@ import {getElement} from "bootstrap/js/src/util";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Box, Rating, Typography} from "@mui/material";
-import { StyledEngineProvider } from "@mui/styled-engine-sc";
+import {StyledEngineProvider} from "@mui/styled-engine-sc";
 import CharRating from './Rating';
 import {PopUpEdit} from "./PopUp";
 import ToggleButtonGroupControlled from './PopUp';
+
 const AsyncReq = async () => {
     const response = await requestJira('/rest/api/3/groups/picker');
     console.log(await response.text());
@@ -28,44 +29,27 @@ const AsyncReq = async () => {
 // Components
 const TamagoshiImage = ({strength, health}) => {
     let tamagoshiImage = 'project_example_1.png';
-    // //si hambre es menor o igual a 30 o felicidad es menor o igual a 30 o salud es menor o igual a 30
-    // if (strength <= 30 || health <= 30) {
-    //     tamagoshiImage = 'project_example_1.png';
-    // }
-    // //si hambre es igual a 0 o felicidad es igual a 0 o salud es igual a 0
-    // else if (strength === 0 || health === 0) {
-    //     tamagoshiImage = 'project_example_1.png';
-    // }
-    // //si hambre es mayor a 90 o felicidad es mayor a 90 o salud es mayor a 90
-    // else if (strength > 95 && health > 90) {
-    //     tamagoshiImage = 'kQooJxm.png';
-    // }
-    // //si hambre es mayor a 80 y felicidad es mayor a 80 y salud es mayor a 80
-    // else if (strength > 80 && health > 80) {
-    //     tamagoshiImage = 'wWoMWxA.png';
-    // }
-    // //si hambre es mayor a 30 y felicidad es mayor a 30 y salud es mayor a 30
-    // else if (strength > 30 && health > 30) {
-    //     tamagoshiImage = 'EHOnPps.png';
-    // }
     return <Image style={{maxWidth: "350px", maxHeight: "300px"}} src={tamagoshiImage} alt="Tamagoshi"/>;
 }
 
 
 export const Game = () => {
-    // Estados para los parámetros de Tamagoshi
-    const [strength, setStrength] = useState(50);
+
+
+    let timer = null;
+    const [direction, setDirection] = useState('left');
+    const [containerWidth, setContainerWidth] = useState(100);
+    const [charRating, setCharRating] = useState(1);
+    const [isEditVisible, setIsEditVisible] = useState(false);
+
+    const [strength, setStrength] = useState(0);
     const [tasks, setTaskCount] = useState(0);
-    const [health, setHealth] = useState(100);
+    const [health, setHealth] = useState(0);
     // const [record, setRecord] = useState(0);
-    const [elapsedTime, setElapsedTime] = useState(0);
-    // Agrega la variable showGif y establece su valor inicial en false
     const [showGif, setShowGif] = useState(false);
     const [gif, setGif] = useState(null);
+    const projectID = 'test-cront';
 
-    // Modifica la función showGif para que cambie el valor de showGif a true
-    // y establezca un temporizador para que vuelva a cambiar el valor de showGif a false
-    // después de 3 segundos
     const displayGif = () => {
         setShowGif(true);
         setTimeout(() => {
@@ -73,86 +57,39 @@ export const Game = () => {
             }, 3000
         );
     };
-    useInterval(() => {
-        setElapsedTime(elapsedTime + 1);
-    }, 1000); // Actualiza cada segundo
-    // Función para actualizar el estado de hambre del Tamagoshi
-    useInterval(() => {
-        setStrength(strength - 1);
-        if (strength === 0) {
-            swal({
-                title: 'Kirby is weak',
-                text: 'Do you want to reset the game?',
-                icon: 'warning',
-                buttons: ['Cancel', 'OK'],
-                dangerMode: true,
-                content: {
-                    element: 'div',
-                    attributes: {
-                        className: 'custom-swal-text, custom-swal'
-                    }
-                }
-            }).then((result) => {
-                if (result) {
-                    // Restart the game
-                    window.location.reload();
-                } else {
-                    // Close the page
-                    window.close();
-                }
-            });
-        }
-    }, 2000);
-    // Función para actualizar el estado de salud del Tamagoshi
-    useInterval(() => {
-        setHealth(health - 1);
-        if (health === 0) {
-            swal({
-                title: 'Kirby has died of illness',
-                text: 'Do you want to reset the game?',
-                icon: 'warning',
-                buttons: ['Cancel', 'OK'],
-                dangerMode: true,
-                content: {
-                    element: 'div',
-                    attributes: {
-                        className: 'custom-swal-text, custom-swal'
-                    }
-                }
-            }).then((result) => {
-                if (result) {
-                    // Restart the game
-                    window.location.reload();
-                } else {
-                    // Close the page
-                    window.close();
-                }
-            });
-        }
-    }, 3000);
+    const getUsers = async () => {
+        const response = (await requestJira('/rest/api/3/users/search?'));
+        const data = await response.json();
+        return (data[0].accountId);
+    }
 
-    // localStorage.setItem('record', age);
-    // Formatea el tiempo de juego
-    const minutes = Math.floor(elapsedTime / 60);
-    const seconds = elapsedTime % 60;
-    const isMoving = true;
-    // window.onload = func;
-    // Agrega un 0 a la izquierda si el número es menor a 10
-    const elapsedTimeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    // useEffect(updateRecord, [age, record]);
-    // useEffect(() => {
-    // const storedRecord = localStorage.getItem('record');
-    // if (storedRecord) {
-    //     setRecord(parseInt(storedRecord));
-    // }
-    // }, []);
+    async function getHealth(userID) {
+        // const userID = await getUsers();
+        const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
 
 
-    const [direction, setDirection] = useState('left');
-    const [containerWidth, setContainerWidth] = useState(100);
-    let timer = null;
-    const [charRating, setCharRating] = useState(1);
-    const [isEditVisible, setIsEditVisible] = useState(false);
+        const result = await response.json();
+        console.log(result["health"])
+        return result["health"];
+    }
+
+    const checkHealth = async () => {
+        const userID = await getUsers();
+        setHealth(await getHealth(userID));
+        useInterval(async () => {
+            setHealth(await getHealth(userID));
+        }, 60000);
+
+    }
+
+    checkHealth();
+
 
     const toggleEdit = () => {
         setIsEditVisible(!isEditVisible);
@@ -189,7 +126,7 @@ export const Game = () => {
                 <div className='square-content' id="character">
                     {/*<StyledEngineProvider injectFirst>*/}
 
-                        {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
+                    {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
                     {/*</StyledEngineProvider>*/}
                     <button className="editButton" style={{left: "-20%"}} onClick={toggleEdit}><img src="edit.svg"
                                                                                                     className="edit-img"/>
@@ -209,7 +146,7 @@ export const Game = () => {
             <div>
                 {/*test request to JIRA API*/}
                 <button id="test" class="asdasd" onClick={AsyncReq}>TEST</button>
-                <button onClick={startMove}>Move</button>
+                <button onClick={getHealth}>GET</button>
                 <button onClick={() => {
                     stopMove();
                     window.stop = stop;

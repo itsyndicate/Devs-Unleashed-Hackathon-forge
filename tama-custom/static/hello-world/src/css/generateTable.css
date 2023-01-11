@@ -7,6 +7,11 @@
 
 }
 
+.eqItemsButton > img {
+    width: 78px;
+    height: 78px;
+}
+
 .eqItemsButton {
     background-color: transparent;
     background-repeat: no-repeat;

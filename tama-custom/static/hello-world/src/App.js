@@ -1,43 +1,59 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import  FAQ  from './Components/FAQ';
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import { PopUp } from "./Components/PopUp";
-import { Game } from './Components/Game';
+import FAQ from './Components/FAQ';
+import React, {useState} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
+import {PopUp, PopUpEdit} from "./Components/PopUp";
+import {Game} from './Components/Game';
 import {Image} from "react-bootstrap";
+import {requestJira} from "@forge/bridge";
 
 
 const TamagoshiGame = () => {
-  const isNewUser = false;
-  const [isFAQVisible, setIsFAQVisible] = useState(false);
-  const [isLoginVisible, setIsLoginVisible] = useState(isNewUser);
+    const isNewUser = false;
+    const [isFAQVisible, setIsFAQVisible] = useState(false);
+    const [isLoginVisible, setIsLoginVisible] = useState(isNewUser);
 
-  const toggleFAQ = () => {
-    setIsFAQVisible(!isFAQVisible);
-  }
+    const projectID = 'test-cront';
 
-  const toggleLogin = () => {
-    setIsLoginVisible(!isLoginVisible);
-  }
 
-  return (
+    const getUsers = async () => {
+        const response = (await requestJira('/rest/api/3/users/search?'));
+        const data = await response.json();
+        return (data[0].accountId);
+    }
+    const toggleLogin = async () => {
+        const userID = await getUsers();
+        const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
 
-    <>
-      <div className='fondo'>
-        {/* Tamagoshi */}
-        {/* <Egg /> */}
-        <Game />
-        {isLoginVisible && < PopUp toggleLogin={toggleLogin}/>}
-        {/* FAQ */}
-        {isFAQVisible && <FAQ toggleFAQ={toggleFAQ} />}
-        <button style={{ backgroundColor: '#080c51', color: 'white' }} onClick={toggleFAQ}>
-          <FontAwesomeIcon icon={faQuestionCircle} /> FAQ
-        </button>
 
-      </div>
-      </>
-  );
+        const result = response.status;
+        if (result === 404) {
+            setIsLoginVisible(true);
+        } else {
+            setIsLoginVisible(false)
+        }
+
+    }
+
+    return (
+
+        <>
+            <div className='fondo'>
+                {/* Tamagoshi */}
+                {/* <Egg /> */}
+                <Game/>
+                {isLoginVisible && < PopUpEdit toggleLogin={toggleLogin}/>}
+
+            </div>
+        </>
+    );
 };
 
 export default TamagoshiGame;

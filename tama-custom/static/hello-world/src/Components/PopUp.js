@@ -2,16 +2,17 @@ import * as React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faQuestionCircle, faTimes} from "@fortawesome/free-solid-svg-icons";
 import '../css/FAQ.css';
-import {GenerateItemsTable} from "./generateTable";
 import {Image} from "react-bootstrap";
 import * as PropTypes from "prop-types";
 import button from "bootstrap/js/src/button";
+import '../css/generateTable.css';
 
 import {Game} from "./Game";
 import FAQ from "./FAQ";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import {useState} from "react";
+import {Character} from "./character";
 
 let tamagoshiImage = 'project_example_1.png';
 
@@ -37,6 +38,9 @@ export const PopUp = ({toggleLogin}) => {
 
 export const CharTable = () => {
     const [count, setCount] = React.useState("1");
+    const bodies = [
+        {src: './body/body-01.svg'}
+    ]
     const items = [
         {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
         {src: 'cat-food.svg'}, {src: 'dice.svg'}, {src: 'edit.svg'}, {src: 'edit.svg'},
@@ -46,6 +50,64 @@ export const CharTable = () => {
     const handleChar = (event, newValue) => {
         setCount(newValue);
     };
+    const [bodyImg, setBodyImg] = useState(tamagoshiImage);
+    const [hatImg, setHatImg] = useState(tamagoshiImage);
+    const [legsImg, setLegImg] = useState(tamagoshiImage);
+
+    const changeImage = (sourceImg, catalog) => {
+        console.log(catalog)
+        if (catalog === "body") {
+            setBodyImg(sourceImg);
+
+        }
+        if (catalog === "hat") {
+            setHatImg(sourceImg);
+
+
+        }
+        if (catalog === "weapon") {
+            setLegImg(sourceImg);
+
+        }
+        else {
+            console.log("no catalog received")
+        }
+
+
+    }
+
+
+    const splitArray = (inputArray, perChunk = 4) => {
+        return inputArray.items.reduce((resultArray, item, index) => {
+            const chunkIndex = Math.floor(index / perChunk)
+
+            if (!resultArray[chunkIndex]) {
+                resultArray[chunkIndex] = [];
+            }
+
+            resultArray[chunkIndex].push(item);
+
+            return resultArray
+        }, []);
+    }
+
+    const GenerateItemsTable = (items) => {
+        console.log(items.ItemsName)
+        const rows = splitArray(items).map((row, index) => {
+            return (<div className="arsenal-row" key={index}>{row.map(({src}, idx) => {
+                return (<div className="arsenal-data" key={index.toString() + idx}>
+                    <button className="eqItemsButton" onClick={() => changeImage(src, items.ItemsName)}><img src={src} alt=""/>
+                    </button>
+                </div>);
+            })}</div>);
+        });
+
+        return (
+            <div className="arsenal">
+                {rows}
+            </div>
+        );
+    }
     return (
         <div className="Items" style={{display: "flex", justifyContent: "center", position: "relative"}}>
             <div className="items-table">
@@ -55,19 +117,22 @@ export const CharTable = () => {
                     className="mb-3"
                 >
                     <Tab eventKey="body" title="Body" onClick={handleChar} count="1">
-                        <GenerateItemsTable items={items}/>
+                        <GenerateItemsTable value="body" items={bodies} ItemsName="body" />
                     </Tab>
                     <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2">
-                        <GenerateItemsTable items={items}/>
+                        <GenerateItemsTable items={items} value="hat" ItemsName="hat" />
 
                     </Tab>
                     <Tab eventKey="Weapons" title="Weapons" onClick={handleChar} count="3">
-                        <GenerateItemsTable items={items}/>
+                        <GenerateItemsTable value="weapon" items={items} ItemsName="body" />
 
                     </Tab>
                 </Tabs>
             </div>
-            <Image style={{maxHeight: "350px"}} src={tamagoshiImage} alt="Tamagoshi"/>
+            <div>
+
+            </div>
+            <Character bodyImg1={bodyImg} armsImg1={hatImg} legsImg1={legsImg} />
             <button className="diceButton"><img src="dice.svg" className="edit-img"/>
             </button>
         </div>
@@ -162,3 +227,6 @@ function ToggleButtonGroupControlled() {
         </div>
     );
 }
+
+
+//GENERATE TABLE

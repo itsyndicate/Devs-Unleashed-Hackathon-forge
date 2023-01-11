@@ -1,54 +1,30 @@
-import '../css/generateTable.css';
-import {requestJira} from "@forge/bridge";
-import {useState} from "react";
 
-const getUsers = async () => {
-    const response = (await requestJira('/rest/api/3/users/search?'));
-    const data = await response.json();
-    console.log(data[0].accountId);
-}
+// const getUsers = async () => {
+//     const response = (await requestJira('/rest/api/3/users/search?'));
+//     const data = await response.json();
+//     console.log(data[0].accountId);
+// }
 
-const getTasks = async () => {
-    const [tasks, setTasks] = useState([]);
 
-    const response = await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status')
-        .then(res => res.json())
-        .then(res => setTasks(res['total']))
-}
+// curl -X 'POST'   'http://18.197.127.216/api/v1/register-player'   -H 'accept: application/json'   -H 'Content-Type: application/json'   -d '{
+//   "player_name": "test-cron",
+//   "account_id": "635fbb7bf7ad721e784f0156",
+//   "project_id": "test-cront",
+//   "project_name": "tama"
+// }'
+
+//curl -X 'GET'   'http://18.197.127.216/api/v1/taskogotchi?account_id=635fbb7bf7ad721e784f0156&project_id=test-cront'   -H 'accept: application/json'
+
+
+// const getTasks = async () => {
+//     const [tasks, setTasks] = useState([]);
+//
+//     const response = await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status')
+//         .then(res => res.json())
+//         .then(res => setTasks(res['total']))
+// }
 
 // const customize = async (image) => {
 //     getUsers()
 // };
 //
-
-
-
-const splitArray = (inputArray, perChunk = 4) => {
-    return inputArray.items.reduce((resultArray, item, index) => {
-        const chunkIndex = Math.floor(index / perChunk)
-
-        if (!resultArray[chunkIndex]) {
-            resultArray[chunkIndex] = [];
-        }
-
-        resultArray[chunkIndex].push(item);
-
-        return resultArray
-    }, []);
-}
-
-export const GenerateItemsTable = (items = []) => {
-    const rows = splitArray(items).map((row, index) => {
-        return (<div className="arsenal-row" key={index}>{row.map(({src}, idx) => {
-            return (<div className="arsenal-data" key={index.toString() + idx}>
-                <button className="eqItemsButton" onClick={() => getUsers()}><img src={src} alt=""/></button>
-            </div>);
-        })}</div>);
-    });
-
-    return (
-        <div className="arsenal">
-            {rows}
-        </div>
-    );
-}
