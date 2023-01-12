@@ -1,28 +1,15 @@
-import React, {useState, useEffect, useRef} from 'react';
-import swal from 'sweetalert';
-import api, {route} from "@forge/api";
+import React, {useEffect, useRef, useState} from 'react';
 import {requestJira} from '@forge/bridge';
 import {Image, ProgressBar} from 'react-bootstrap';
-import {Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../css/Game.css';
 import {Character} from "./character";
 
 //icons
-import {GrGamepad} from 'react-icons/gr';
-import {IoFastFoodOutline} from 'react-icons/io5';
 import {MdOutlineHealthAndSafety} from 'react-icons/md';
 import {BiTime} from 'react-icons/bi';
-import {GiLaurelsTrophy} from 'react-icons/gi';
-import {MdOutlineAdsClick} from 'react-icons/md';
-import {getElement} from "bootstrap/js/src/util";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {Box, Rating, Typography} from "@mui/material";
-import {StyledEngineProvider} from "@mui/styled-engine-sc";
 import CharRating from './Rating';
 import {PopUpEdit} from "./PopUp";
-import ToggleButtonGroupControlled from './PopUp';
 
 const AsyncReq = async () => {
     const response = await requestJira('/rest/api/3/groups/picker');
@@ -47,14 +34,12 @@ export const Game = () => {
     const [strength, setStrength] = useState(0);
     const [tasks, setTaskCount] = useState(0);
     const [health, setHealth] = useState(0);
+    const [costume, setCostume] = useState("");
+    const [hat, setHat] = useState("");
+    const [weapon, setWeapon] = useState("");
     // const [record, setRecord] = useState(0);
     const [showGif, setShowGif] = useState(false);
     const [gif, setGif] = useState(null);
-    const getProject = async () => {
-        const response = (await requestJira('/rest/api/3/project'));
-        const data = await response.json();
-        return (data[0].id);
-    }
 
     const displayGif = () => {
         setShowGif(true);
@@ -67,6 +52,11 @@ export const Game = () => {
         const response = (await requestJira('/rest/api/3/users/search?'));
         const data = await response.json();
         return (data[0].accountId);
+    }
+    const getProject = async () => {
+        const response = (await requestJira('/rest/api/3/project'));
+        const data = await response.json();
+        return (data[0].id);
     }
 
     async function getHealth(userID, projectID) {
@@ -85,6 +75,27 @@ export const Game = () => {
         return result["health"];
     }
 
+    async function getTama() {
+        const userID = await getUsers();
+        const projectId = await getProject();
+
+        // const userID = await getUsers();
+        const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectId}`, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+
+        const result = await response.json();
+        console.log(result["image"]);
+        setHat(result["image"].hatImg)
+        setCostume(result["image"].costumeImg)
+        setWeapon(result["image"].weaponImg)
+    }
+
     const checkHealth = async () => {
         const userID = await getUsers();
         const projectId = await getProject();
@@ -96,7 +107,7 @@ export const Game = () => {
     }
 
     checkHealth();
-
+    getTama();
 
     const toggleEdit = () => {
         setIsEditVisible(!isEditVisible);
@@ -135,20 +146,30 @@ export const Game = () => {
 
                     {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
                     {/*</StyledEngineProvider>*/}
-                    <button className="editButton" id="EditButton" style={{left: "-20%"}} onClick={toggleEdit}><img
+                    <button className="editButton" id="EditButton" style={{
+                        position: "absolute",
+                        left: "419px",
+                        top: "-834px"
+                    }} onClick={toggleEdit}><img
                         src="edit.svg"
-                        className="edit-img"/>
+                        className="edit-img" style={{width: "100px"}}/>
                     </button>
                     {/* Show the GIF if showGif is true and show the tamagoshi if showGif is false */}
                     {showGif ? <img draggable="false" className='gif' src={gif} alt="Gif"/> :
-                        <Character costumeImg1={localStorage.getItem("costumeImg")}
-                                   hatImg1={localStorage.getItem("hatImg")}
-                                   weaponImg1={localStorage.getItem("weaponImg")}/>}
-                    <button className="feed" onClick={() => {
-                        setStrength(Math.min(strength + 10, 100));
-                        setGif('giphy0.webp');
-                        displayGif();
-                    }}><img draggable="false" src="cat-food.svg" className="feed-img"/></button>
+                        <Character costumeImg1={costume}
+                                   hatImg1={hat}
+                                   weaponImg1={weapon}/>}
+                    <button className="feed" style={{
+                        position: "absolute",
+                        left: "1100px",
+                        top: "-59px"
+                    }}
+                            onClick={() => {
+                                setStrength(Math.min(strength + 10, 100));
+                                setGif('giphy0.webp');
+                                displayGif();
+                            }}><img draggable="false" src="cat-food.svg" style={{width: "200px"}} className="feed-img"/>
+                    </button>
                 </div>
 
             </div>

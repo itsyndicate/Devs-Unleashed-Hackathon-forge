@@ -85,9 +85,6 @@ export const CharTable = () => {
 
 
     const saveCharacter = async () => {
-        localStorage.setItem("hatImg", hatImg);
-        localStorage.setItem("costumeImg", costumeImg);
-        localStorage.setItem("weaponImg", weaponImg);
         const getUsers = async () => {
             const response = (await requestJira('/rest/api/3/users/search?'));
             const data = await response.json();
@@ -260,8 +257,9 @@ export const CharTable = () => {
                     src={notificationImage}
                     className="edit-img"/></button>
             </button>
-            <button onClick={saveCharacter} id="saveChar">Save</button>
-            <button >Exit</button>
+            <button onClick={saveCharacter} style={{width: '200px', height: '50px', position: 'fixed', top: "650px", }}
+                    id="saveChar">Save
+            </button>
         </div>
     );
 };
@@ -285,10 +283,15 @@ export const PopUpEdit = ({toggleEdit}) => {
 
 
             <div className="edit-menu-content">
-                <button onClick={toggleEdit} className="loginButtons" style={{background: "blue", bottom: 0}}>
-                    Save
+                <button onClick={toggleEdit} className="loginButtons" style={{position: "fixed", top: 0, width: "50px", right: 0}}>
+                    X
                 </button>
-                <button onClick={toggleEdit} className="loginButtons" style={{bottom: 0}}>
+                <button onClick={toggleEdit} className="loginButtons" style={{
+                    position: "fixed", left: "1100px",
+                    top: "650px",
+                    width: "200px",
+                    height: "50px"
+                }}>
                     Cancel
                 </button>
 
@@ -314,13 +317,16 @@ function ToggleButtonGroupControlled() {
         <div>
 
             <div className="Tabs" style={{display: "table", margin: "27px auto 0px auto"}}>
+
                 <Tabs
                     defaultActiveKey="Character"
                     id="uncontrolled-tab-example"
                     className="mb-3"
-                    fixed="top"
+                    fixed="bottom"
+
+
                 >
-                    <Tab eventKey="Character" title="Editor" onClick={handleChange} value="1">
+                    <Tab eventKey="Character" id="Editor" title="" onClick={handleChange} value="1">
                         <CharTable/>
                     </Tab>
                 </Tabs>

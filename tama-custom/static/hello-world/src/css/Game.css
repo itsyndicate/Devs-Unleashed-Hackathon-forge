@@ -72,10 +72,12 @@
 }
 
 .square-content {
-    max-width: 350px;
+    width: 100%;
     margin: 0 auto;
 }
-
+img {
+    pointer-events: none
+}
 .stat-progress {
     height: 40px;
     position: relative;

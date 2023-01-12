@@ -20,7 +20,22 @@
     width: 90%;
     height: 80%;
     overflow: hidden;
-    z-index: 2;
+    z-index: 5;
+}
+
+#Editor {
+    display: none;
+}
+#Editor ul {
+    display: none;
+}
+
+#Editor ul li {
+    display: none;
+}
+
+#Editor ul li button {
+    display: none;
 }
 
 .Tabs ul {
@@ -31,13 +46,20 @@
     border-radius: 0;
 
 }
-
+li.nav-item {
+    display: none;
+}
+#uncontrolled-tab-example-tab-Character:has(li) {
+    display: none;
+}
+.Tabs > ul {
+    display: none;
+}
 .Tabs ul li {
     height: 100%;
-    width: 90%;
+    width: 70%;
     display: flex;
     justify-content: center;
-    border-bottom: none;
     border-radius: 0;
     border: 3px solid #0f6af2;
 
@@ -48,6 +70,7 @@
     margin-inside: 10px;
 
 }
+
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     background-color: #0f6af2;
     --bs-nav-tabs-link-active-color: #ffffff;
@@ -69,7 +92,7 @@
 
     font-size: 40px;
 
-    width: 100%;
+    width: 70%;
     display: flow-root;
     --bs-nav-pills-link-active-color: #fff;
     --bs-nav-pills-link-active-bg: #0d6efd;
@@ -79,6 +102,7 @@
     height: fit-content;
     width: auto;
 }
+
 .Items ul li {
     height: 100%;
     width: auto;
@@ -116,7 +140,10 @@ img {
     -webkit-user-select: none;
     -ms-user-select: none;
 }
+img {
+    pointer-events: none;
 
+}
 .diceButton {
     display: flex;
     background-color: transparent;
@@ -127,6 +154,9 @@ img {
     color: #fff;
     z-index: 1;
     transform: translateX(-100px);
+    position: fixed;
+    top: 173px;
+    right: -96px;
 }
 
 .edit-menu-content {
@@ -153,17 +183,14 @@ img {
     height: 50px;
 }
 
-.loginButtons {
+.loginButtons, #saveChar {
     background-color: #0a53be;
     text-align: center;
     text-decoration: none;
     color: white;
-    position: relative;
-    border: 3px solid deepskyblue;
-    left: 35%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 20px;
-    border-radius: 25%;
+    position: fixed;
+    width: 200px;
+    height: 50px;
+    border-radius: 0;
+
 }
