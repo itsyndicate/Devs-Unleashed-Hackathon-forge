@@ -1,0 +1,6 @@
+.game{
+    position: absolute;
+    z-index: 4;
+    left: -340px;
+    top: -284px;
+}

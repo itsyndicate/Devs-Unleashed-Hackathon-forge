@@ -1,0 +1,39 @@
+.count_down{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*height: 600px;*/
+    /*width: 1024px;*/
+    top: 100px;
+    left: 300px;
+    right: 0;
+    bottom: 0;
+    width: 638px;
+    height: 334px;
+    background-image: url("../../images/cloud.png");
+    background-repeat: no-repeat;
+    z-index: 5;
+}
+.count_down p{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 70px;
+    text-align: center;
+    color: #2151C5;
+
+    margin: 0;
+}
+.count_down span{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 46px;
+    line-height: 70px;
+    text-align: center;
+    color: #2151C5;
+    width: 276px;
+}

@@ -1,0 +1,281 @@
+.cuadro {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f882;
+    border: 3px solid black;
+    width: 70%;
+    height: 70%;
+    overflow: auto;
+}
+
+.loginMenu, .editMenu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: whitesmoke;
+    border: 3px solid deepskyblue;
+    width: 90%;
+    height: 70%;
+    overflow: hidden;
+    z-index: 2;
+}
+.fightMenu{
+    z-index: 2;
+    position: absolute;
+    top: -170px;
+    left: -50px;
+}
+.Tabs ul {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    border-bottom: none;
+    border-radius: 0;
+
+}
+
+.Tabs ul li {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    border-bottom: none;
+    border-radius: 0;
+    border: 3px solid #0f6af2;
+
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: #0f6af2;
+    --bs-nav-tabs-link-active-color: #ffffff;
+    color: var(--bs-nav-tabs-link-active-color);
+    border-radius: 0;
+    border: 3px solid #0f6af2;
+
+}
+
+
+.Tabs ul li button {
+    height: 100%;
+    justify-content: center;
+    border-bottom: none;
+    top: 50%;
+    left: 50%;
+    border-radius: 0;
+    border: 3px solid #0f6af2;
+
+    font-size: 40px;
+
+    width: 400px;
+    display: flow-root;
+    --bs-nav-pills-link-active-color: #fff;
+    --bs-nav-pills-link-active-bg: #0d6efd;
+}
+
+.Items ul {
+    height: 30px;
+    width: auto;
+}
+.Items ul li {
+    height: 100%;
+    width: auto;
+}
+
+.Items ul li button {
+    border: 3px solid #0f6af2;
+    margin-inside: 3px;
+    width: 80px;
+    font-size: 15px;
+    border-radius: 0;
+    height: 100%;
+
+}
+
+
+.soundButton, .notificationButton, .musicButton {
+    position: relative;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    border: 0;
+    color: #fff;
+    z-index: 1;
+}
+
+img {
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.diceButton {
+    display: flex;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    border: 0;
+    color: #fff;
+    z-index: 1;
+    transform: translateX(-100px);
+}
+
+.edit-menu-content {
+    display: block;
+    max-width: 300px;
+    max-height: 350px;
+    position: relative;
+}
+.feed-menu-content{
+    position: absolute;
+    top: -250px;
+    left: 440px;
+    z-index: 5;
+}
+.editNavigation {
+    display: flex;
+    position: relative;
+    height: 200px;
+}
+
+.editNavigationButtons {
+    position: relative;
+    top: 50%;
+    left: 40%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    margin-top: 2%;
+    width: 150px;
+    height: 50px;
+}
+
+.loginButtons {
+    background-color: #0a53be;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    position: relative;
+    border: 3px solid deepskyblue;
+    left: 35%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 20px;
+    border-radius: 25%;
+}
+
+.crossBtn{
+    border: 0;
+    position: absolute;
+    top: 3px;
+    left: 485px;
+    background: white;
+}
+
+
+/* MATCHING */
+
+.opponentsList{
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 2px solid #2151C5;
+    border-radius: 5px;
+}
+
+.opponents_container{
+    display: flex;
+    flex-direction: column;
+    width: 516px;
+    height: 362px;
+    align-items: center;
+    justify-items: center;
+    margin-top: 30px;
+    overflow-y: scroll;
+}
+.opponents_container::-webkit-scrollbar{
+    width: 20px;
+}
+.opponents_container::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+.opponents_container::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+.opponent_container{
+    width: 390px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.opponent{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.opponent_name p{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    color: #2151C5;
+    margin: 0;
+}
+.opponent_btn{
+    background: #FFFFFF;
+    border: 2px solid #2151C5;
+    border-radius: 5px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    width: 206px;
+    height: 52px;
+    /* Main color */
+
+    color: #2151C5;
+}
+/* MATCHING */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
