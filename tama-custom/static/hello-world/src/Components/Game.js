@@ -74,6 +74,21 @@ export const Game = () => {
         console.log(result["health"])
         return result["health"];
     }
+    async function getStrength(userID, projectID) {
+        // const userID = await getUsers();
+        const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+
+        const result = await response.json();
+        console.log(result["strength"])
+        return result["strength"];
+    }
 
     async function getTama() {
         const userID = await getUsers();
@@ -100,6 +115,7 @@ export const Game = () => {
         const userID = await getUsers();
         const projectId = await getProject();
         setHealth(await getHealth(userID, projectId));
+        setStrength(await getStrength(userID, projectId));
         useInterval(async () => {
             setHealth(await getHealth(userID));
         }, 60000);
@@ -174,33 +190,7 @@ export const Game = () => {
 
             </div>
 
-            <div>
-                {/*test request to JIRA API*/}
-                <button id="test" class="asdasd" onClick={AsyncReq}>TEST</button>
-                <button onClick={getHealth}>GET</button>
-                <button onClick={() => {
-                    stopMove();
-                    window.stop = stop;
-                    window.start = start;
-                }}>Stop
-                </button>
-                <button onClick={() => {
-                    const link = window.parent.document.getElementsByClassName("css-178ag6o")[4];
-                    // const test = document.getElementsByClassName("asdasd");
-                }}>Fight
-                </button>
-                <div className="buttons">
 
-                    <button onClick={() => {
-                        setHealth(Math.min(health + 10, 100));
-                        setGif('tumblr_n0w505oIli1ru09vqo1_500.gifv');
-                        displayGif();
-                    }}>
-
-                        <MdOutlineHealthAndSafety/> Heal
-                    </button>
-                </div>
-            </div>
         </div>
     )
 }
