@@ -245,19 +245,26 @@ export const CharTable = () => {
 
             </div>
             <Character costumeImg1={costumeImg} hatImg1={hatImg} weaponImg1={weaponImg}/>
-            <button className="diceButton"><img src="dice.svg" className="edit-img"/>
 
-                <button className="soundButton" onClick={toggleSound}><img src={soundImage}
-                                                                           className="edit-img"/>
-                </button>
-                <button className="musicButton" onClick={toggleMusic}><img src={musicImage}
-                                                                           className="edit-img"/>
-                </button>
-                <button className="notificationButton" onClick={toggleNotification}><img
-                    src={notificationImage}
-                    className="edit-img"/></button>
+            <button className="soundButton" onClick={toggleSound}><img src={soundImage} style={{
+                position: "fixed",
+                top: "200px",
+                left: "-400px"
+            }}
+                                                                       className="edit-img"/>
             </button>
-            <button onClick={saveCharacter} style={{width: '200px', height: '50px', position: 'fixed', top: "650px", }}
+            <button className="musicButton" onClick={toggleMusic}><img src={musicImage} style={{
+                position: "fixed",
+                top: "200px",
+                left: "-400px"
+            }}
+                                                                       className="edit-img"/>
+            </button>
+            <button className="notificationButton" onClick={toggleNotification}
+                    style={{position: "fixed", top: "200px", left: "-400px"}}><img
+                src={notificationImage}
+                className="edit-img"/></button>
+            <button onClick={saveCharacter} style={{width: '200px', height: '50px', position: 'fixed', top: "650px",}}
                     id="saveChar">Save
             </button>
         </div>
@@ -283,7 +290,8 @@ export const PopUpEdit = ({toggleEdit}) => {
 
 
             <div className="edit-menu-content">
-                <button onClick={toggleEdit} className="loginButtons" style={{position: "fixed", top: 0, width: "50px", right: 0}}>
+                <button onClick={toggleEdit} className="loginButtons"
+                        style={{position: "fixed", top: 0, width: "50px", right: 0}}>
                     X
                 </button>
                 <button onClick={toggleEdit} className="loginButtons" style={{
