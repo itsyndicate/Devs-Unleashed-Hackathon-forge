@@ -32,11 +32,11 @@ export const Game = () => {
     const [isEditVisible, setIsEditVisible] = useState(false);
     const [users, setUsers] = useState([]);
     const [tasks, setTasks] = useState(0)
-    const [strength, setStrength] = useState(0);
+    let [strength, setStrength] = useState(0);
     const [health, setHealth] = useState(0);
-    const [costume, setCostume] = useState("");
-    const [hat, setHat] = useState("");
-    const [weapon, setWeapon] = useState("");
+    let [costume, setCostume] = useState("");
+    let [hat, setHat] = useState("");
+    let [weapon, setWeapon] = useState("");
     // const [record, setRecord] = useState(0);
     const [showGif, setShowGif] = useState(false);
     const [gif, setGif] = useState(null);
@@ -101,7 +101,7 @@ export const Game = () => {
 
 
         const result = await response.json();
-        console.log(result["health"])
+        console.log(result["health"]);
         return result["health"];
     }
 
@@ -117,7 +117,7 @@ export const Game = () => {
 
 
         const result = await response.json();
-        console.log(result["strength"])
+        console.log(strength);
         return result["strength"];
     }
 
@@ -204,7 +204,7 @@ export const Game = () => {
                 {/*<div className={'square-content ' + direction} id="character">*/}
                 <div className='square-content' id="character">
                     <div className="editAndFight">
-                        {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
+                        {isEditVisible && < PopUpEdit toggleLogin={toggleEdit}/>}
                         {/*</StyledEngineProvider>*/}
                         <button className="editButton" style={{left: "-50%"}} onClick={toggleEdit}><img src="edit.svg"
                                                                                                         className="edit-img"/>

@@ -10,9 +10,8 @@ import {requestJira} from "@forge/bridge";
 
 
 const TamagoshiGame = () => {
-    const isNewUser = false;
+    let [isNewUser, setIsNewUser] = useState(false);
     const [isFAQVisible, setIsFAQVisible] = useState(false);
-    const [isLoginVisible, setIsLoginVisible] = useState(isNewUser);
 
 
     const getProject = async () => {
@@ -25,7 +24,11 @@ const TamagoshiGame = () => {
         const data = await response.json();
         return (data[0].accountId);
     }
+
     const toggleLogin = async () => {
+        console.log("start executing toggleLogin!!");
+        console.log(isNewUser);
+
         const userID = await getUsers();
         const projectID = await getProject();
         const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
@@ -36,16 +39,18 @@ const TamagoshiGame = () => {
             }
         });
 
-
         const result = response.status;
         if (result === 404) {
-            setIsLoginVisible(true);
+            setIsNewUser(true);
+
+
         } else {
-            setIsLoginVisible(false)
+            setIsNewUser(false);
         }
+        console.log(isNewUser);
 
     }
-
+    window.onload = toggleLogin();
     return (
 
         <>
@@ -53,7 +58,7 @@ const TamagoshiGame = () => {
                 {/* Tamagoshi */}
                 {/* <Egg /> */}
                 <Game/>
-                {isLoginVisible && < PopUpEdit toggleLogin={toggleLogin}/>}
+                {isNewUser && <PopUpEdit toggleLogin={toggleLogin}/>}
 
             </div>
         </>

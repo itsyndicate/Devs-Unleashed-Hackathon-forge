@@ -10,6 +10,7 @@ import OpponentsList from "./opponentsList";
 import './Components/HandTracker/HandTracker.css'
 import HandTracker from "./Components/HandTracker/HandTracker";
 import Home from "./Components/Home/Home";
+
 let tamagoshiImage = 'project_example_1.png';
 import {Game} from "./Game";
 import FAQ from "./FAQ";
@@ -42,6 +43,8 @@ export const PopUp = ({toggleLogin}) => {
 
 export const CharTable = () => {
     const [count, setCount] = React.useState("1");
+    const [health, setHealth] = useState(0);
+    const [isLoginRequest, setIsLoginRequest] = useState("POST");
     const bodies = [
         {src: './body/body-01.svg'}
     ]
@@ -87,8 +90,6 @@ export const CharTable = () => {
 
 
     const saveCharacter = async () => {
-        let health = 0
-        let req = "PUT"
         const getUsers = async () => {
             const response = (await requestJira('/rest/api/3/users/search?'));
             const data = await response.json();
@@ -118,22 +119,50 @@ export const CharTable = () => {
             "account_id": userID,
             "project_id": projectID
         }
-        await fetch(`https://backend.guard-lite.com/api/v1/register-player`, {
-            method: "POST",
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
-        }).then((response) => response.json()).then((data) => {
-            console.log('Success:', data);
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
+
+        async function getTama() {
+            console.log("start executing toggleLogin!!")
+            const userID = await getUsers();
+            const projectID = await getProject();
+            const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
+                method: "GET",
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            const result = response.status;
+            if (result === 404) {
+                setHealth(100);
+
+                console.log("NEW LOGIN HEALTH!!");
+                console.log(health);
+                setIsLoginRequest("POST");
+                await fetch(`https://backend.guard-lite.com/api/v1/register-player`, {
+                    method: isLoginRequest,
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData),
+                }).then((response) => response.json()).then((data) => {
+                    console.log('Success:', data);
+                }).catch((error) => {
+                    console.error('Error:', error);
+                });
+            } else {
+                setIsLoginRequest("PUT");
+                setHealth(response["health"]);
+            }
+        }
+
+        window.onload = getTama();
+
 
         console.log(tamagotchiData);
         await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
-            method: req,
+            method: isLoginRequest,
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
@@ -286,7 +315,7 @@ export const handTable = () => {
 };
 
 
-export const PopUpEdit = ({toggleEdit}) => {
+export const PopUpEdit = ({toggleLogin}) => {
 
     return (
         <div className="editMenu">
@@ -294,11 +323,11 @@ export const PopUpEdit = ({toggleEdit}) => {
 
 
             <div className="edit-menu-content">
-                <button onClick={toggleEdit} className="loginButtons"
+                <button onClick={toggleLogin} className="loginButtons"
                         style={{position: "fixed", top: 0, width: "50px", right: 0}}>
                     X
                 </button>
-                <button onClick={toggleEdit} className="loginButtons" style={{
+                <button onClick={toggleLogin} className="loginButtons" style={{
                     position: "fixed", left: "1100px",
                     top: "650px",
                     width: "200px",
@@ -334,7 +363,7 @@ export const PopUpFight = (props) => {
 export const PopUpFeed = (props) => {
     return (
         <div className='hand-tack'>
-            <HandTracker tasks={props.tasks} />
+            <HandTracker tasks={props.tasks}/>
 
             <div className="feed-menu-content">
                 <button onClick={props.toggleFeed} className="crossBtn">
