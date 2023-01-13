@@ -116,6 +116,18 @@
     -ms-user-select: none;
 }
 
+.editButton {
+    width: 100px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    border: 0;
+    color: #fff;
+    position: absolute;
+    z-index: 0;
+}
+
 .feed {
     background-color: transparent;
     background-repeat: no-repeat;
@@ -140,10 +152,12 @@
     -webkit-user-select: none;
     -ms-user-select: none;
 }
+
 img {
     pointer-events: none;
 }
-.editAndFight{
+
+.editAndFight {
     top: 250px;
     position: absolute;
     left: 450px;
@@ -152,6 +166,7 @@ img {
     flex-direction: column;
     z-index: 1;
 }
+
 .stat-progress {
     height: 40px;
     position: relative;
