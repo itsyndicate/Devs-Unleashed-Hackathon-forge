@@ -1,0 +1,105 @@
+.HealthBar{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    width: 1200px;
+    justify-content: space-between;
+    margin-top: 16px;
+    z-index: 5;
+}
+.player{
+    display: flex;
+    justify-content: flex-end;
+}
+.enemy, .player{
+    position: relative;
+    height: 30px;
+}
+.playerBack{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 258px;
+    background-color: #7B23EB;
+    height: 36px;
+    border-radius: 5px;
+}
+.enemyBack{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 5px;
+}
+.enemyBack{
+    background-color: #FF7D1F;
+    width: 258px;
+    height: 36px;
+    border-radius: 5px;
+}
+/*.playerBack{*/
+/*    background-color: #7B23EB;*/
+/*    height: 36px;*/
+/*    border-radius: 5px;*/
+/*}*/
+.playerHealth{
+    width: 258px;
+    height: 36px;
+    border-radius: 5px;
+}
+.enemyHealth, .playerHealth{
+    background-color: whitesmoke;
+    height: 36px;
+    width: 258px;
+    border-radius: 5px;
+}
+.timer{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 96px;
+    line-height: 117px;
+    text-align: center;
+    color: #2151C5;
+}
+.playerName{
+    color: #7B23EB;
+    margin-top: 11px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    margin-left: 55px;
+    margin-bottom: 0;
+}
+.enemyName{
+    color: #FF7D1F;
+    margin-top: 11px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    margin-bottom: 0;
+ }
+.playerBack, .en{
+    text-align: right;
+}
+.en{
+    margin-right: 55px;
+}
+.enemy_container{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.enemy_icon{
+    margin-left: 18px;
+}
+.player_container{
+    display: flex;
+}
+.player_icon{
+    margin-right: 18px;
+}

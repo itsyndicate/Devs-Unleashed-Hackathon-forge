@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import '../css/FAQ.css';
+import './css/FAQ.css';
                     // https://blnc.atlassian.net/rest/api/3/issue/TT-1/
 
 

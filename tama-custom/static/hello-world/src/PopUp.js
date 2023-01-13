@@ -1,13 +1,16 @@
 import * as React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faQuestionCircle, faTimes} from "@fortawesome/free-solid-svg-icons";
-import '../css/FAQ.css';
-import {Image} from "react-bootstrap";
+import './css/FAQ.css';
 import * as PropTypes from "prop-types";
+import {Image} from "react-bootstrap";
 import button from "bootstrap/js/src/button";
-import '../css/generateTable.css';
-import mergeImages from 'merge-images';
-
+import './css/generateTable.css';
+import OpponentsList from "./opponentsList";
+import './Components/HandTracker/HandTracker.css'
+import HandTracker from "./Components/HandTracker/HandTracker";
+import Home from "./Components/Home/Home";
+let tamagoshiImage = 'project_example_1.png';
 import {Game} from "./Game";
 import FAQ from "./FAQ";
 import Tab from 'react-bootstrap/Tab';
@@ -16,7 +19,6 @@ import {useState} from "react";
 import {Character} from "./character";
 import {requestJira} from "@forge/bridge";
 
-let tamagoshiImage = 'project_example_1.png';
 
 // const activeStyle = {
 //     background: 'hotpink',
@@ -85,6 +87,8 @@ export const CharTable = () => {
 
 
     const saveCharacter = async () => {
+        let health = 0
+        let req = "PUT"
         const getUsers = async () => {
             const response = (await requestJira('/rest/api/3/users/search?'));
             const data = await response.json();
@@ -109,7 +113,7 @@ export const CharTable = () => {
                 "hatImg": hatImg,
                 "weaponImg": weaponImg
             },
-            "health": 100,
+            "health": health,
             "strength": 100,
             "account_id": userID,
             "project_id": projectID
@@ -129,7 +133,7 @@ export const CharTable = () => {
 
         console.log(tamagotchiData);
         await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
-            method: "POST",
+            method: req,
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
@@ -301,6 +305,40 @@ export const PopUpEdit = ({toggleEdit}) => {
                     height: "50px"
                 }}>
                     Cancel
+                </button>
+
+            </div>
+
+        </div>
+    );
+}
+
+export const PopUpFight = (props) => {
+
+    return (
+        <div className="fightMenu">
+            <OpponentsList users={props.users}
+                           jiraUserId={props.jiraUserId}
+                           jiraProjectID={props.jiraProjectID}
+                           toggleFightGame={props.toggleFightGame}/>
+
+            <div className="fight-menu-content">
+                <button onClick={props.toggleFight} className="crossBtn">
+                    <img src='cross.png' alt=""/>
+                </button>
+
+            </div>
+        </div>
+    );
+}
+export const PopUpFeed = (props) => {
+    return (
+        <div className='hand-tack'>
+            <HandTracker tasks={props.tasks} />
+
+            <div className="feed-menu-content">
+                <button onClick={props.toggleFeed} className="crossBtn">
+                    <img src='cross.png' alt=""/>
                 </button>
 
             </div>

@@ -2,14 +2,14 @@ import React, {useEffect, useRef, useState} from 'react';
 import {requestJira} from '@forge/bridge';
 import {Image, ProgressBar} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../css/Game.css';
+import './css/Game.css';
 import {Character} from "./character";
-
+import {PopUpEdit, PopUpFeed, PopUpFight} from "./PopUp";
 //icons
 import {MdOutlineHealthAndSafety} from 'react-icons/md';
 import {BiTime} from 'react-icons/bi';
 import CharRating from './Rating';
-import {PopUpEdit} from "./PopUp";
+import WaitingRoom from "./Components/GameFolder/WaitingRoom";
 
 const AsyncReq = async () => {
     const response = await requestJira('/rest/api/3/groups/picker');
@@ -30,9 +30,9 @@ export const Game = () => {
     const [containerWidth, setContainerWidth] = useState(100);
     const [charRating, setCharRating] = useState(1);
     const [isEditVisible, setIsEditVisible] = useState(false);
-
+    const [users, setUsers] = useState([]);
+    const [tasks, setTasks] = useState(0)
     const [strength, setStrength] = useState(0);
-    const [tasks, setTaskCount] = useState(0);
     const [health, setHealth] = useState(0);
     const [costume, setCostume] = useState("");
     const [hat, setHat] = useState("");
@@ -51,8 +51,38 @@ export const Game = () => {
     const getUsers = async () => {
         const response = (await requestJira('/rest/api/3/users/search?'));
         const data = await response.json();
+        setUsers(data[0].accountId)
         return (data[0].accountId);
     }
+    const getTasks = async () => {
+        const response = await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status')
+            .then(res => res.json())
+            .then(res => setTasks(res['total']))
+    }
+
+    const [jiraUserID, setJiraUserID] = useState('')
+    const [jiraUserName, setJiraUserName] = useState('')
+    const [jiraProjectID, setJiraProjectID] = useState('')
+    const [jiraProjectName, setJiraProjectName] = useState('')
+    const getJiraInfo = async () => {
+        await requestJira('/rest/api/3/users/search?')
+            .then(res => res.json())
+            .then(res => setJiraUserID(res[0].accountId))
+
+        await requestJira('/rest/api/3/users/search?')
+            .then(res => res.json())
+            .then(res => setJiraUserName(res[0].displayName))
+
+        await requestJira('/rest/api/2/project')
+            .then(res => res.json())
+            .then(res => setJiraProjectName(res[0].name))
+
+        await requestJira('/rest/api/2/project')
+            .then(res => res.json())
+            .then(res => setJiraProjectID(res[0].id))
+    }
+    getJiraInfo()
+
     const getProject = async () => {
         const response = (await requestJira('/rest/api/3/project'));
         const data = await response.json();
@@ -74,6 +104,7 @@ export const Game = () => {
         console.log(result["health"])
         return result["health"];
     }
+
     async function getStrength(userID, projectID) {
         // const userID = await getUsers();
         const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
@@ -124,9 +155,23 @@ export const Game = () => {
 
     checkHealth();
     getTama();
-
+    const [isFightVisible, setIsFightVisible] = useState(false);
+    const [isFeedVisible, setIsFeedVisible] = useState(false);
+    const [isFightGameVisible, setIsFightGameVisible] = useState(false);
     const toggleEdit = () => {
         setIsEditVisible(!isEditVisible);
+    }
+
+    const toggleFight = () => {
+        setIsFightVisible(!isFightVisible)
+        getUsers();
+    }
+    const toggleFightGame = () => {
+        setIsFightGameVisible(!isFightGameVisible)
+    }
+    const toggleFeed = () => {
+        setIsFeedVisible(!isFeedVisible)
+        getTasks();
     }
 
     function startMove() {
@@ -158,36 +203,37 @@ export const Game = () => {
                 {/*COMMENT FOR MOVING CHARACTER*/}
                 {/*<div className={'square-content ' + direction} id="character">*/}
                 <div className='square-content' id="character">
+                    <div className="editAndFight">
+                        {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
+                        {/*</StyledEngineProvider>*/}
+                        <button className="editButton" style={{left: "-50%"}} onClick={toggleEdit}><img src="edit.svg"
+                                                                                                        className="edit-img"/>
+
+                        </button>
+                        {isFightVisible && <PopUpFight
+                            users={users}
+                            jiraUserId={jiraUserID}
+                            jiraProjectID={jiraProjectID}
+                            toggleFight={toggleFight}
+                            toggleFightGame={toggleFightGame}
+                        />}
+                        <button className="fight" onClick={toggleFight}>
+                            <img draggable="false" src="fight.png" className="fight-img"/>
+                        </button>
+                    </div>
                     {/*<StyledEngineProvider injectFirst>*/}
-
-                    {isEditVisible && < PopUpEdit toggleEdit={toggleEdit}/>}
-                    {/*</StyledEngineProvider>*/}
-                    <button className="editButton" id="EditButton" style={{
-                        position: "absolute",
-                        left: "419px",
-                        top: "-834px"
-                    }} onClick={toggleEdit}><img
-                        src="edit.svg"
-                        className="edit-img" style={{width: "100px"}}/>
-                    </button>
                     {/* Show the GIF if showGif is true and show the tamagoshi if showGif is false */}
-                    {showGif ? <img draggable="false" className='gif' src={gif} alt="Gif"/> :
-                        <Character costumeImg1={costume}
-                                   hatImg1={hat}
-                                   weaponImg1={weapon}/>}
-                    <button className="feed" style={{
-                        position: "absolute",
-                        left: "1100px",
-                        top: "-59px"
-                    }}
-                            onClick={() => {
-                                setStrength(Math.min(strength + 10, 100));
-                                setGif('giphy0.webp');
-                                displayGif();
-                            }}><img draggable="false" src="cat-food.svg" style={{width: "200px"}} className="feed-img"/>
-                    </button>
+                    {/*{showGif ? <img draggable="false" className='gif' src={gif} alt="Gif"/> :*/}
+                    <Character costumeImg1={costume}
+                               hatImg1={hat}
+                               weaponImg1={weapon}/>}
                 </div>
+                {isFightGameVisible && <WaitingRoom/>}
 
+                {isFeedVisible && <PopUpFeed tasks={tasks} toggleFeed={toggleFeed}/>}
+                <button className="feed" onClick={toggleFeed}>
+                    <img draggable="false" src="cat-food.svg" className="feed-img"/>
+                </button>
             </div>
 
 

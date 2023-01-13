@@ -1,0 +1,61 @@
+.tama_container{
+    /*position: absolute;*/
+    width: 322px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*z-index: 110;*/
+    top: -160px;
+    left: 70px;
+    right: 0;
+    bottom: 0;
+}
+.tama_tasks{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    color: #2151C5;
+    margin-bottom: 18px;
+}
+.health_bar{
+    width: 244px;
+    height: 38px;
+    background: #D61D3C;
+    border: 2px solid #D61D3C;
+    border-radius: 5px
+}
+.health_back{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: red;
+}
+.stamina_bar{
+    width: 244px;
+    height: 38px;
+    box-sizing: border-box;
+    background: #B2C000;
+    border: 2px solid #B2C000;
+    border-radius: 5px
+}
+.stamina_back{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: red;
+}
+.health_stat, .stamina_stat, .star_stat{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 18px;
+    justify-content: center;
+    align-items: center;
+}
+.health_icon, .stamina_icon{
+    margin-right: 17px;
+}

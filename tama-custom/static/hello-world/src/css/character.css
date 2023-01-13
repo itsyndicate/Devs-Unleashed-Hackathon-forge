@@ -24,14 +24,14 @@
 
 .character-face {
     width: 1160px;
-    z-index: 2;
+    z-index: 0;
     pointer-events: none;
 
 }
 
 .character-body {
     width: 1160px;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
     top: 0;
 
@@ -45,11 +45,12 @@
     left: 0;
     top: 0;
     pointer-events: none;
+    z-index: -1;
 
 }
 
 .character-hats {
-    z-index: 3;
+    z-index: 0;
     pointer-events: none;
 
 }
@@ -62,7 +63,7 @@
     pointer-events: none;
     left: 0;
     top: 0;
-    z-index: 1;
+    z-index: -1;
 }
 
 .character-weapon > img {
@@ -75,14 +76,14 @@
     position: absolute;
     width: 1160px;
     pointer-events: none;
-
+    z-index: -1;
 }
 
 .character-arm-right {
     position: absolute;
     width: 1160px;
     pointer-events: none;
-    z-index: 3;
+    z-index: 0;
 
 }
 
@@ -90,20 +91,22 @@
     position: absolute;
     width: 1160px;
     pointer-events: none;
+    z-index: -1;
 
 }
 
 .character-sleeve-right {
     position: absolute;
     width: 1160px;
-    z-index: 4;
     pointer-events: none;
+    z-index: 0;
 
 }
 
 .character-leg-left {
     position: absolute;
     top: 0;
+    z-index: -1;
     width: 1160px;
     pointer-events: none;
 
@@ -112,7 +115,7 @@
 .character-leg-right {
     position: absolute;
     top: 0;
-
+    z-index: -1;
     width: 1160px;
     pointer-events: none;
 
@@ -121,7 +124,7 @@
 .character-shadow {
     position: absolute;
     width: 1160px;
-    z-index: -1;
+    z-index: -2;
     pointer-events: none;
 
 }
@@ -129,7 +132,7 @@
 .character-tail {
     position: absolute;
     width: 1160px;
-    z-index: -1;
+    z-index: -2;
     pointer-events: none;
 
 }

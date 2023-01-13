@@ -1,4 +1,4 @@
-import '../css/character.css';
+import './css/character.css';
 
 export const Character = ({costumeImg1, weaponImg1, hatImg1}) => {
     return (

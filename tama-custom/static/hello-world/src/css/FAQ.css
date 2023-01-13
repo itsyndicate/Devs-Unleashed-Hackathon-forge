@@ -20,9 +20,14 @@
     width: 90%;
     height: 80%;
     overflow: hidden;
-    z-index: 5;
+    z-index: 10;
 }
-
+.fightMenu {
+    z-index: 2;
+    position: absolute;
+    top: -170px;
+    left: -50px;
+}
 #Editor {
     display: none;
 }
@@ -165,7 +170,12 @@ img {
     max-height: 350px;
     position: relative;
 }
-
+.feed-menu-content{
+    position: absolute;
+    top: -250px;
+    left: 440px;
+    z-index: 5;
+}
 .editNavigation {
     display: flex;
     position: relative;
@@ -194,3 +204,94 @@ img {
     border-radius: 0;
 
 }
+
+.crossBtn{
+    border: 0;
+    position: absolute;
+    top: 355px;
+    left: 850px;
+    background: white;
+}
+
+
+/* MATCHING */
+
+.opponentsList{
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 2px solid #2151C5;
+    border-radius: 5px;
+}
+
+.opponents_container{
+    display: flex;
+    flex-direction: column;
+    width: 516px;
+    height: 362px;
+    align-items: center;
+    justify-items: center;
+    margin-top: 30px;
+    overflow-y: scroll;
+}
+.opponents_container::-webkit-scrollbar{
+    width: 20px;
+}
+.opponents_container::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+.opponents_container::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+.opponent_container{
+    width: 390px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.opponent{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.opponent_name p{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    color: #2151C5;
+    margin: 0;
+}
+.opponent_btn{
+    background: #FFFFFF;
+    border: 2px solid #2151C5;
+    border-radius: 5px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    width: 206px;
+    height: 52px;
+    /* Main color */
+
+    color: #2151C5;
+}
+/* MATCHING */
+
+
+
+
+
+
+
+
+
+
+
+
+
+

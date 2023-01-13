@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import FAQ from './Components/FAQ';
+import FAQ from './FAQ';
 import React, {useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
-import {PopUp, PopUpEdit} from "./Components/PopUp";
-import {Game} from './Components/Game';
+import {PopUp, PopUpEdit} from "./PopUp";
+import {Game} from './Game';
 import {Image} from "react-bootstrap";
 import {requestJira} from "@forge/bridge";
 

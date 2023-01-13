@@ -1,0 +1,29 @@
+*{
+    font-family: "montseratt", sans-serif;
+}
+.home-container{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 560px;
+}
+.button{
+    border: 1px solid rgb(98, 0, 209);
+    padding:1em;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: rgb(98, 0, 209);
+    color: #fff;
+    font-weight: 500;
+    margin:2em;
+}
+
+
+.button:hover{
+    background-color: #fff;
+    border: 1px solid rgb(98, 0, 209);
+    color:rgb(98, 0, 209);
+}
+

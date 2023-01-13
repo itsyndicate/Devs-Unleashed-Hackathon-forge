@@ -74,9 +74,8 @@
 .square-content {
     width: 100%;
     margin: 0 auto;
-}
-img {
-    pointer-events: none
+    display: flex;
+    flex-direction: row;
 }
 .stat-progress {
     height: 40px;
@@ -93,6 +92,29 @@ img {
 
 }
 
+.fight {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    border: 0;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: -50px;
+    z-index: 1
+}
+
+.fight-img {
+    max-height: fit-content;
+    z-index: 1;
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 
 .feed {
     background-color: transparent;
@@ -103,7 +125,9 @@ img {
     color: #fff;
     position: absolute;
     bottom: -20px;
-    z-index: 1
+    z-index: 1;
+    top: 500px;
+    left: 1000px;
 }
 
 .feed-img {
@@ -116,15 +140,19 @@ img {
     -webkit-user-select: none;
     -ms-user-select: none;
 }
-
-.editButton {
-    background-color: transparent;
-    background-repeat: no-repeat;
-    border: none;
-    cursor: pointer;
-    border: 0;
-    color: #fff;
+img {
+    pointer-events: none;
+}
+.editAndFight{
+    top: 250px;
+    position: absolute;
+    left: 450px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+.stat-progress {
+    height: 40px;
     position: relative;
-    bottom: -20px;
-    z-index: 1
 }
