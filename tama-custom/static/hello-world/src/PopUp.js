@@ -43,8 +43,7 @@ export const PopUp = ({toggleLogin}) => {
 
 export const CharTable = () => {
     const [count, setCount] = React.useState("1");
-    const [health, setHealth] = useState(0);
-    const [isLoginRequest, setIsLoginRequest] = useState("POST");
+
     const bodies = [
         {src: './body/body-01.svg'}
     ]
@@ -87,7 +86,8 @@ export const CharTable = () => {
     const [notificationImage, setNotificationImage] = React.useState("mdi_notifications.svg");
     const [musicImage, setMusicImage] = React.useState("ph_music-notes-fill.svg");
     const [soundImage, setSoundImage] = React.useState("sound.svg");
-
+    let [health, setHealth] = useState(100);
+    let [isLoginRequest, setIsLoginRequest] = useState("POST");
 
     const saveCharacter = async () => {
         const getUsers = async () => {
@@ -132,15 +132,15 @@ export const CharTable = () => {
                 }
             });
 
-            const result = response.status;
-            if (result === 404) {
+            if (!response.ok) {
+                console.log("ERRORED!!")
                 setHealth(100);
 
                 console.log("NEW LOGIN HEALTH!!");
                 console.log(health);
                 setIsLoginRequest("POST");
                 await fetch(`https://backend.guard-lite.com/api/v1/register-player`, {
-                    method: isLoginRequest,
+                    method: "POST",
                     mode: 'cors',
                     headers: {
                         'Content-Type': 'application/json',
@@ -148,12 +148,49 @@ export const CharTable = () => {
                     body: JSON.stringify(userData),
                 }).then((response) => response.json()).then((data) => {
                     console.log('Success:', data);
-                }).catch((error) => {
-                    console.error('Error:', error);
+                });
+                await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
+                    method: "POST",
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(tamagotchiData),
+                }).then((response) => response.json()).then((data) => {
+                    console.log('Success:', data);
                 });
             } else {
-                setIsLoginRequest("PUT");
-                setHealth(response["health"]);
+                const userID = await getUsers();
+                const projectID = await getProject();
+                const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
+                    method: "GET",
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                const tamagotchiDataPUT = {
+                    "image": {
+                        "costumeImg": costumeImg,
+                        "hatImg": hatImg,
+                        "weaponImg": weaponImg
+                    },
+                    "health": response["health"],
+                    "strength": 100,
+                    "account_id": userID,
+                    "project_id": projectID
+                }
+                console.log("put request")
+                await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
+                    method: "PUT",
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(tamagotchiDataPUT),
+                }).then((response) => response.json()).then((data) => {
+                    console.log('Success:', data);
+                });
             }
         }
 
@@ -161,16 +198,6 @@ export const CharTable = () => {
 
 
         console.log(tamagotchiData);
-        await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
-            method: isLoginRequest,
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(tamagotchiData),
-        }).then((response) => response.json()).then((data) => {
-            console.log('Success:', data);
-        });
         // let close = document.getElementsByClassName("editMenu")
         // close.style.display = "none";
     };
