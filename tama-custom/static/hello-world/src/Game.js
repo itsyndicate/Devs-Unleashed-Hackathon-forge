@@ -31,6 +31,7 @@ export const Game = () => {
     const [charRating, setCharRating] = useState(1);
     const [isEditVisible, setIsEditVisible] = useState(false);
     const [users, setUsers] = useState([]);
+    const [opponents, setOpponents] = useState([]);
     const [tasks, setTasks] = useState(0)
     let [strength, setStrength] = useState(0);
     const [health, setHealth] = useState(0);
@@ -57,9 +58,9 @@ export const Game = () => {
     const getTasks = async () => {
         const response = await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status')
             .then(res => res.json())
-            .then(res => setTasks(res['total']))
+            .then(res => setTasks([...res.issues.map(iss => iss.fields.summary)]))
     }
-
+    getTasks()
     const [jiraUserID, setJiraUserID] = useState('')
     const [jiraUserName, setJiraUserName] = useState('')
     const [jiraProjectID, setJiraProjectID] = useState('')
@@ -68,7 +69,7 @@ export const Game = () => {
         await requestJira('/rest/api/3/users/search?')
             .then(res => res.json())
             .then(res => setJiraUserID(res[0].accountId))
-
+        console.log(jiraUserID)
         await requestJira('/rest/api/3/users/search?')
             .then(res => res.json())
             .then(res => setJiraUserName(res[0].displayName))
@@ -80,12 +81,14 @@ export const Game = () => {
         await requestJira('/rest/api/2/project')
             .then(res => res.json())
             .then(res => setJiraProjectID(res[0].id))
+        console.log(jiraProjectID)
     }
     getJiraInfo()
 
     const getProject = async () => {
         const response = (await requestJira('/rest/api/3/project'));
         const data = await response.json();
+        setJiraProjectID(data[0].id)
         return (data[0].id);
     }
 
@@ -155,6 +158,19 @@ export const Game = () => {
 
     checkHealth();
     getTama();
+
+    const getAvailableOpponents = async () => {
+        // const response = await requestJira('/rest/api/3/users/search?').then(res => res.json()).then(res => setUsers(res))
+        const response = await fetch(`https://backend.guard-lite.com/api/v1/available-opponents?account_id=${jiraUserID}&project_id=${jiraProjectID}`, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+            }).then(res => res.json()).then(res => setOpponents(res));
+        // }).then(res => res.json()).then(res => console.log(res));
+    }
+
     const [isFightVisible, setIsFightVisible] = useState(false);
     const [isFeedVisible, setIsFeedVisible] = useState(false);
     const [isFightGameVisible, setIsFightGameVisible] = useState(false);
@@ -164,14 +180,13 @@ export const Game = () => {
 
     const toggleFight = () => {
         setIsFightVisible(!isFightVisible)
-        getUsers();
+        getAvailableOpponents();
     }
     const toggleFightGame = () => {
         setIsFightGameVisible(!isFightGameVisible)
     }
     const toggleFeed = () => {
         setIsFeedVisible(!isFeedVisible)
-        getTasks();
     }
 
     function startMove() {
@@ -189,15 +204,12 @@ export const Game = () => {
     return (
         <div className="egg">
             <h1 className="character-name">TaskoGotchi</h1>
-            <h2 className="character-age"><BiTime/> Tasks Eaten: {tasks}</h2>
-
             <div className="stats">
                 <Image className="stat-icons" src={"strength.svg"}/>
                 <ProgressBar now={strength} className="stat-progress" variant="danger" label={`${strength}%`}/>
                 <Image className="stat-icons" style={{marginTop: "10px"}} src={"game-icons_health-potion.svg"}/>
                 <ProgressBar now={health} style={{marginTop: "10px"}} className="stat-progress" variant="success"
                              label={`${health}%`}/>
-                <CharRating rate={charRating} starClicked={charRating}/>
             </div>
             <div className="square" style={{width: containerWidth + '%'}}>
                 {/*COMMENT FOR MOVING CHARACTER*/}
@@ -211,7 +223,7 @@ export const Game = () => {
 
                         </button>
                         {isFightVisible && <PopUpFight
-                            users={users}
+                            opponents={opponents}
                             jiraUserId={jiraUserID}
                             jiraProjectID={jiraProjectID}
                             toggleFight={toggleFight}
@@ -226,11 +238,20 @@ export const Game = () => {
                     {/*{showGif ? <img draggable="false" className='gif' src={gif} alt="Gif"/> :*/}
                     <Character costumeImg1={costume}
                                hatImg1={hat}
-                               weaponImg1={weapon}/>}
+                               weaponImg1={weapon}/>
                 </div>
                 {isFightGameVisible && <WaitingRoom/>}
 
-                {isFeedVisible && <PopUpFeed tasks={tasks} toggleFeed={toggleFeed}/>}
+                {isFeedVisible && <PopUpFeed tasks={tasks}
+                                             toggleFeed={toggleFeed}
+                                             strength={strength}
+                                             health={health}
+                                             jiraUserID={jiraUserID}
+                                             jiraProjectID={jiraProjectID}
+                                             costumeImg1={costume}
+                                             hatImg1={hat}
+                                             weaponImg1={weapon}
+                />}
                 <button className="feed" onClick={toggleFeed}>
                     <img draggable="false" src="cat-food.svg" className="feed-img"/>
                 </button>

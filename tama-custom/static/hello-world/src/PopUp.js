@@ -346,13 +346,13 @@ export const PopUpFight = (props) => {
 
     return (
         <div className="fightMenu">
-            <OpponentsList users={props.users}
+            <OpponentsList opponents={props.opponents}
                            jiraUserId={props.jiraUserId}
                            jiraProjectID={props.jiraProjectID}
                            toggleFightGame={props.toggleFightGame}/>
 
             <div className="fight-menu-content">
-                <button onClick={props.toggleFight} className="crossBtn">
+                <button onClick={props.toggleFight} className="crossBtnFight">
                     <img src='cross.png' alt=""/>
                 </button>
 
@@ -363,7 +363,15 @@ export const PopUpFight = (props) => {
 export const PopUpFeed = (props) => {
     return (
         <div className='hand-tack'>
-            <HandTracker tasks={props.tasks}/>
+            <HandTracker tasks={props.tasks}
+                         strength={props.strength}
+                         health={props.health}
+                         account_id={props.jiraUserID}
+                         project_id={props.jiraProjectID}
+                         costumeImg1={props.costumeImg1}
+                         hatImg1={props.hatImg1}
+                         weaponImg1={props.weaponImg1}
+            />
 
             <div className="feed-menu-content">
                 <button onClick={props.toggleFeed} className="crossBtn">

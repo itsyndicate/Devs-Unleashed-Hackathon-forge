@@ -1,15 +1,24 @@
 .tama_container{
     /*position: absolute;*/
-    width: 322px;
+    /*width: 322px;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     /*z-index: 110;*/
-    top: -160px;
-    left: 70px;
+    top: 860px;
+    left: -420px;
     right: 0;
     bottom: 0;
+}
+.character_in_tama{
+    transform: rotateY(180deg);
+}
+.handWarning{
+    position: absolute;
+    z-index: 6;
+    top: -1500px;
+    width: 400px;
 }
 .tama_tasks{
     font-family: 'Montserrat';

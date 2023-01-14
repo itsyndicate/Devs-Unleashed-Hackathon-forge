@@ -1,0 +1,26 @@
+.startordeny{
+    width: 400px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    background: #f9f882;
+    z-index: 6;
+    position: absolute;
+    top: -120px;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+}
+.bnts{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 300px;
+}
+.bnts button{
+    color: #0a53be;
+    background: white;
+    padding: 4px;
+    width: 130px;
+}

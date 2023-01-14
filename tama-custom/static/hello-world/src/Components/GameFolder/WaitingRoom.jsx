@@ -7,8 +7,9 @@ let simpleStyle = {
     backgroundImage: `url(${backg})`,
     display: 'block'
 }
-let status = 'Waiting for opponent'
-const WaitingRoom = () => {
+let waitingForOpponent = 'Waiting for opponent'
+let opponentDeniedRequest = 'Opponent denied request'
+const WaitingRoom = (props) => {
     const [showGame, setShowGame] = useState(false)
     function toggleFight(){
         setShowGame(true)
@@ -17,11 +18,23 @@ const WaitingRoom = () => {
         document.getElementsByClassName('waiting_room')[0].style.display = 'none'
         toggleFight()
     }
-    setTimeout(resultTie,  10000)
+    const getFight = async (account_id) => {
+        const getUserFight = await fetch(`https://backend.guard-lite.com/api/v1/fight?account_id=${account_id}`,{
+            method: "GET",
+            mode: 'cors',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+        })
+    }
+    setInterval(() => {
+        getFight(props.account_id)
+    }, 1000)
+    setTimeout(resultTie,  60000)
     return (
         <>
             <div className='waiting_room' style={simpleStyle}>
-                <CountDown gametime={10} status={status} fight={''}>/</CountDown>
+                <CountDown gametime={60} status={waitingForOpponent} fight={''}>/</CountDown>
             </div>
             {showGame ? <FightingGame/> : ''}
         </>

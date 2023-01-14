@@ -21,7 +21,7 @@ h1{
   margin: 0;
 }
 video{
-  transform: rotateY(180deg);
+  /*transform: rotateY(180deg);*/
   display: block;
   margin: auto;
 }
@@ -30,8 +30,8 @@ video{
 }
 .canvas {
     position: absolute;
-    right: -374px;
-    top: -1100px;
+    right: -380px;
+    top: -1450px;
     z-index: 5;
 }
 .canvas_container{

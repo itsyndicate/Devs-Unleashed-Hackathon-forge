@@ -10,22 +10,7 @@ const OpponentItem = (props) => {
             opponent_id: props.opponent_id
         }
     }
-    useEffect(() =>{
-        createFight()
-        socket.onopen = () => {
-            console.log('connection established')
-        }
-    },[])
-    const getFight = async () => {
-        await fetch('https://backend.guard-lite.com/api/v1/fight/'),{
-            method: "GET",
-            mode: 'cors',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-        }
-    }
-    const createFight = async () => {
+    const createFight = async (newFight) => {
         await fetch('https://backend.guard-lite.com/api/v1/fight/', {
             method: "POST",
             mode: 'cors',
@@ -36,18 +21,19 @@ const OpponentItem = (props) => {
         });
     }
 
-    const socket = new WebSocket(`wss://backend.guard-lite.com/ws/fight/${props.account_id}`)
-    // socket.onopen = () => {
-    //     console.log('connection established')
-    // }
+
+    function createAndDraw(){
+        props.toggleFightGame()
+        createFight(newFight)
+    }
     return (
         <div className="opponent">
             <div className="opponent_container">
                 <div className="opponent_name">
-                    <p>{props.user}</p>
+                    <p>{props.user.profile.player.name}</p>
                 </div>
 
-                <button className='opponent_btn' onClick={props.toggleFightGame}>Invite</button>
+                <button className='opponent_btn' onClick={createAndDraw}>Invite</button>
             </div>
         </div>
     );

@@ -14,7 +14,7 @@
 
 .character-costume {
     width: 1160px;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
 }
 
@@ -76,7 +76,7 @@
     position: absolute;
     width: 1160px;
     pointer-events: none;
-    z-index: -1;
+    z-index: -2;
 }
 
 .character-arm-right {
@@ -91,7 +91,7 @@
     position: absolute;
     width: 1160px;
     pointer-events: none;
-    z-index: -1;
+    z-index: -2;
 
 }
 
