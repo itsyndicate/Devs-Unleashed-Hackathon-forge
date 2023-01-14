@@ -4,8 +4,8 @@
     /*display: block;*/
     position: absolute;
     z-index: 6;
-    top: -284px;
-    right: -586px;
+    top: 65px;
+    right: 280px;
     background: rgba(0,0,0,0.4);
     background-image: url("../../images/backgr.png");
 }
