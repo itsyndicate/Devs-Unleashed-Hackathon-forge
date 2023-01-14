@@ -1,29 +1,27 @@
 import './css/character.css';
-import mrr from './assets/Mrrr.wav'
+import mainMenu from './assets/mainMenu.mp3'
 import {wait} from "@testing-library/user-event/dist/utils";
 
 let initNum = 0;
 
 export const Character = ({costumeImg1, weaponImg1, hatImg1}) => {
-    const runMrr = () => {
-        if (document.getElementById('mrr')) {
-            if (initNum === 0) {
-                const audio = new Audio(mrr);
-                const pet = document.getElementById('mrr');
-                pet.addEventListener('mouseover', () => {
-                    audio.play();
-                }, false);
-                initNum++;
-            }
-
-        } else {
-            wait(1).then(() => {
-                runMrr();
-            });
-
-        }
-    }
-    runMrr();
+    // const runMrr = () => {
+    //     if (document.getElementById('container')) {
+    //         if (initNum === 0) {
+    //             const audio = new Audio(mainMenu);
+    //             audio.play();
+    //             initNum++;
+    //         }
+    //
+    //     } else {
+    //         wait(1).then(() => {
+    //             runMrr();
+    //             initNum--;
+    //         });
+    //
+    //     }
+    // }
+    // runMrr();
     return (
         <div className="container">
 
@@ -92,13 +90,13 @@ export const Character = ({costumeImg1, weaponImg1, hatImg1}) => {
             <div className="character-costume">
                 <img src={costumeImg1}/>
             </div>
-            <div id="mrr" style={{
-                position: "fixed",
-                width: "200px",
-                height: "100px",
-                background: "blueviolet",
-                border: "1px solid black"
-            }}></div>
+            {/*<div id="mrr" style={{*/}
+            {/*    position: "fixed",*/}
+            {/*    width: "200px",*/}
+            {/*    height: "100px",*/}
+            {/*    background: "blueviolet",*/}
+            {/*    border: "1px solid black"*/}
+            {/*}}></div>*/}
         </div>
     );
 }
