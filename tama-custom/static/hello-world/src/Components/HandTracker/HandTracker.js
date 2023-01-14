@@ -2,7 +2,8 @@ import React from "react"
 import './HandTracker.css';
 import Webcam from 'react-webcam';
 import {useRef, useEffect} from 'react';
-
+import putTaskBack from '../../assets/putTaskBack.wav'
+import TookATask from '../../assets/taskTaken.wav'
 // do not remove this unused import, there will be an error
 import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
@@ -28,6 +29,8 @@ function HandTracker() {
 
   let isTaskTaken = false;
   let difference_between_centers = {x: 0, y: 0}
+  let isTaskInHand = 0;
+  let isNoTaskInHand = 0;
 
   const runHandpose = async () => {
     const net = await handpose.load();
@@ -116,6 +119,12 @@ function HandTracker() {
         canvasCtx.drawImage(tamagotchi, 70, 260)
         canvasCtx.drawImage(handGrab,handCenter.x, handCenter.y);
         if (isTaskTaken) {
+            if (isTaskInHand === 0){
+                const audio = new Audio(TookATask);
+                audio.play();
+                isTaskInHand++;
+            }
+            isNoTaskInHand = 0;
           taskCoordinates = {
             x: handCenter.x - difference_between_centers.x,
             y: handCenter.y - difference_between_centers.y
@@ -132,8 +141,14 @@ function HandTracker() {
           }
         }
       } else {
+        if (isNoTaskInHand === 0){
+           const audio = new Audio(putTaskBack);
+           audio.play();
+           isNoTaskInHand++;
+        }
         canvasCtx.drawImage(handDef, xs - handWidth / 2, ys - handHeight / 2);
         isTaskTaken = false;
+        isTaskInHand = 0;
       }
     }
 

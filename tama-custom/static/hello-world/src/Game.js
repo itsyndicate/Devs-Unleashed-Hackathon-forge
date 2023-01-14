@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './css/Game.css';
 import {Character} from "./character";
 import {PopUpEdit, PopUpFeed, PopUpFight} from "./PopUp";
+import e from './assets/e.wav';
+import buttonSound from './assets/buttons.wav'
 //icons
 import {MdOutlineHealthAndSafety} from 'react-icons/md';
 import {BiTime} from 'react-icons/bi';
@@ -41,12 +43,9 @@ export const Game = () => {
     const [showGif, setShowGif] = useState(false);
     const [gif, setGif] = useState(null);
 
-    const displayGif = () => {
-        setShowGif(true);
-        setTimeout(() => {
-                setShowGif(false);
-            }, 3000
-        );
+    const playE = () => {
+        const audio = new Audio(e)
+        audio.play();
     };
     const getUsers = async () => {
         const response = (await requestJira('/rest/api/3/users/search?'));
@@ -159,10 +158,14 @@ export const Game = () => {
     const [isFeedVisible, setIsFeedVisible] = useState(false);
     const [isFightGameVisible, setIsFightGameVisible] = useState(false);
     const toggleEdit = () => {
+        const audio = new Audio(buttonSound)
+        audio.play();
         setIsEditVisible(!isEditVisible);
     }
 
     const toggleFight = () => {
+        const audio = new Audio(buttonSound)
+        audio.play();
         setIsFightVisible(!isFightVisible)
         getUsers();
     }
@@ -170,6 +173,8 @@ export const Game = () => {
         setIsFightGameVisible(!isFightGameVisible)
     }
     const toggleFeed = () => {
+        const audio = new Audio(buttonSound)
+        audio.play();
         setIsFeedVisible(!isFeedVisible)
         getTasks();
     }
@@ -197,7 +202,6 @@ export const Game = () => {
                 <Image className="stat-icons" style={{marginTop: "10px"}} src={"game-icons_health-potion.svg"}/>
                 <ProgressBar now={health} style={{marginTop: "10px"}} className="stat-progress" variant="success"
                              label={`${health}%`}/>
-                <CharRating rate={charRating} starClicked={charRating}/>
             </div>
             <div className="square" style={{width: containerWidth + '%'}}>
                 {/*COMMENT FOR MOVING CHARACTER*/}
@@ -226,7 +230,7 @@ export const Game = () => {
                     {/*{showGif ? <img draggable="false" className='gif' src={gif} alt="Gif"/> :*/}
                     <Character costumeImg1={costume}
                                hatImg1={hat}
-                               weaponImg1={weapon}/>}
+                               weaponImg1={weapon}/>
                 </div>
                 {isFightGameVisible && <WaitingRoom/>}
 

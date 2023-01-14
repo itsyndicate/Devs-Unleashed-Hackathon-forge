@@ -1,6 +1,29 @@
 import './css/character.css';
+import mrr from './assets/Mrrr.wav'
+import {wait} from "@testing-library/user-event/dist/utils";
+
+let initNum = 0;
 
 export const Character = ({costumeImg1, weaponImg1, hatImg1}) => {
+    const runMrr = () => {
+        if (document.getElementById('mrr')) {
+            if (initNum === 0) {
+                const audio = new Audio(mrr);
+                const pet = document.getElementById('mrr');
+                pet.addEventListener('mouseover', () => {
+                    audio.play();
+                }, false);
+                initNum++;
+            }
+
+        } else {
+            wait(1).then(() => {
+                runMrr();
+            });
+
+        }
+    }
+    runMrr();
     return (
         <div className="container">
 
@@ -31,7 +54,7 @@ export const Character = ({costumeImg1, weaponImg1, hatImg1}) => {
 
             </div>
             <div className="character-sleeve-right">
-                <img  src="./arm_right/sleeve_right_cost1-01-01.svg" />
+                <img src="./arm_right/sleeve_right_cost1-01-01.svg"/>
 
             </div>
 
@@ -69,6 +92,13 @@ export const Character = ({costumeImg1, weaponImg1, hatImg1}) => {
             <div className="character-costume">
                 <img src={costumeImg1}/>
             </div>
+            <div id="mrr" style={{
+                position: "fixed",
+                width: "200px",
+                height: "100px",
+                background: "blueviolet",
+                border: "1px solid black"
+            }}></div>
         </div>
     );
 }

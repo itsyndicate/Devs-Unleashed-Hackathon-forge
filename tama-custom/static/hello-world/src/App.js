@@ -8,12 +8,14 @@ import {Game} from './Game';
 import {Image} from "react-bootstrap";
 import {requestJira} from "@forge/bridge";
 import Alert from 'react-bootstrap/Alert';
+import wakeUp from "./assets/wakeup.wav"
 
 
 const TamagoshiGame = () => {
     let [isNewUser, setIsNewUser] = useState(false);
     const [isFAQVisible, setIsFAQVisible] = useState(false);
     let count = 0;
+    let firstLogin = 0;
 
     const getProject = async () => {
         const response = (await requestJira('/rest/api/3/project'));
@@ -27,6 +29,9 @@ const TamagoshiGame = () => {
     }
 
     const toggleLogin = async () => {
+        const audio = new Audio(wakeUp)
+        audio.play();
+        firstLogin++;
         console.log("start executing toggleLogin!!");
         console.log(isNewUser);
 
