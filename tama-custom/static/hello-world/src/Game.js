@@ -8,6 +8,8 @@ import {PopUpEdit, PopUpFeed, PopUpFight} from "./PopUp";
 import buttonSound from './assets/buttons.wav'
 //icons
 import WaitingRoom from "./Components/GameFolder/WaitingRoom";
+import AcceptOrDeny from "./Components/PrepateToFight/AcceptOrDeny";
+import {useEffectOnce} from "./effects";
 
 const AsyncReq = async () => {
     const response = await requestJira('/rest/api/3/groups/picker');
@@ -51,7 +53,7 @@ export const Game = () => {
             .then(res => res.json())
             .then(res => setTasks([...res.issues.map(iss => iss.fields.summary)]))
     }
-    getTasks()
+
     const [jiraUserID, setJiraUserID] = useState('')
     const [jiraUserName, setJiraUserName] = useState('')
     const [jiraProjectID, setJiraProjectID] = useState('')
@@ -60,7 +62,6 @@ export const Game = () => {
         await requestJira('/rest/api/3/users/search?')
             .then(res => res.json())
             .then(res => setJiraUserID(res[0].accountId))
-        console.log(jiraUserID)
         await requestJira('/rest/api/3/users/search?')
             .then(res => res.json())
             .then(res => setJiraUserName(res[0].displayName))
@@ -72,9 +73,8 @@ export const Game = () => {
         await requestJira('/rest/api/2/project')
             .then(res => res.json())
             .then(res => setJiraProjectID(res[0].id))
-        console.log(jiraProjectID)
     }
-    getJiraInfo()
+
 
     const getProject = async () => {
         const response = (await requestJira('/rest/api/3/project'));
@@ -95,7 +95,7 @@ export const Game = () => {
 
 
         const result = await response.json();
-        console.log(result["health"]);
+        // console.log(result["health"]);
         return result["health"];
     }
 
@@ -111,7 +111,7 @@ export const Game = () => {
 
 
         const result = await response.json();
-        console.log(strength);
+        // console.log(strength);
         return result["strength"];
     }
 
@@ -130,7 +130,7 @@ export const Game = () => {
 
 
         const result = await response.json();
-        console.log(result["image"]);
+        // console.log(result["image"]);
         setHat(result["image"].hatImg)
         setCostume(result["image"].costumeImg)
         setWeapon(result["image"].weaponImg)
@@ -141,17 +141,17 @@ export const Game = () => {
         const projectId = await getProject();
         setHealth(await getHealth(userID, projectId));
         setStrength(await getStrength(userID, projectId));
-        useInterval(async () => {
-            setHealth(await getHealth(userID));
-        }, 60000);
+        // setInterval(async () => {
+        //     setHealth(await getHealth(userID));
+        // }, 60000);
 
     }
+    useInterval(async () => {
+        await checkHealth()
+    }, 60000);
 
-    checkHealth();
-    getTama();
 
     const getAvailableOpponents = async () => {
-        // const response = await requestJira('/rest/api/3/users/search?').then(res => res.json()).then(res => setUsers(res))
         const response = await fetch(`https://backend.guard-lite.com/api/v1/available-opponents?account_id=${jiraUserID}&project_id=${jiraProjectID}`, {
             method: "GET",
             mode: 'cors',
@@ -165,6 +165,7 @@ export const Game = () => {
     const [isFightVisible, setIsFightVisible] = useState(false);
     const [isFeedVisible, setIsFeedVisible] = useState(false);
     const [isFightGameVisible, setIsFightGameVisible] = useState(false);
+    const [isPlayerInFight, setIsPlayerInFight] = useState(false);
     const toggleEdit = () => {
         const audio = new Audio(buttonSound)
         audio.play();
@@ -185,19 +186,26 @@ export const Game = () => {
         audio.play();
         setIsFeedVisible(!isFeedVisible)
     }
-
-    function startMove() {
-        timer = setInterval(() => {
-            setDirection(direction === 'right' ? 'left' : 'right');
-            setContainerWidth(Math.floor(Math.random() * 101));
-        }, 1200)
-
+    const getFight = async () => {
+        const response = await fetch(`https://backend.guard-lite.com/api/v1/fight?account_id=${jiraUserID}`, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        if (response.ok){
+            setIsPlayerInFight(!isPlayerInFight)
+        }
     }
 
-    function stopMove() {
-        clearTimeout(timer);
-    }
-
+    useEffectOnce(()=>{
+        getTasks()
+        getJiraInfo()
+        checkHealth();
+        getTama();
+        getFight()
+    })
     return (
         <div className="egg">
 
@@ -240,6 +248,7 @@ export const Game = () => {
                         <img draggable="false" src="cat-food.svg" className="feed-img"/>
                     </button>
                 </div>
+                {isPlayerInFight && <AcceptOrDeny account_id={jiraUserID} project_id={jiraProjectID}/>}
                 {isFightGameVisible && <WaitingRoom/>}
 
                  {isFeedVisible && <PopUpFeed tasks={tasks}

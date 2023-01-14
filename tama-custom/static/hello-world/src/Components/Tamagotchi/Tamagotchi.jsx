@@ -21,12 +21,12 @@ const Tamagotchi = (props) => {
         {/*<div className="tama">*/}
         {/*  <img src={tama} alt="" />*/}
         {/*</div>*/}
-          <div className="character_in_tama">
-              <Character
-                         costumeImg1={props.costumeImg1}
-                         hatImg1={props.hatImg1}
-                         weaponImg1={props.weaponImg1}/>
-          </div>
+        {/*  <div className="character_in_tama">*/}
+        {/*      <Character*/}
+        {/*                 costumeImg1={props.costumeImg1}*/}
+        {/*                 hatImg1={props.hatImg1}*/}
+        {/*                 weaponImg1={props.weaponImg1}/>*/}
+        {/*  </div>*/}
       </div>
   )
 }

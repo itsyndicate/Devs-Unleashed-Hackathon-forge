@@ -12,6 +12,25 @@ import handGrabb from '../../images/handGrab.png'
 import taskk from  '../../images/task.png'
 import Task from "./Task"
 
+
+// function useInterval(callback, delay) {
+//   const savedCallback = useRef();
+//
+//   useEffect(() => {
+//     savedCallback.current = callback;
+//   }, [callback]);
+//
+//   useEffect(() => {
+//     function tick() {
+//       savedCallback.current();
+//     }
+//
+//     if (delay !== null) {
+//       let id = setInterval(tick, delay);
+//       return () => clearInterval(id);
+//     }
+//   }, [delay]);
+// }
 function HandTracker(props) {
   const webCamRef = useRef(null);
   const canvasRef = useRef(null);
@@ -72,7 +91,9 @@ function HandTracker(props) {
     }
   }
 
-  useEffect(()=>{runHandpose()},[]);
+  useEffect(()=>{
+    runHandpose()
+  },[]);
 
   const onResults = (hand)=>{
     // const videoWidth = webCamRef.current.video.videoWidth;
@@ -205,7 +226,12 @@ function HandTracker(props) {
           </div>
           <div className='canvas'>
             <div className="canvas_container">
-              <Tamagotchi strength={props.strength} health={props.health} costumeImg1={props.costumeImg1} hatImg1={props.hatImg1} weaponImg1={props.weaponImg1}/>
+              <Tamagotchi strength={props.strength}
+                          health={props.health}
+                          // costumeImg1={props.costumeImg1}
+                          // hatImg1={props.hatImg1}
+                          // weaponImg1={props.weaponImg1}
+              />
               <Webcam
                   ref={webCamRef}
                   style={{

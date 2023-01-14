@@ -389,9 +389,9 @@ export const PopUpFeed = (props) => {
                          health={props.health}
                          account_id={props.jiraUserID}
                          project_id={props.jiraProjectID}
-                         costumeImg1={props.costumeImg1}
-                         hatImg1={props.hatImg1}
-                         weaponImg1={props.weaponImg1}
+                         // costumeImg1={props.costumeImg1}
+                         // hatImg1={props.hatImg1}
+                         // weaponImg1={props.weaponImg1}
             />
 
             <div className="feed-menu-content">
