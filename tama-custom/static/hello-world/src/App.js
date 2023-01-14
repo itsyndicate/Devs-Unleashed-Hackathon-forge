@@ -1,19 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import FAQ from './FAQ';
 import React, {useEffect, useState} from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
-import {PopUp, PopUpEdit} from "./PopUp";
+import {PopUpEdit} from "./PopUp";
 import {Game} from './Game';
-import {Image} from "react-bootstrap";
 import {requestJira} from "@forge/bridge";
-import Alert from 'react-bootstrap/Alert';
-
+import wakeUp from "./assets/wakeup.wav"
 
 const TamagoshiGame = () => {
     let [isNewUser, setIsNewUser] = useState(false);
-    const [isFAQVisible, setIsFAQVisible] = useState(false);
+
     let count = 0;
+    let firstLogin = 0;
 
     const getProject = async () => {
         const response = (await requestJira('/rest/api/3/project'));
@@ -27,8 +23,8 @@ const TamagoshiGame = () => {
     }
 
     const toggleLogin = async () => {
-        console.log("start executing toggleLogin!!");
-        console.log(isNewUser);
+        new Audio(wakeUp).play();
+        firstLogin++;
 
         const userID = await getUsers();
         const projectID = await getProject();
@@ -59,18 +55,42 @@ const TamagoshiGame = () => {
 
 
     }
-    window.onload = toggleLogin();
+    //
+    // useEffect(() => {
+    //     getObjects().then(r => {
+    //         const {wallet} = r;
+    //         setIsSigned(wallet.isSignedIn());
+    //     });
+    // }, []);
+    //
+    // const signIn = () => {
+    //     const nftContractName = "nft-tamagotchi.testnet";
+    //     getObjects().then(r => {
+    //         const {wallet} = r;
+    //         wallet.requestSignIn(nftContractName, "NFT Tamagotchi");
+    //     })
+    // };
+    //
+    // const signOut = () => {
+    //     getObjects().then(r => {
+    //         const {wallet} = r;
+    //         wallet.signOut();
+    //         setIsSigned(false);
+    //     })
+    // };
+    //
+    // const mint = () => {
+    //     getObjects().then(r => {
+    //         const {wallet} = r;
+    //         handleMint(wallet.getAccountId(), "", "", "", "")
+    //     })
+    // }
+    // toggleLogin();
     return (
 
-        <>
-            <div className='fondo'>
-                {/* Tamagoshi */}
-                {/* <Egg /> */}
-                <Game/>
-                {isNewUser && <PopUpEdit toggleLogin={toggleLogin}/>}
-
-            </div>
-        </>
+        <div className='fondo'>
+            <Game/>
+        </div>
     );
 };
 

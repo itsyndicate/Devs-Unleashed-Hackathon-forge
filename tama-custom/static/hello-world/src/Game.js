@@ -147,12 +147,15 @@ export const Game = () => {
         const projectId = await getProject();
         setHealth(await getHealth(userID, projectId));
         setStrength(await getStrength(userID, projectId));
-        useInterval(async () => {
-            setHealth(await getHealth(userID));
-        }, 60000);
+        // useInterval(async () => {
+        //     setHealth(await getHealth(userID));
+        // }, 60000);
 
     }
 
+    useInterval(async () => {
+        await checkHealth();
+    }, 60000);
     checkHealth();
     getTama();
     const [isFightVisible, setIsFightVisible] = useState(false);
