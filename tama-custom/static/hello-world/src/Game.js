@@ -193,8 +193,7 @@ export const Game = () => {
 
     return (
         <div className="egg">
-            <h1 className="character-name">TaskoGotchi</h1>
-            <h2 className="character-age"><BiTime/> Tasks Eaten: {tasks}</h2>
+            <h2 className="character-age">Tasks Eaten: {tasks}</h2>
 
             <div className="stats">
                 <Image className="stat-icons" src={"strength.svg"}/>
@@ -210,8 +209,8 @@ export const Game = () => {
                     <div className="editAndFight">
                         {isEditVisible && < PopUpEdit toggleLogin={toggleEdit}/>}
                         {/*</StyledEngineProvider>*/}
-                        <button className="editButton" style={{left: "-50%"}} onClick={toggleEdit}><img src="edit.svg"
-                                                                                                        className="edit-img"/>
+                        <button className="editButton" onClick={toggleEdit}><img src="edit.svg"
+                                                                                 className="edit-img"/>
 
                         </button>
                         {isFightVisible && <PopUpFight
@@ -231,13 +230,14 @@ export const Game = () => {
                     <Character costumeImg1={costume}
                                hatImg1={hat}
                                weaponImg1={weapon}/>
+                    <button className="feed" onClick={toggleFeed}>
+                        <img draggable="false" src="cat-food.svg" className="feed-img"/>
+                    </button>
                 </div>
                 {isFightGameVisible && <WaitingRoom/>}
 
                 {isFeedVisible && <PopUpFeed tasks={tasks} toggleFeed={toggleFeed}/>}
-                <button className="feed" onClick={toggleFeed}>
-                    <img draggable="false" src="cat-food.svg" className="feed-img"/>
-                </button>
+
             </div>
 
 

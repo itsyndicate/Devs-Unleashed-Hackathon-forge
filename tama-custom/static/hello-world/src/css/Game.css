@@ -36,7 +36,7 @@
 }
 
 .square {
-    height: 300px;
+    height: 100%;
     min-width: 350px;
     border-radius: 2%;
     margin: 0 auto 2px auto;
@@ -128,23 +128,30 @@
     z-index: 0;
 }
 
+.edit-img {
+    width: 70px;
+    pointer-events: all;
+}
+
 .feed {
+    position: relative;
+    left: -250px;
+    top: 50px;
     background-color: transparent;
     background-repeat: no-repeat;
     border: none;
     cursor: pointer;
     border: 0;
     color: #fff;
-    position: absolute;
-    bottom: -20px;
     z-index: 0;
-    top: 500px;
-    left: 1000px;
 }
 
 .feed-img {
     max-height: fit-content;
+    pointer-events: all;
     z-index: 1;
+    position: absolute;
+    bottom: 620px;
     user-drag: none;
     user-select: none;
     -moz-user-select: none;
@@ -157,13 +164,18 @@ img {
     pointer-events: none;
 }
 
+button {
+    border-radius: 0;
+}
+
 .editAndFight {
-    top: 250px;
-    position: absolute;
-    left: 450px;
-    height: 350px;
     display: flex;
     flex-direction: column;
+    height: 400px;
+    width: 100px;
+    left: 355px;
+    position: relative;
+    top: 200px;
     z-index: 1;
 }
 

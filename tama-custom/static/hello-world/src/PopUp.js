@@ -324,7 +324,7 @@ export const CharTable = () => {
                     style={{position: "fixed", top: "200px", left: "-400px"}}><img
                 src={notificationImage}
                 className="edit-img"/></button>
-            <button onClick={saveCharacter} style={{width: '200px', height: '50px', position: 'fixed', top: "650px",}}
+            <button onClick={saveCharacter} style={{width: '200px', height: '50px', position: 'fixed', left: "50%",}}
                     id="saveChar">Save
             </button>
         </div>
@@ -351,18 +351,12 @@ export const PopUpEdit = ({toggleLogin}) => {
 
             <div className="edit-menu-content">
                 <button onClick={toggleLogin} className="loginButtons"
-                        style={{position: "fixed", top: 0, width: "50px", right: 0}}>
-                    X
-                </button>
-                <button onClick={toggleLogin} className="loginButtons" style={{
-                    position: "fixed", left: "1100px",
-                    top: "650px",
-                    width: "200px",
-                    height: "50px"
-                }}>
-                    Cancel
-                </button>
-
+                        style={{
+                            position: "fixed",
+                            top: "14px",
+                            width: "50px",
+                            left: "95%"
+                        }}>X</button>
             </div>
 
         </div>
