@@ -131,11 +131,6 @@ export const Game = () => {
 
         if (!response.ok) {
             setIsEditVisible(true);
-            console.log("edit visible")
-        }
-        else {
-            setIsEditVisible(false);
-            console.log("edit ihdden")
         }
 
         const result = await response.json();

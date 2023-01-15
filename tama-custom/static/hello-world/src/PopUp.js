@@ -203,24 +203,24 @@ export const CharTable = () => {
             </div>
             <Character costumeImg1={costumeImg} hatImg1={hatImg} weaponImg1={weaponImg}/>
 
-            <button className="soundButton" onClick={toggleSound}><img src={soundImage} style={{
-                position: "fixed",
-                top: "200px",
-                left: "-400px"
-            }}
-                                                                       className="edit-img"/>
-            </button>
-            <button className="musicButton" onClick={toggleMusic}><img src={musicImage} style={{
-                position: "fixed",
-                top: "200px",
-                left: "-400px"
-            }}
-                                                                       className="edit-img"/>
-            </button>
-            <button className="notificationButton" onClick={toggleNotification}
-                    style={{position: "fixed", top: "200px", left: "-400px"}}><img
-                src={notificationImage}
-                className="edit-img"/></button>
+            {/*<button className="soundButton" onClick={toggleSound}><img src={soundImage} style={{*/}
+            {/*    position: "fixed",*/}
+            {/*    top: "200px",*/}
+            {/*    left: "-400px"*/}
+            {/*}}*/}
+            {/*                                                           className="edit-img"/>*/}
+            {/*</button>*/}
+            {/*<button className="musicButton" onClick={toggleMusic}><img src={musicImage} style={{*/}
+            {/*    position: "fixed",*/}
+            {/*    top: "200px",*/}
+            {/*    left: "-400px"*/}
+            {/*}}*/}
+            {/*                                                           className="edit-img"/>*/}
+            {/*</button>*/}
+            {/*<button className="notificationButton" onClick={toggleNotification}*/}
+            {/*        style={{position: "fixed", top: "200px", left: "-400px"}}><img*/}
+            {/*    src={notificationImage}*/}
+            {/*    className="edit-img"/></button>*/}
         </div>
     );
 };
