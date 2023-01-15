@@ -1,10 +1,10 @@
 modules:
   jira:projectPage:
-    - key: tama-custom-hello-world-project-page
+    - key: Taskogotchi
       resource: main
       resolver:
         function: resolver
-      title: tama-custom
+      title: Taskogotchi
   function:
     - key: resolver
       handler: index.handler
@@ -12,7 +12,7 @@ resources:
   - key: main
     path: static/hello-world/build
 app:
-  id: ari:cloud:ecosystem::app/c8fd5ad1-1469-4c4d-87cf-60eabdc2786e
+  id: ari:cloud:ecosystem::app/b8bffee2-c364-49f7-be9a-32a396936539
 
 permissions:
   content:
