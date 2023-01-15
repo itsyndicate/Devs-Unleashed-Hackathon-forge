@@ -6,7 +6,7 @@ const FightingGame = (props) => {
     return (
         <div>
             {newGame ? <div className="game">
-                <GameWindow newGame={newGame} setNewGame={setNewGame} account_id={props.account_id}/>
+                <GameWindow newGame={newGame} setNewGame={setNewGame} account_id={props.account_id} fightInfo={props.fightInfo}/>
             </div> : false}
         </div>
     );

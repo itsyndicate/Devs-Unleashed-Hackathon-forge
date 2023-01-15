@@ -17,6 +17,7 @@ import {useEffectOnce} from "../../effects";
 
 const GameWindow = (props) => {
     let socket
+    let gameDuration
     console.log('before socket')
     useEffectOnce(() =>{
         socket = new WebSocket(`wss://backend.guard-lite.com/ws/fight/${props.account_id}`);
@@ -27,6 +28,11 @@ const GameWindow = (props) => {
                 action: "waiting"
             }))
         };
+        socket.onmessage = function (event){
+            if (JSON.parse(event.data).message === "game_started"){
+                gameDuration = JSON.parse(event.data).fight.fight_timer.duration
+            }
+        }
 
     })
 
@@ -34,7 +40,8 @@ const GameWindow = (props) => {
     const screenHeight = 1273
     const screenWidth = 541
 
-    const gameDuration = 30
+
+
 
     const canvasRef = useRef(null)
     const contextRef = useRef(null)
@@ -91,6 +98,14 @@ const GameWindow = (props) => {
                     },
                     imageSrc: backgroundImage
                 })
+        let healthPlayer
+        let healthOpponent
+        console.log(props.fightInfo.initiator_health)
+        if (props.account_id === props.fightInfo.initiator.player.account_id)
+        {
+            healthPlayer = props.fightInfo.initiator_health
+            healthOpponent = props.fightInfo.opponent_health
+        }
             const player = new Fighter(contextRef,{
                 position:{
                     x: screenHeight - screenHeight,
@@ -106,7 +121,8 @@ const GameWindow = (props) => {
                 },
                 name: "Bruce",
                 imageSrc: playerImage,
-                color: '#7B23EB'
+                color: '#7B23EB',
+                health: healthPlayer
             })
             const enemy = new Fighter(contextRef,{
                 position:{
@@ -123,8 +139,10 @@ const GameWindow = (props) => {
                 },
                 name: "Alice",
                 imageSrc: enemyImage,
-                color: '#FF7D1F'
+                color: '#FF7D1F',
+                health: healthOpponent
             })
+        console.log(player.health, enemy.health)
             function startGame(){
                 player.dead = false
                 enemy.dead = false
@@ -163,7 +181,7 @@ const GameWindow = (props) => {
                 enemy.update()
 
                 player.velocity.x = 0
-                enemy.velocity.x = 0
+                // enemy.velocity.x = 0
 
                 // движение игрока
                 if(keys.a.pressed && player.lastKey === 'a' && player.position.x > 0 ){
@@ -262,12 +280,13 @@ const GameWindow = (props) => {
                         rectangle2: enemy,
                     })
                     && player.isAttacking) {
+                    console.log(hitType)
                     socket.send(JSON.stringify({
                         account_id: props.account_id,
-                        action: hitType,
+                        action: 'punch',
                     }))
                     player.isAttacking = false
-                    enemy.health -= 20
+                    enemy.health -= 10
                     gsap.to('#enemyHealth',{
                         width: enemy.health + "%"
                     })

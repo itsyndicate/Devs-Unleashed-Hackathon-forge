@@ -10,6 +10,7 @@ let simpleStyle = {
 }
 let waitingForOpponent = 'Waiting for opponent'
 let opponentDeniedRequest = 'Opponent denied request'
+let fightInfo
 const WaitingRoom = (props) => {
     const [showGame, setShowGame] = useState(false)
     const [gameStatus, setGameStatus] = useState(waitingForOpponent)
@@ -20,6 +21,7 @@ const WaitingRoom = (props) => {
         document.getElementsByClassName('waiting_room')[0].style.display = 'none'
         toggleFight()
     }
+
     let interval
     const getFight = async (account_id) => {
         const getUserFight = await fetch(`https://backend.guard-lite.com/api/v1/fight?account_id=${account_id}`,{
@@ -47,11 +49,16 @@ const WaitingRoom = (props) => {
                 },
                 body: JSON.stringify(fight)
             });
+            return await response.json()
         }
     }
+
     useEffectOnce(() =>{
-        interval = setInterval(() => {
-            getFight(props.account_id)
+        interval = setInterval(async () => {
+            fightInfo = await getFight(props.account_id)
+            if (fightInfo) clearInterval(interval)
+            console.log('before', fightInfo)
+            // getFight(props.account_id)
         }, 1000)
         setTimeout(resultTie,  20 * 1000)
     })
@@ -61,7 +68,9 @@ const WaitingRoom = (props) => {
             <div className='waiting_room' style={simpleStyle}>
                 <CountDown gametime={20} status={gameStatus} fight={''}>/</CountDown>
             </div>
-            {showGame ? <FightingGame account_id={props.account_id}/> : ''}
+            {showGame && fightInfo ? <FightingGame account_id={props.account_id}
+                                      fightInfo={fightInfo}
+            /> : ''}
         </>
     );
 };
