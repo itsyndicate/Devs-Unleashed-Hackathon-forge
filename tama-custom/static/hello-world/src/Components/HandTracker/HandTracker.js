@@ -11,26 +11,11 @@ import handDefault from '../../images/handDefault.png'
 import handGrabb from '../../images/handGrab.png'
 import taskk from  '../../images/task.png'
 import Task from "./Task"
+import EatingTask from "../../assets/Eats.wav";
+import statsUpdateSound from "../../assets/statsUpdate.wav";
+import taskTakenSound from "../../assets/taskTaken.wav";
+import putTaskBack from "../../assets/putTaskBack.wav";
 
-
-// function useInterval(callback, delay) {
-//   const savedCallback = useRef();
-//
-//   useEffect(() => {
-//     savedCallback.current = callback;
-//   }, [callback]);
-//
-//   useEffect(() => {
-//     function tick() {
-//       savedCallback.current();
-//     }
-//
-//     if (delay !== null) {
-//       let id = setInterval(tick, delay);
-//       return () => clearInterval(id);
-//     }
-//   }, [delay]);
-// }
 function HandTracker(props) {
   const webCamRef = useRef(null);
   const canvasRef = useRef(null);
@@ -116,6 +101,8 @@ function HandTracker(props) {
     canvasCtx.clearRect(0,0,canvasElement.width,canvasElement.height);
 
     let handClosed = false;
+    global.isClosedHandSound = 0;
+    global.isOpenHandSound = 0;
     if(hand.length > 0){
       let xs = 0;
       let ys = 0;
@@ -133,6 +120,13 @@ function HandTracker(props) {
 
 
       if (handClosed) {
+        // TODO: make sound not to repeat
+        //   if (isClosedHandSound === 0) {
+        //     const audio = new Audio(taskTakenSound);
+        //     audio.play();
+        //     isClosedHandSound++;
+        //     global.isOpenHandSound = 0;
+        // }
         const handCenter = {
           x: xs - handWidth / 2,
           y: ys - handWidth / 4,
@@ -163,6 +157,15 @@ function HandTracker(props) {
         }
 
       } else {
+        //TODO: make sound not to repeat
+        // if (handClosed === false) {
+        //     if (isOpenHandSound === 0) {
+        //         const audio = new Audio(putTaskBack);
+        //         audio.play();
+        //         isOpenHandSound++;
+        //         global.isClosedHandSound = 0;
+        //     }
+        // }
         canvasCtx.drawImage(handDef, xs - handWidth / 2, ys - handHeight / 2);
         if (tasks.length > 0){
           for (let i = 0; i < props.tasks.length; i++){
@@ -200,6 +203,19 @@ function HandTracker(props) {
     }
     if (tasks.length > 0){
       if (tasks[0].taskCoordinates.x <= 270 && tasks[0].taskCoordinates.y >= 250){
+
+        const eatSounds = () => {
+          const audio = new Audio(EatingTask)
+          audio.play();
+          audio.onended = () => {
+            const updateStatsSound = new Audio(statsUpdateSound);
+            updateStatsSound.play();
+          }
+        }
+
+        eatSounds();
+
+
         console.log('BINGO')
         tasks = []
         updateHP()
