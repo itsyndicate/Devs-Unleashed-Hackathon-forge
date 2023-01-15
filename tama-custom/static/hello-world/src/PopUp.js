@@ -10,7 +10,6 @@ import OpponentsList from "./opponentsList";
 import './Components/HandTracker/HandTracker.css'
 import HandTracker from "./Components/HandTracker/HandTracker";
 import Home from "./Components/Home/Home";
-import saveCharacter from "./login";
 
 let tamagoshiImage = 'project_example_1.png';
 import {Game} from "./Game";
