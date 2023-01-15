@@ -65,7 +65,9 @@ function HandTracker(props) {
     animationRenderer.setDefaultSkins();
 
     //  Loop and detect hands
-    requestAnimationFrame(detect)
+    setInterval(() => {
+      detect(net, CanvasSize);
+    }, 10);
   };
 
   const detect = async (net, CanvasSize) => {
@@ -90,9 +92,8 @@ function HandTracker(props) {
 
       // Make Detections
       const hand = await net.estimateHands(video);
-      onResults(hand, CanvasSize.width, CanvasSize.height)
+      onResults(hand)
     }
-    requestAnimationFrame(detect)
   }
 
   useEffect(()=>{
@@ -101,11 +102,11 @@ function HandTracker(props) {
 
   let openHandSound = 0;
   let closedHandSound = 0;
-  const onResults = (hand, CanvasWidth, CanvasHeight)=>{
+  const onResults = (hand)=>{
     // const videoWidth = webCamRef.current.video.videoWidth;
     // const videoHeight = webCamRef.current.video.videoHeight;
-    const videoWidth = CanvasWidth;
-    const videoHeight = CanvasHeight;
+    const videoWidth = 1200;
+    const videoHeight = 900;
     //Sets height and width of canvas
     canvasRef.current.width = videoWidth;
     canvasRef.current.height = videoHeight;
@@ -122,9 +123,9 @@ function HandTracker(props) {
     canvasCtx.clearRect(0,0,canvasElement.width,canvasElement.height);
     animationRenderer.render(
         200,
-        canvasElement.height - 50,
-        250,
-        100,
+        canvasElement.height - 200,
+        350,
+        175,
         true
     )
 
@@ -289,12 +290,12 @@ function HandTracker(props) {
           </div>
           <div className='canvas'>
             <div className="canvas_container">
-              {/*<Tamagotchi strength={props.strength}*/}
-              {/*            health={props.health}*/}
-              {/*            costumeImg1={props.costumeImg1}*/}
-              {/*            hatImg1={props.hatImg1}*/}
-              {/*            weaponImg1={props.weaponImg1}*/}
-              {/*/>*/}
+              <Tamagotchi strength={props.strength}
+                          health={props.health}
+                          // costumeImg1={props.costumeImg1}
+                          // hatImg1={props.hatImg1}
+                          // weaponImg1={props.weaponImg1}
+              />
               <Webcam
                   ref={webCamRef}
                   style={{

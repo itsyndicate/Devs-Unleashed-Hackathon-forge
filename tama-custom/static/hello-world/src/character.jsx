@@ -5,29 +5,11 @@ import {wait} from "@testing-library/user-event/dist/utils";
 let initNum = 0;
 
 export const Character = ({costumeImg1, weaponImg1, hatImg1}) => {
-    // const runMrr = () => {
-    //     if (document.getElementById('container')) {
-    //         if (initNum === 0) {
-    //             const audio = new Audio(mainMenu);
-    //             audio.play();
-    //             initNum++;
-    //         }
-    //
-    //     } else {
-    //         wait(1).then(() => {
-    //             runMrr();
-    //             initNum--;
-    //         });
-    //
-    //     }
-    // }
-    // runMrr();
     return (
         <div className="container">
 
             <div className="character-hats">
                 <img src={hatImg1}/>
-            <div id="petting"></div>
             </div>
             <div className="character-face">
                 <img src="./face/face-01-01.svg"/>

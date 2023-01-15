@@ -123,7 +123,7 @@ export class AnimationRenderer {
         this.canvasContext = canvas.getContext('2d');
         this.skeletonRenderer = new spine.SkeletonRenderer(this.canvasContext);
         this.skeletonRenderer.triangleRendering = true;
-        this.assetManager = new spine.AssetManager("../../assets");
+        this.assetManager = new spine.AssetManager("./assets/");
         this.assetManager.loadTextureAtlas("animation_block_1.atlas");
         this.assetManager.loadBinary("animation_block_1.skel");
         this.assetManager.loadJson("animation_block_1.json");
@@ -161,8 +161,7 @@ export class AnimationRenderer {
         const currentTrack = this.animationState.getCurrent(0);
         if (currentTrack.isComplete()) {
             this.setDefaultSkins();
-        }
-        else if (currentTrack.animation.name !== this.currentAnimationSkin) {
+        } else if (currentTrack.animation.name !== this.currentAnimationSkin) {
             console.log(currentTrack.animation.name);
             this.setSkin(currentTrack.animation.name);
         }
@@ -177,7 +176,9 @@ export class AnimationRenderer {
         this.skeleton.scaleX = reverseX ? -scaleX : scaleX;
         this.skeleton.scaleY = -scaleY;
 
-        this.renderAnimation()
+        if (this.animationState.getCurrent(0)) {
+            this.renderAnimation();
+        }
         this.skeleton.updateWorldTransform();
         this.skeletonRenderer.draw(this.skeleton);
     }
