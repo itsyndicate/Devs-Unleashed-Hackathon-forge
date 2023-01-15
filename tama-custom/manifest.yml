@@ -12,7 +12,7 @@ resources:
   - key: main
     path: static/hello-world/build
 app:
-  id: ari:cloud:ecosystem::app/c8fd5ad1-1469-4c4d-87cf-60eabdc2786e
+  id: ari:cloud:ecosystem::app/e024604e-407a-4a86-8818-1fec82595eda
 
 permissions:
   content:

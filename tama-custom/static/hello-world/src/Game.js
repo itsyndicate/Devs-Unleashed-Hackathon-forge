@@ -38,9 +38,12 @@ export const Game = () => {
     let [costume, setCostume] = useState("");
     let [hat, setHat] = useState("");
     let [weapon, setWeapon] = useState("");
+    let [isLoginRequest, setIsLoginRequest] = useState("POST");
+
     // const [record, setRecord] = useState(0);
     const [showGif, setShowGif] = useState(false);
     const [gif, setGif] = useState(null);
+
 
     const getUsers = async () => {
         const response = (await requestJira('/rest/api/3/users/search?'));
@@ -170,6 +173,7 @@ export const Game = () => {
         const audio = new Audio(buttonSound)
         audio.play();
         setIsEditVisible(!isEditVisible);
+        getTama();
     }
 
     const toggleFight = () => {
@@ -194,17 +198,112 @@ export const Game = () => {
                 'Content-Type': 'application/json',
             }
         })
-        if (response.ok){
+        if (response.ok) {
             setIsPlayerInFight(!isPlayerInFight)
         }
     }
+    const login = async (costumeImg, hatImg, weaponImg) => {
+        const userID = await getUsers();
+        const projectID = await getProject();
 
-    useEffectOnce(()=>{
+        const userData = {
+            "player_name": jiraUserName,
+            "account_id": userID,
+            "project_id": projectID,
+            "project_name": jiraProjectName
+        }
+        const tamagotchiData = {
+            "image": {
+                "costumeImg": costumeImg,
+                "hatImg": hatImg,
+                "weaponImg": weaponImg
+            },
+            "health": health,
+            "strength": 100,
+            "account_id": userID,
+            "project_id": projectID
+        }
+        console.log("start executing toggleLogin!!")
+        const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            console.log("ERRORED!!")
+            setHealth(100);
+
+            console.log("NEW LOGIN HEALTH!!");
+            console.log(health);
+            setIsLoginRequest("POST");
+            await fetch(`https://backend.guard-lite.com/api/v1/register-player`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            }).then((response) => response.json()).then((data) => {
+                console.log('Success:', data);
+            });
+            await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(tamagotchiData),
+            }).then((response) => response.json()).then((data) => {
+                console.log('Success:', data);
+            });
+        } else {
+            const userID = await getUsers();
+            const projectID = await getProject();
+            const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
+                method: "GET",
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            const tamagotchiDataPUT = {
+                "image": {
+                    "costumeImg": costumeImg,
+                    "hatImg": hatImg,
+                    "weaponImg": weaponImg
+                },
+                "health": response["health"],
+                "strength": 100,
+                "account_id": userID,
+                "project_id": projectID
+            }
+            console.log("put request")
+            await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
+                method: "PUT",
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(tamagotchiDataPUT),
+            }).then((response) => response.json()).then((data) => {
+                console.log('Success:', data);
+            });
+        }
+
+        setIsEditVisible(!isEditVisible);
+        getTama();
+    }
+
+
+    useEffectOnce(() => {
         getTasks()
         getJiraInfo()
         checkHealth();
-        getTama();
         getFight()
+        getTama();
     })
     return (
         <div className="egg">
@@ -221,7 +320,7 @@ export const Game = () => {
                 {/*<div className={'square-content ' + direction} id="character">*/}
                 <div className='square-content' id="character">
                     <div className="editAndFight">
-                        {isEditVisible && < PopUpEdit toggleLogin={toggleEdit}/>}
+                        {isEditVisible && < PopUpEdit toggleLogin={toggleEdit} login={login}/>}
                         {/*</StyledEngineProvider>*/}
                         <button className="editButton" onClick={toggleEdit}><img src="edit.svg"
                                                                                  className="edit-img"/>
@@ -251,7 +350,7 @@ export const Game = () => {
                 {isPlayerInFight && <AcceptOrDeny account_id={jiraUserID} project_id={jiraProjectID}/>}
                 {isFightGameVisible && <WaitingRoom/>}
 
-                 {isFeedVisible && <PopUpFeed tasks={tasks}
+                {isFeedVisible && <PopUpFeed tasks={tasks}
                                              toggleFeed={toggleFeed}
                                              strength={strength}
                                              health={health}

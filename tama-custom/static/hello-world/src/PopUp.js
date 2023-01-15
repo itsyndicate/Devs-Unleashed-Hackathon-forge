@@ -10,6 +10,7 @@ import OpponentsList from "./opponentsList";
 import './Components/HandTracker/HandTracker.css'
 import HandTracker from "./Components/HandTracker/HandTracker";
 import Home from "./Components/Home/Home";
+import saveCharacter from "./login";
 
 let tamagoshiImage = 'project_example_1.png';
 import {Game} from "./Game";
@@ -80,127 +81,17 @@ export const CharTable = () => {
         setCount(newValue);
     };
     const [costumeImg, setCostumeImg] = useState("./body/body-01.svg");
+    global.costumeImg =  costumeImg;
     const [hatImg, setHatImg] = useState("./hat/hat_4.1-01.png");
+    global.hatImg = hatImg;
     const [weaponImg, setWeaponImg] = useState("./weapon/weapon_1.2-01.png");
+    global.weaponImg = weaponImg;
 
     const [notificationImage, setNotificationImage] = React.useState("mdi_notifications.svg");
     const [musicImage, setMusicImage] = React.useState("ph_music-notes-fill.svg");
     const [soundImage, setSoundImage] = React.useState("sound.svg");
     let [health, setHealth] = useState(100);
-    let [isLoginRequest, setIsLoginRequest] = useState("POST");
 
-    const saveCharacter = async () => {
-        const getUsers = async () => {
-            const response = (await requestJira('/rest/api/3/users/search?'));
-            const data = await response.json();
-            return (data[0].accountId);
-        }
-        const getProject = async () => {
-            const response = (await requestJira('/rest/api/3/project'));
-            const data = await response.json();
-            return (data[0].id);
-        }
-        const userID = await getUsers();
-        const projectID = await getProject();
-        const userData = {
-            "player_name": userID,
-            "account_id": userID,
-            "project_id": projectID,
-            "project_name": "tama"
-        }
-        const tamagotchiData = {
-            "image": {
-                "costumeImg": costumeImg,
-                "hatImg": hatImg,
-                "weaponImg": weaponImg
-            },
-            "health": health,
-            "strength": 100,
-            "account_id": userID,
-            "project_id": projectID
-        }
-
-        async function getTama() {
-            console.log("start executing toggleLogin!!")
-            const userID = await getUsers();
-            const projectID = await getProject();
-            const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
-                method: "GET",
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            if (!response.ok) {
-                console.log("ERRORED!!")
-                setHealth(100);
-
-                console.log("NEW LOGIN HEALTH!!");
-                console.log(health);
-                setIsLoginRequest("POST");
-                await fetch(`https://backend.guard-lite.com/api/v1/register-player`, {
-                    method: "POST",
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(userData),
-                }).then((response) => response.json()).then((data) => {
-                    console.log('Success:', data);
-                });
-                await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
-                    method: "POST",
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(tamagotchiData),
-                }).then((response) => response.json()).then((data) => {
-                    console.log('Success:', data);
-                });
-            } else {
-                const userID = await getUsers();
-                const projectID = await getProject();
-                const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectID}`, {
-                    method: "GET",
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-                const tamagotchiDataPUT = {
-                    "image": {
-                        "costumeImg": costumeImg,
-                        "hatImg": hatImg,
-                        "weaponImg": weaponImg
-                    },
-                    "health": response["health"],
-                    "strength": 100,
-                    "account_id": userID,
-                    "project_id": projectID
-                }
-                console.log("put request")
-                await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi`, {
-                    method: "PUT",
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(tamagotchiDataPUT),
-                }).then((response) => response.json()).then((data) => {
-                    console.log('Success:', data);
-                });
-            }
-        }
-
-        window.onload = getTama();
-
-
-        console.log(tamagotchiData);
-        // let close = document.getElementsByClassName("editMenu")
-        // close.style.display = "none";
-    };
 
     const toggleNotification = () => {
         setNotificationImage(notificationImage === 'mdi_notifications.svg' ? 'mdi_notifications-off.svg' : 'mdi_notifications.svg');
@@ -215,15 +106,19 @@ export const CharTable = () => {
         console.log(catalog)
         if (catalog === "costume") {
             setCostumeImg(sourceImg);
+            global.costumeImg = setCostumeImg(sourceImg);
 
         }
         if (catalog === "hat") {
             setHatImg(sourceImg);
+            global.hatImg = setHatImg(sourceImg);
+
 
 
         }
         if (catalog === "weapon") {
             setWeaponImg(sourceImg);
+            global.weaponImg = setWeaponImg(sourceImg);
 
         } else {
             console.log("no catalog received")
@@ -324,25 +219,12 @@ export const CharTable = () => {
                     style={{position: "fixed", top: "200px", left: "-400px"}}><img
                 src={notificationImage}
                 className="edit-img"/></button>
-            <button onClick={saveCharacter} style={{width: '200px', height: '50px', position: 'fixed', left: "50%",}}
-                    id="saveChar">Save
-            </button>
         </div>
     );
 };
 
 
-//HAND
-export const handTable = () => {
-    return (
-        <div style={{display: "flex", height: "250px", width: "210px"}}>
-            <Image style={{maxHeight: "fit-content"}} src="" alt="Tamagoshi"/>
-        </div>
-    );
-};
-
-
-export const PopUpEdit = ({toggleLogin}) => {
+export const PopUpEdit = ({toggleLogin, login}) => {
 
     return (
         <div className="editMenu">
@@ -356,7 +238,14 @@ export const PopUpEdit = ({toggleLogin}) => {
                             top: "14px",
                             width: "50px",
                             left: "95%"
-                        }}>X</button>
+                        }}>X
+                </button>
+                <button onClick={() => {
+                    login(costumeImg, hatImg, weaponImg);
+                }}
+                        style={{width: '200px', height: '50px', position: 'fixed', left: "50%",}}
+                        id="saveChar">Save
+                </button>
             </div>
 
         </div>
@@ -389,9 +278,9 @@ export const PopUpFeed = (props) => {
                          health={props.health}
                          account_id={props.jiraUserID}
                          project_id={props.jiraProjectID}
-                         // costumeImg1={props.costumeImg1}
-                         // hatImg1={props.hatImg1}
-                         // weaponImg1={props.weaponImg1}
+                // costumeImg1={props.costumeImg1}
+                // hatImg1={props.hatImg1}
+                // weaponImg1={props.weaponImg1}
             />
 
             <div className="feed-menu-content">
