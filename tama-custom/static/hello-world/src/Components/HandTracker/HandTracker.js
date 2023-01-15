@@ -80,6 +80,8 @@ function HandTracker(props) {
     runHandpose()
   },[]);
 
+  let openHandSound = 0;
+  let closedHandSound = 0;
   const onResults = (hand)=>{
     // const videoWidth = webCamRef.current.video.videoWidth;
     // const videoHeight = webCamRef.current.video.videoHeight;
@@ -101,8 +103,7 @@ function HandTracker(props) {
     canvasCtx.clearRect(0,0,canvasElement.width,canvasElement.height);
 
     let handClosed = false;
-    global.isClosedHandSound = 0;
-    global.isOpenHandSound = 0;
+
     if(hand.length > 0){
       let xs = 0;
       let ys = 0;
@@ -112,7 +113,7 @@ function HandTracker(props) {
         ys += landmark[1];
       }
 
-      handClosed = isHandClosed(hand[0].landmarks)
+      handClosed = isHandClosed(hand[0].landmarks);
 
 
       xs = canvasRef.current.width - xs * (canvasRef.current.width / webCamRef.current.video.width) / numberOfTips;
@@ -120,19 +121,21 @@ function HandTracker(props) {
 
 
       if (handClosed) {
-        // TODO: make sound not to repeat
-        //   if (isClosedHandSound === 0) {
-        //     const audio = new Audio(taskTakenSound);
-        //     audio.play();
-        //     isClosedHandSound++;
-        //     global.isOpenHandSound = 0;
-        // }
+
         const handCenter = {
           x: xs - handWidth / 2,
           y: ys - handWidth / 4,
         }
 
         canvasCtx.drawImage(handGrab,handCenter.x, handCenter.y);
+
+        if (closedHandSound === 0){
+          const audio = new Audio(taskTakenSound);
+          audio.play();
+          closedHandSound = 1;
+        }
+        openHandSound = 0;
+
         for (let i = 0; i < props.tasks.length; i++){
           if (tasks.length > 0){
             if (tasks[i].isTaskTaken){
@@ -157,15 +160,14 @@ function HandTracker(props) {
         }
 
       } else {
-        //TODO: make sound not to repeat
-        // if (handClosed === false) {
-        //     if (isOpenHandSound === 0) {
-        //         const audio = new Audio(putTaskBack);
-        //         audio.play();
-        //         isOpenHandSound++;
-        //         global.isClosedHandSound = 0;
-        //     }
-        // }
+
+        if (openHandSound === 0){
+          const audio = new Audio(taskTakenSound);
+          audio.play();
+          openHandSound = 1;
+        }
+        closedHandSound = 0;
+
         canvasCtx.drawImage(handDef, xs - handWidth / 2, ys - handHeight / 2);
         if (tasks.length > 0){
           for (let i = 0; i < props.tasks.length; i++){
