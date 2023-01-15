@@ -16,6 +16,7 @@ const AcceptOrDeny = (props) => {
             },
             body: JSON.stringify(action)
         });
+        props.toggleFightInvite()
     }
 
     async function denyFight() {
@@ -32,6 +33,7 @@ const AcceptOrDeny = (props) => {
             },
             body: JSON.stringify(action)
         });
+        props.toggleFightInvite()
     }
 
     return (

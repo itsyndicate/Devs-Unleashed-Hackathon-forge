@@ -11,8 +11,26 @@ import backgroundImage from '../../images/backgr.png'
 import playerImage from '../../images/player.png'
 import enemyImage from '../../images/enemy.png'
 import '../PrepateToFight/CountDown.css'
+import useWebSocket from "react-use-websocket";
+import {useEffectOnce} from "../../effects";
+
 
 const GameWindow = (props) => {
+    let socket
+    console.log('before socket')
+    useEffectOnce(() =>{
+        socket = new WebSocket(`wss://backend.guard-lite.com/ws/fight/${props.account_id}`);
+        socket.onopen = function (e) {
+            console.log('ws')
+            socket.send(JSON.stringify({
+                account_id: props.account_id,
+                action: "waiting"
+            }))
+        };
+
+    })
+
+
     const screenHeight = 1273
     const screenWidth = 541
 
@@ -133,7 +151,10 @@ const GameWindow = (props) => {
                 },
             }
             function animate(){
+                let hitType
+
                 window.requestAnimationFrame(animate)
+
                 contextRef.current.fillStyle = 'black'
                 contextRef.current.fillRect(0,0, canvas.width, canvas.height)
 
@@ -147,41 +168,40 @@ const GameWindow = (props) => {
                 // движение игрока
                 if(keys.a.pressed && player.lastKey === 'a' && player.position.x > 0 ){
                     player.velocity.x = -7
+                    socket.send(JSON.stringify({
+                        account_id: props.account_id,
+                        action: "player move",
+                        playerPosX: player.position.x
+                    }))
                 } else if (keys.d.pressed && player.lastKey === 'd' && player.position.x < 992){
                     player.velocity.x = 7
+                    socket.send(JSON.stringify({
+                        account_id: props.account_id,
+                        action: "player move",
+                        playerPosX: player.position.x
+                    }))
                 }
 
-                // движение врага
-                if(keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft' && enemy.position.x > 0){
-                    enemy.velocity.x = -7
-                } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight' && enemy.position.x < 992){
-                    enemy.velocity.x = 7
-                }
+                // // движение врага
+                // if(keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft' && enemy.position.x > 0){
+                //     enemy.velocity.x = -7
+                // } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight' && enemy.position.x < 992){
+                //     enemy.velocity.x = 7
+                // }
 
-                // попадание в хитбокс игрока
-                if ( rectangularCollision({
-                        rectangle1: player,
-                        rectangle2: enemy,
-                    })
-                    && player.isAttacking) {
-                    player.isAttacking = false
-                    enemy.health -= 20
-                    gsap.to('#enemyHealth',{
-                        width: enemy.health + "%"
-                    })
-                }
-                // попадание в хитбокс врага
-                if ( rectangularCollision({
-                        rectangle1: enemy,
-                        rectangle2: player,
-                    })
-                    && enemy.isAttacking) {
-                    enemy.isAttacking = false
-                    player.health -= 20
-                    gsap.to('#playerHealth',{
-                        width: player.health + "%"
-                    })
-                }
+
+                // // попадание в хитбокс врага
+                // if ( rectangularCollision({
+                //         rectangle1: enemy,
+                //         rectangle2: player,
+                //     })
+                //     && enemy.isAttacking) {
+                //     enemy.isAttacking = false
+                //     player.health -= 20
+                //     gsap.to('#playerHealth',{
+                //         width: player.health + "%"
+                //     })
+                // }
                 function rectangularCollision({rectangle1, rectangle2}){
                     return (
                         rectangle1.hitBox.position.x + rectangle1.hitBox.width >= rectangle2.position.x
@@ -209,10 +229,12 @@ const GameWindow = (props) => {
                             // удар рукой
                             case 'i':
                                 player.attack()
+                                hitType = 'punch'
                                 break
                             // удар ногой
                             case 'k':
                                 player.attack()
+                                hitType = 'kick'
                                 break
                             // движение врага
                             case 'ArrowRight':
@@ -234,26 +256,42 @@ const GameWindow = (props) => {
                         }
                     }
                 })
-                window.addEventListener('keyup', (event)=> {
-                    // игрок
-                    switch (event.key){
-                        case 'd':
-                            keys.d.pressed = false
-                            break
-                        case 'a':
-                            keys.a.pressed = false
-                            break
-                    }
-                    // враг
-                    switch (event.key){
-                        case 'ArrowRight':
-                            keys.ArrowRight.pressed = false
-                            break
-                        case 'ArrowLeft':
-                            keys.ArrowLeft.pressed = false
-                            break
-                    }
-                })
+                // попадание в хитбокс игрока
+                if ( rectangularCollision({
+                        rectangle1: player,
+                        rectangle2: enemy,
+                    })
+                    && player.isAttacking) {
+                    socket.send(JSON.stringify({
+                        account_id: props.account_id,
+                        action: hitType,
+                    }))
+                    player.isAttacking = false
+                    enemy.health -= 20
+                    gsap.to('#enemyHealth',{
+                        width: enemy.health + "%"
+                    })
+                }
+                // window.addEventListener('keyup', (event)=> {
+                //     // игрок
+                //     switch (event.key){
+                //         case 'd':
+                //             keys.d.pressed = false
+                //             break
+                //         case 'a':
+                //             keys.a.pressed = false
+                //             break
+                //     }
+                //     // враг
+                //     switch (event.key){
+                //         case 'ArrowRight':
+                //             keys.ArrowRight.pressed = false
+                //             break
+                //         case 'ArrowLeft':
+                //             keys.ArrowLeft.pressed = false
+                //             break
+                //     }
+                // })
 
                 setEnemyHealth(num => enemy.health)
                 if (enemy.health === 0){
