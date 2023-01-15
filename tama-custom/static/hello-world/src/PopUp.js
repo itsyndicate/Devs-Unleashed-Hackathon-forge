@@ -19,6 +19,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import {useState} from "react";
 import {Character} from "./character";
 import {requestJira} from "@forge/bridge";
+import toggleClickBtn from "./assets/clickInEdit.wav";
 
 
 // const activeStyle = {
@@ -80,12 +81,12 @@ export const CharTable = () => {
         setCount(newValue);
     };
     const [costumeImg, setCostumeImg] = useState("./body/body-01.svg");
-    global.costumeImg =  costumeImg;
+    global.costumeImg = costumeImg;
     const [hatImg, setHatImg] = useState("./hat/hat_4.1-01.png");
     global.hatImg = hatImg;
     const [weaponImg, setWeaponImg] = useState("./weapon/weapon_1.2-01.png");
     global.weaponImg = weaponImg;
-
+    const [isAudioOn, setIsAudioOn] = useState(true);
     const [notificationImage, setNotificationImage] = React.useState("mdi_notifications.svg");
     const [musicImage, setMusicImage] = React.useState("ph_music-notes-fill.svg");
     const [soundImage, setSoundImage] = React.useState("sound.svg");
@@ -102,6 +103,9 @@ export const CharTable = () => {
         setSoundImage(soundImage === 'sound.svg' ? 'teenyicons_sound-off-solid.svg' : 'sound.svg');
     }
     const changeImage = (sourceImg, catalog) => {
+        if (isAudioOn) {
+            new Audio(toggleClickBtn).play()
+        }
         console.log(catalog)
         if (catalog === "costume") {
             setCostumeImg(sourceImg);
@@ -111,7 +115,6 @@ export const CharTable = () => {
         if (catalog === "hat") {
             setHatImg(sourceImg);
             global.hatImg = setHatImg(sourceImg);
-
 
 
         }

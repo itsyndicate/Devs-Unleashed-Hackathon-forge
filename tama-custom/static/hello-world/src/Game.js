@@ -5,11 +5,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './css/Game.css';
 import {Character} from "./character";
 import {PopUpEdit, PopUpFeed, PopUpFight} from "./PopUp";
-import buttonSound from './assets/buttons.wav'
+import buttonSound from './assets/buttons.wav';
+
 //icons
 import WaitingRoom from "./Components/GameFolder/WaitingRoom";
 import AcceptOrDeny from "./Components/PrepateToFight/AcceptOrDeny";
-import {useEffectOnce} from "./effects";
+import {useEffectOnce} from "./effects"
 
 const AsyncReq = async () => {
     const response = await requestJira('/rest/api/3/groups/picker');
