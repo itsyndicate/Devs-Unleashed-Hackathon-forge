@@ -27,7 +27,7 @@ export const Character = ({costumeImg1, weaponImg1, hatImg1}) => {
 
             <div className="character-hats">
                 <img src={hatImg1}/>
-
+            <div id="petting"></div>
             </div>
             <div className="character-face">
                 <img src="./face/face-01-01.svg"/>

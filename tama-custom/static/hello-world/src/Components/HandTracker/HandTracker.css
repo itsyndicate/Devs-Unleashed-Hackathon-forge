@@ -29,14 +29,16 @@ video{
   background: #F5F5F5;
 }
 .canvas {
-    position: absolute;
-    right: -380px;
-    top: -1450px;
+  width: 100%;
+  height: 100%;
     z-index: 5;
 }
 .canvas_container{
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .tama_container{
   position: absolute;
+  align-items: baseline;
 }

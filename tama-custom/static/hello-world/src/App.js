@@ -45,7 +45,7 @@ const TamagoshiGame = () => {
     // }
     return (
 
-        <>
+
             <div className='fondo'>
                 {/* Tamagoshi */}
                 {/* <Egg /> */}
@@ -58,7 +58,6 @@ const TamagoshiGame = () => {
                 {/*    <button className="signInButton" onClick={() => signIn()}>Sign in</button>*/}
                 {/*}*/}
             </div>
-        </>
     );
 };
 

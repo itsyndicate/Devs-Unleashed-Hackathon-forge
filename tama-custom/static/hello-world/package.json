@@ -2,7 +2,7 @@
   "name": "jira-project-page-custom-ui-static",
   "version": "0.1.6",
   "private": true,
-  "homepage": ".",
+  "homepage": "./",
   "dependencies": {
     "@atlaskit/css-reset": "^6.0.1",
     "@electron-forge/plugin-webpack": "^6.0.4",
@@ -59,7 +59,8 @@
   "devDependencies": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@types/styled-components": "^5.1.14",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.9.4"
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"

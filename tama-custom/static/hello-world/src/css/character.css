@@ -6,6 +6,15 @@
 
 }
 
+#petting {
+    height: 150px;
+    margin-top: 17%;
+    left: 450px;
+    width: 200px;
+    position: absolute;
+    border: 1px solid crimson;
+}
+
 .character-face, .character-body, .character-legs, .character-hats, .character-weapon, .character-costume {
     position: absolute;
     pointer-events: none;
@@ -94,9 +103,11 @@
     z-index: -2;
 
 }
+
 button {
     border-radius: 0;
 }
+
 .character-sleeve-right {
     position: absolute;
     width: 1160px;

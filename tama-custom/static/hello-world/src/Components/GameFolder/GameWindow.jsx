@@ -13,8 +13,10 @@ import enemyImage from '../../images/enemy.png'
 import '../PrepateToFight/CountDown.css'
 
 const GameWindow = (props) => {
-    const screenHeight = 1273
-    const screenWidth = 541
+
+    const container = document.getElementsByClassName("body");
+    const screenWidth = container[0].clientWidth;
+    const screenHeight = container[0].clientHeight;
 
     const gameDuration = 30
 

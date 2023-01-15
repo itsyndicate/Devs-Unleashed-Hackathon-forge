@@ -57,6 +57,7 @@ export const Game = () => {
 
     const [jiraUserID, setJiraUserID] = useState('')
     const [jiraUserName, setJiraUserName] = useState('')
+    const [jiraEmail, setJiraEmail] = useState('')
     const [jiraProjectID, setJiraProjectID] = useState('')
     const [jiraProjectName, setJiraProjectName] = useState('')
     const getJiraInfo = async () => {
@@ -115,6 +116,15 @@ export const Game = () => {
         // console.log(strength);
         return result["strength"];
     }
+
+    // async function getEmail() {
+    //     const response = await requestJira('/rest/api/3/users/search?');
+    //     const result = await response.json();
+    //     setJiraEmail(result[0].emailAddress);
+    //     console.log("EMAIL:", jiraEmail);
+    //     console.log("RESPONSE:", setJiraEmail(result[0].emailAddress));
+    //     return result[0].emailAddress;
+    // }
 
     async function getTama() {
         const userID = await getUsers();
@@ -312,6 +322,7 @@ export const Game = () => {
     useEffectOnce(() => {
         getTasks();
         getJiraInfo();
+        // getEmail();
         getTama();
         checkHealth();
         getFight();
