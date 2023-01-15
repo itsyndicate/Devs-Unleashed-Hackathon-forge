@@ -172,7 +172,7 @@ export const CharTable = () => {
                 >
                     <Tab eventKey="body" title="Costumes" onClick={handleChar} count="1" style={{
                         overflowX: "hidden",
-                        overflowY: "auto",
+                        overflowY: "scroll",
                         height: "600px",
                         border: "2px solid #0f6af2;"
                     }}>
@@ -180,7 +180,7 @@ export const CharTable = () => {
                     </Tab>
                     <Tab eventKey="Hats" title="Hats" onClick={handleChar} count="2" style={{
                         overflowX: "hidden",
-                        overflowY: "auto",
+                        overflowY: "scroll",
                         height: "600px",
                         border: "2px solid #0f6af2;"
                     }}>
@@ -189,7 +189,7 @@ export const CharTable = () => {
                     </Tab>
                     <Tab eventKey="Weapons" title="Weapons" onClick={handleChar} count="3" style={{
                         overflowX: "hidden",
-                        overflowY: "auto",
+                        overflowY: "scroll",
                         height: "600px",
                         border: "2px solid #0f6af2;"
                     }}>

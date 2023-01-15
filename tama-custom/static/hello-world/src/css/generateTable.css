@@ -3,7 +3,6 @@
     flex-direction: column;
     gap: 10px;
     margin: 10px;
-    overflow: auto;
     height: 100%;
 }
 button {

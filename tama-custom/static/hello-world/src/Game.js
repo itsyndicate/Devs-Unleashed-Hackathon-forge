@@ -6,6 +6,8 @@ import './css/Game.css';
 import {Character} from "./character";
 import {PopUpEdit, PopUpFeed, PopUpFight} from "./PopUp";
 import buttonSound from './assets/buttons.wav';
+import WaitingSound from "./assets/Waiting.mp3";
+import FightingMusic from "./assets/fightMusic.mp3";
 
 //icons
 import WaitingRoom from "./Components/GameFolder/WaitingRoom";
@@ -17,11 +19,6 @@ const AsyncReq = async () => {
     console.log(await response.text());
 }
 // Components
-const TamagoshiImage = ({strength, health}) => {
-    let tamagoshiImage = 'project_example_1.png';
-    return <Image style={{maxWidth: "350px", maxHeight: "300px"}} src={tamagoshiImage} alt="Tamagoshi"/>;
-}
-
 
 export const Game = () => {
 
@@ -132,6 +129,14 @@ export const Game = () => {
             }
         });
 
+        if (!response.ok) {
+            setIsEditVisible(true);
+            console.log("edit visible")
+        }
+        else {
+            setIsEditVisible(false);
+            console.log("edit ihdden")
+        }
 
         const result = await response.json();
         // console.log(result["image"]);
@@ -185,6 +190,12 @@ export const Game = () => {
     }
     const toggleFightGame = () => {
         setIsFightGameVisible(!isFightGameVisible)
+        const audio = new Audio(WaitingSound);
+        if (isFightGameVisible) {
+            audio.play();
+        }
+        audio.src = "";
+
     }
     const toggleFeed = () => {
         const audio = new Audio(buttonSound)
@@ -201,6 +212,9 @@ export const Game = () => {
         })
         if (response.ok) {
             setIsPlayerInFight(!isPlayerInFight)
+
+            const fightMusic = new Audio(FightingMusic);
+            await fightMusic.play();
         }
     }
     const login = async (costumeImg, hatImg, weaponImg) => {
@@ -296,15 +310,18 @@ export const Game = () => {
 
         setIsEditVisible(!isEditVisible);
         getTama();
+        checkHealth();
     }
 
 
     useEffectOnce(() => {
-        getTasks()
-        getJiraInfo()
-        checkHealth();
-        getFight()
+        getTasks();
+        getJiraInfo();
         getTama();
+        checkHealth();
+        getFight();
+
+
     })
     return (
         <div className="egg">
