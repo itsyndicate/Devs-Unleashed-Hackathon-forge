@@ -210,14 +210,15 @@ export const Game = () => {
     const login = async (costumeImg, hatImg, weaponImg) => {
         const userID = await getUsers();
         const projectID = await getProject();
-       const getJiraUserInfoName = async () => {
-        const response = await requestJira(`/rest/api/3/myself`);
-        const data = await response.json()
-        return data.displayName
-    }
+    //    const getJiraUserInfoName = async () => {
+    //     const response = await requestJira(`/rest/api/3/myself`);
+    //     const data = await response.json()
+    //        console.log(data.accountId);
+    //     return data.emailAddress
+    // }
 
         const userData = {
-            "player_name": getJiraUserInfoName(),
+            "player_name": userID,
             "account_id": userID,
             "project_id": projectID,
             "project_name": jiraProjectName
