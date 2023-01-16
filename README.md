@@ -1,5 +1,8 @@
 # Devs-Unleashed-Hackathon
 
+Backend repository:
+https://github.com/itsyndicate/Devs-Unleashed-Hackathon-backend
+
 Original documentation: 
 https://developer.atlassian.com/platform/forge/getting-started/
 
