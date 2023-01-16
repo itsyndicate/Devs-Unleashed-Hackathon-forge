@@ -27,7 +27,7 @@ import toggleClickBtn from "./assets/clickInEdit.wav";
 //     color: 'white'
 // };
 // const [activeStyle, setActiveStyle] = useState("blue")
-
+let countState = 0;
 export const PopUp = ({toggleLogin}) => {
     return (
         <div className="loginMenu" style={{height: '50%'}}>
@@ -102,6 +102,43 @@ export const CharTable = () => {
     const toggleSound = () => {
         setSoundImage(soundImage === 'sound.svg' ? 'teenyicons_sound-off-solid.svg' : 'sound.svg');
     }
+
+    const getUsers = async () => {
+        const response = (await requestJira('/rest/api/3/users/search?'));
+        const data = await response.json();
+        return (data[0].accountId);
+    }
+    const getProject = async () => {
+        const response = (await requestJira('/rest/api/3/project'));
+        const data = await response.json();
+        return (data[0].key);
+    }
+
+    async function getTama() {
+        const userID = await getUsers();
+        const projectId = await getProject();
+
+        // const userID = await getUsers();
+        const response = await fetch(`https://backend.guard-lite.com/api/v1/taskogotchi?account_id=${userID}&project_id=${projectId}`, {
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+
+        const result = await response.json();
+        // console.log(result["image"]);
+        setHatImg(result["image"].hatImg)
+        setCostumeImg(result["image"].costumeImg)
+        setWeaponImg(result["image"].weaponImg)
+    }
+    if (countState === 0){
+        getTama();
+        countState++;
+    }
+
     const changeImage = (sourceImg, catalog) => {
         if (isAudioOn) {
             new Audio(toggleClickBtn).play()
