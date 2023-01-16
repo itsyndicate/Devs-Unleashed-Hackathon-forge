@@ -13,7 +13,7 @@ const PrepareToFight = () => {
         return () => clearTimeout(toRef.current)
     }, []);
     return (
-        <div>
+        <div className='prepareToFight'>
             {showComponent ? <CountDown gametime={3} fight={'Fight!'}/> : false}
         </div>
     );

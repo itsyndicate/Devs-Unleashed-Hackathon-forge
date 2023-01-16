@@ -1,6 +1,6 @@
 const gravity = 0.7
 class Fighter {
-    constructor(contextRef,{position, velocity, color = 'yellow', offset, name, imageSrc}, ) {
+    constructor(contextRef,{position, velocity, color = 'yellow', offset, name, imageSrc, health}, ) {
         this.contextRef = contextRef
         this.position = position
         this.velocity = velocity
@@ -18,7 +18,7 @@ class Fighter {
         }
         this.color = color
         this.isAttacking = false
-        this.health = 100
+        this.health = health
         this.dead = true
         this.name = name
         this.image = new Image()

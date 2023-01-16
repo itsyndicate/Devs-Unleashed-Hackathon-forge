@@ -5,20 +5,17 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './css/Game.css';
 import {Character} from "./character";
 import {PopUpEdit, PopUpFeed, PopUpFight} from "./PopUp";
-import buttonSound from './assets/buttons.wav';
+import buttonSound from './assets/buttons.wav'
 import WaitingSound from "./assets/Waiting.mp3";
 import FightingMusic from "./assets/fightMusic.mp3";
-
 //icons
 import WaitingRoom from "./Components/GameFolder/WaitingRoom";
 import AcceptOrDeny from "./Components/PrepateToFight/AcceptOrDeny";
-import {useEffectOnce} from "./effects"
+import {useEffectOnce} from "./effects";
+import FightingGame from "./Components/GameFolder/FightingGame";
 
-const AsyncReq = async () => {
-    const response = await requestJira('/rest/api/3/groups/picker');
-    console.log(await response.text());
-}
 // Components
+
 
 export const Game = () => {
 
@@ -42,7 +39,6 @@ export const Game = () => {
     const [showGif, setShowGif] = useState(false);
     const [gif, setGif] = useState(null);
 
-
     const getUsers = async () => {
         const response = (await requestJira('/rest/api/3/users/search?'));
         const data = await response.json();
@@ -52,52 +48,35 @@ export const Game = () => {
     const getTasks = async () => {
         const response = await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status')
             .then(res => res.json())
-            .then(res => setTasks([...res.issues.map(iss => iss.fields.summary)]));
-
+            .then(res => setTasks([...res.issues.map(iss => iss.fields.summary)]))
     }
-    // const getTaskIds = async () => {
-    //     const response = (await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status'));
-    //     const result = await response.json();
-    //     console.log("RESULT:", result);
-    //
-    //
-    //                 .then(res => res.json())
-    //         .then(res => setTasks([...res.issues.map(iss => iss.fields.summary)]));
-    //
-    //
-    // }
-    // export const deleteTask = async () => {
-    //     const responce = await requestJira(`/rest/api/3/issue/${task}`)
-    // }
 
     const [jiraUserID, setJiraUserID] = useState('')
     const [jiraUserName, setJiraUserName] = useState('')
-    const [jiraEmail, setJiraEmail] = useState('')
     const [jiraProjectID, setJiraProjectID] = useState('')
     const [jiraProjectName, setJiraProjectName] = useState('')
-    const getJiraInfo = async () => {
-        await requestJira('/rest/api/3/users/search?')
-            .then(res => res.json())
-            .then(res => setJiraUserID(res[0].accountId))
-        await requestJira('/rest/api/3/users/search?')
-            .then(res => res.json())
-            .then(res => setJiraUserName(res[0].displayName))
-
-        await requestJira('/rest/api/2/project')
-            .then(res => res.json())
-            .then(res => setJiraProjectName(res[0].name))
-
-        await requestJira('/rest/api/2/project')
-            .then(res => res.json())
-            .then(res => setJiraProjectID(res[0].key))
+    const getJiraUserInfo = async () => {
+        const response = await requestJira('/rest/api/3/users/search?')
+        const data = await response.json()
+        setJiraUserID(data[0].accountId)
+        setJiraUserName(data[0].displayName)
+        return data[0].accountId
     }
+    const getJiraProjectInfo = async () => {
+        await requestJira('/rest/api/2/project')
+            .then(res => res.json())
+            .then(res => {
+                setJiraProjectName(res[0].name)
+                setJiraProjectID(res[0].key)
+            })
+    }
+
 
 
     const getProject = async () => {
         const response = (await requestJira('/rest/api/3/project'));
         const data = await response.json();
         setJiraProjectID(data[0].key)
-        console.log("PROJECT: ", jiraProjectID)
         return (data[0].key);
     }
 
@@ -132,15 +111,6 @@ export const Game = () => {
         // console.log(strength);
         return result["strength"];
     }
-
-    // async function getEmail() {
-    //     const response = await requestJira('/rest/api/3/users/search?');
-    //     const result = await response.json();
-    //     setJiraEmail(result[0].emailAddress);
-    //     console.log("EMAIL:", jiraEmail);
-    //     console.log("RESPONSE:", setJiraEmail(result[0].emailAddress));
-    //     return result[0].emailAddress;
-    // }
 
     async function getTama() {
         const userID = await getUsers();
@@ -202,7 +172,9 @@ export const Game = () => {
         setIsEditVisible(!isEditVisible);
         getTama();
     }
-
+    const toggleFightInvite = () =>{
+        setIsPlayerInFight(!isPlayerInFight)
+    }
     const toggleFight = () => {
         const audio = new Audio(buttonSound)
         audio.play();
@@ -223,19 +195,16 @@ export const Game = () => {
         audio.play();
         setIsFeedVisible(!isFeedVisible)
     }
-    const getFight = async () => {
-        const response = await fetch(`https://backend.guard-lite.com/api/v1/fight?account_id=${jiraUserID}`, {
+    const getFight = async (res) => {
+        const response = await fetch(`https://backend.guard-lite.com/api/v1/fight?account_id=${res}`, {
             method: "GET",
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
             }
         })
-        if (response.ok) {
+        if (response.ok){
             setIsPlayerInFight(!isPlayerInFight)
-
-            const fightMusic = new Audio(FightingMusic);
-            await fightMusic.play();
         }
     }
     const login = async (costumeImg, hatImg, weaponImg) => {
@@ -334,17 +303,14 @@ export const Game = () => {
         checkHealth();
     }
 
-
-    useEffectOnce(() => {
-        getTasks();
-        getJiraInfo();
-        // getEmail();
-        getTama();
+    useEffectOnce(()=>{
+        getTasks()
+        getJiraUserInfo().then(res => getFight(res))
+        getJiraProjectInfo()
         checkHealth();
-        getFight();
-
-
+        getTama();
     })
+    const [fightInfo, setFightInfo] = useState()
     return (
         <div className="egg">
 
@@ -387,10 +353,12 @@ export const Game = () => {
                         <img draggable="false" src="cat-food.svg" className="feed-img"/>
                     </button>
                 </div>
-                {isPlayerInFight && <AcceptOrDeny account_id={jiraUserID} project_id={jiraProjectID}/>}
-                {isFightGameVisible && <WaitingRoom/>}
-
-                {isFeedVisible && <PopUpFeed tasks={tasks}
+                {isPlayerInFight && <AcceptOrDeny account_id={jiraUserID} project_id={jiraProjectID}
+                                                  toggleFightInvite={toggleFightInvite} toggleFightGame={toggleFightGame} setFightInfo={setFightInfo}
+                />}
+                {isFightGameVisible && <WaitingRoom account_id={jiraUserID} project_id={jiraProjectID}/>}
+                {fightInfo && <FightingGame account_id={jiraUserID} fightInfo={fightInfo}/>}
+                 {isFeedVisible && <PopUpFeed tasks={tasks}
                                              toggleFeed={toggleFeed}
                                              strength={strength}
                                              health={health}

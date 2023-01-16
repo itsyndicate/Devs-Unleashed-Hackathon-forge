@@ -24,8 +24,8 @@
 .fightMenu {
     z-index: 2;
     position: absolute;
-    top: -170px;
-    left: 200px;
+    top: -50px;
+    left: 284px;
 }
 #Editor {
     display: none;

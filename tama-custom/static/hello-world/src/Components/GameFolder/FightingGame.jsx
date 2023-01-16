@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
 import GameWindow from "./GameWindow";
 import './FightingGame.css'
-const FightingGame = () => {
-    const [newGame, setNewGame] = useState(true)
+const FightingGame = (props) => {
+    const [isGameDraw, setIsGameDraw] = useState(true)
+    const toggleDrawGame = () =>{
+        setIsGameDraw(!isGameDraw)
+    }
     return (
         <div>
-            {newGame ? <div className="game">
-                <GameWindow newGame={newGame} setNewGame={setNewGame}/>
+            {isGameDraw ? <div className="game">
+                <GameWindow account_id={props.account_id} fightInfo={props.fightInfo}
+                            toggleDrawGame={toggleDrawGame}/>
             </div> : false}
         </div>
     );
