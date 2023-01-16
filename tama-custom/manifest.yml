@@ -12,7 +12,7 @@ resources:
   - key: main
     path: static/hello-world/build
 app:
-  id: ari:cloud:ecosystem::app/e024604e-407a-4a86-8818-1fec82595eda
+  id: ari:cloud:ecosystem::app/b8bffee2-c364-49f7-be9a-32a396936539
 
 permissions:
   content:
@@ -40,13 +40,15 @@ permissions:
       - 'https://tfhub.dev/'
       - 'https://storage.googleapis.com'
       - 'https://cdn.jsdelivr.net'
+      - 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.3.1626903359/hands.min.js'
+      - 'https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.1/drawing_utils.js'
+      - 'https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js'
+      - 'https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js'
     fetch:
       client:
         - 'https://storage.googleapis.com'
         - 'https://tfhub.dev/'
         - 'https://cdn.jsdelivr.net'
         - '*.guard-lite.com'
-        - 'wss://backend.guard-lite.com'
       backend:
         - '*.guard-lite.com'
-        - 'wss://backend.guard-lite.com'

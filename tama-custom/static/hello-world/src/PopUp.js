@@ -104,7 +104,7 @@ export const CharTable = () => {
     }
 
     const getUsers = async () => {
-        const response = (await requestJira('/rest/api/3/users/search?'));
+        const response = await requestJira('/rest/api/3/users/search?');
         const data = await response.json();
         return (data[0].accountId);
     }

@@ -40,10 +40,10 @@ export const Game = () => {
     const [gif, setGif] = useState(null);
 
     const getUsers = async () => {
-        const response = (await requestJira('/rest/api/3/users/search?'));
+        const response = await requestJira(`/rest/api/3/myself/`);
         const data = await response.json();
-        setUsers(data[0].accountId)
-        return (data[0].accountId);
+        setUsers(data.accountId)
+        return (data.accountId);
     }
     const getTasks = async () => {
         const response = await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status')
@@ -56,11 +56,11 @@ export const Game = () => {
     const [jiraProjectID, setJiraProjectID] = useState('')
     const [jiraProjectName, setJiraProjectName] = useState('')
     const getJiraUserInfo = async () => {
-        const response = await requestJira('/rest/api/3/users/search?')
+        const response = await requestJira(`/rest/api/3/myself`);
         const data = await response.json()
-        setJiraUserID(data[0].accountId)
-        setJiraUserName(data[0].displayName)
-        return data[0].accountId
+        setJiraUserID(data.accountId)
+        setJiraUserName(data.displayName)
+        return data.accountId
     }
     const getJiraProjectInfo = async () => {
         await requestJira('/rest/api/2/project')
@@ -326,7 +326,10 @@ export const Game = () => {
                 {/*<div className={'square-content ' + direction} id="character">*/}
                 <div className='square-content' id="character">
                     <div className="editAndFight">
-                        {isEditVisible && < PopUpEdit toggleLogin={toggleEdit} login={login}/>}
+                        {isEditVisible && < PopUpEdit toggleLogin={toggleEdit} login={login}
+                                             costumeImg1={costume}
+                                             hatImg1={hat}
+                                             weaponImg1={weapon}/>}
                         {/*</StyledEngineProvider>*/}
                         <button className="editButton" onClick={toggleEdit}><img src="edit.svg"
                                                                                  className="edit-img"/>
