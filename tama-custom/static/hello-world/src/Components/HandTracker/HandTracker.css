@@ -39,6 +39,7 @@ video{
   left: 0;
 }
 .tama_container{
-  position: absolute;
-  align-items: baseline;
+  position: fixed;
+  width: 82%;
+  height: 24%;
 }

@@ -28,7 +28,7 @@ function HandTracker(props) {
   let pettingCount = 0;
   setInterval(() => {
     pettingCount = 0;
-  }, 4000)
+  }, 5000)
   const handHeight = 320;
   const handWidth = 300;
 
@@ -58,7 +58,7 @@ function HandTracker(props) {
     animationRenderer.setCustomSkinsFromJson(
         {
           "hatImg": props.hatImg1,
-          "weaponImg": props.weaponImg1,
+          "weaponImg": "",
           "costumeImg": props.costumeImg1
         }
     )
@@ -105,7 +105,7 @@ function HandTracker(props) {
   const onResults = (hand)=>{
     // const videoWidth = webCamRef.current.video.videoWidth;
     // const videoHeight = webCamRef.current.video.videoHeight;
-    const videoWidth = 1200;
+    const videoWidth = 1400;
     const videoHeight = 900;
     //Sets height and width of canvas
     canvasRef.current.width = videoWidth;
@@ -122,10 +122,10 @@ function HandTracker(props) {
     canvasCtx.save();
     canvasCtx.clearRect(0,0,canvasElement.width,canvasElement.height);
     animationRenderer.render(
-        200,
+        300,
         canvasElement.height - 200,
         350,
-        175,
+        125,
         true
     )
 
@@ -153,8 +153,6 @@ function HandTracker(props) {
           x: xs - handWidth / 2,
           y: ys - handWidth / 4,
         }
-        console.log("y:", handCenter.y)
-        console.log("x:", handCenter.x)
         canvasCtx.drawImage(handGrab,handCenter.x, handCenter.y);
 
         if (closedHandSound === 0){
@@ -193,16 +191,16 @@ function HandTracker(props) {
           x: xs - handWidth / 2,
           y: ys - handWidth / 4,
         }
-        console.log("OPENx:", handCenter.x)
-        console.log("OPENy:", handCenter.y)
         if (handCenter.x <= 280 && handCenter.y <= 500 && handCenter.y <= 400 && pettingCount === 0) {
-          if (handCenter.x <= 280 && handCenter.y >= 300) {
-
+          if (handCenter.x <= 280 && handCenter.y >= 280) {
+            console.log("petting sound");
+              const audio = new Audio(pettingSound);
+              audio.play().then(() => {
+              animationRenderer.setTouchAnimation();
+             });
           }
-          console.log("petting sound")
-          const audio = new Audio(pettingSound);
-          audio.play();
-          animationRenderer.setTouchAnimation();
+
+
           pettingCount = 1;
 
         }
@@ -254,7 +252,10 @@ function HandTracker(props) {
 
         const eatSounds = () => {
           const audio = new Audio(EatingTask)
-          audio.play();
+          audio.play().then(() => {
+            animationRenderer.setEatAnimation();
+
+          });
           audio.onended = () => {
             const updateStatsSound = new Audio(statsUpdateSound);
             updateStatsSound.play();
@@ -262,7 +263,6 @@ function HandTracker(props) {
         }
 
         eatSounds();
-        animationRenderer.setEatAnimation()
 
         console.log('BINGO')
         tasks = []

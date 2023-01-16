@@ -7,7 +7,7 @@
     align-items: center;
     /*z-index: 110;*/
     left: -300px;
-    bottom: 0;
+    top: 0;
 }
 .character_in_tama{
     transform: rotateY(180deg);
