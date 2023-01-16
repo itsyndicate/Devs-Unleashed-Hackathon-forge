@@ -89,15 +89,16 @@ export const Game = () => {
 
         await requestJira('/rest/api/2/project')
             .then(res => res.json())
-            .then(res => setJiraProjectID(res[0].id))
+            .then(res => setJiraProjectID(res[0].key))
     }
 
 
     const getProject = async () => {
         const response = (await requestJira('/rest/api/3/project'));
         const data = await response.json();
-        setJiraProjectID(data[0].id)
-        return (data[0].id);
+        setJiraProjectID(data[0].key)
+        console.log("PROJECT: ", jiraProjectID)
+        return (data[0].key);
     }
 
     async function getHealth(userID, projectID) {
