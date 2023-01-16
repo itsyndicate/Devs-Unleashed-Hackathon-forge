@@ -70,7 +70,7 @@ function HandTracker(props) {
     }, 10);
   };
 
-  const detect = async (net, CanvasSize) => {
+  const detect = async (net) => {
     // Check data is available
     if (
         typeof webCamRef.current !== "undefined" &&
@@ -249,6 +249,12 @@ function HandTracker(props) {
     }
     if (tasks.length > 0){
       if (tasks[0].taskCoordinates.x <= 280 && tasks[0].taskCoordinates.y >= 280){
+        // console.log("TASKS:", tasks);
+        // const task = tasks.shift();
+        // console.log(task);
+
+
+
 
         const eatSounds = () => {
           const audio = new Audio(EatingTask)

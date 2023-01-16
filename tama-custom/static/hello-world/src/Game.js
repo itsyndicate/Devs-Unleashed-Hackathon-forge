@@ -52,8 +52,23 @@ export const Game = () => {
     const getTasks = async () => {
         const response = await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status')
             .then(res => res.json())
-            .then(res => setTasks([...res.issues.map(iss => iss.fields.summary)]))
+            .then(res => setTasks([...res.issues.map(iss => iss.fields.summary)]));
+
     }
+    // const getTaskIds = async () => {
+    //     const response = (await requestJira('/rest/api/2/search?jql=status+in+%28+done%29+order+by+status'));
+    //     const result = await response.json();
+    //     console.log("RESULT:", result);
+    //
+    //
+    //                 .then(res => res.json())
+    //         .then(res => setTasks([...res.issues.map(iss => iss.fields.summary)]));
+    //
+    //
+    // }
+    // export const deleteTask = async () => {
+    //     const responce = await requestJira(`/rest/api/3/issue/${task}`)
+    // }
 
     const [jiraUserID, setJiraUserID] = useState('')
     const [jiraUserName, setJiraUserName] = useState('')

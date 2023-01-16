@@ -286,7 +286,13 @@ export const PopUpFeed = (props) => {
             />
 
             <div className="feed-menu-content">
-                <button onClick={props.toggleFeed} className="crossBtn">
+                <button onClick={props.toggleFeed} style={{
+                        top: 0,
+                        right: 0,
+                        width: "50px",
+                        height: "50px",
+                        position: "fixed"
+                }} className="crossBtnFeed">
                     <img src='cross.png' alt=""/>
                 </button>
 
