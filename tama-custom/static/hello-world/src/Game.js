@@ -10,6 +10,7 @@ import buttonSound from './assets/buttons.wav'
 import WaitingRoom from "./Components/GameFolder/WaitingRoom";
 import AcceptOrDeny from "./Components/PrepateToFight/AcceptOrDeny";
 import {useEffectOnce} from "./effects";
+import FightingGame from "./Components/GameFolder/FightingGame";
 
 const AsyncReq = async () => {
     const response = await requestJira('/rest/api/3/groups/picker');
@@ -171,6 +172,7 @@ export const Game = () => {
     const [isFeedVisible, setIsFeedVisible] = useState(false);
     const [isFightGameVisible, setIsFightGameVisible] = useState(false);
     const [isPlayerInFight, setIsPlayerInFight] = useState(false);
+
     const toggleEdit = () => {
         const audio = new Audio(buttonSound)
         audio.play();
@@ -216,6 +218,7 @@ export const Game = () => {
         getTama();
 
     })
+    const [fightInfo, setFightInfo] = useState()
     return (
         <div className="egg">
 
@@ -259,10 +262,10 @@ export const Game = () => {
                     </button>
                 </div>
                 {isPlayerInFight && <AcceptOrDeny account_id={jiraUserID} project_id={jiraProjectID}
-                                                  toggleFightInvite={toggleFightInvite} toggleFightGame={toggleFightGame}
+                                                  toggleFightInvite={toggleFightInvite} toggleFightGame={toggleFightGame} setFightInfo={setFightInfo}
                 />}
                 {isFightGameVisible && <WaitingRoom account_id={jiraUserID} project_id={jiraProjectID}/>}
-
+                {fightInfo && <FightingGame account_id={jiraUserID} fightInfo={fightInfo}/>}
                  {isFeedVisible && <PopUpFeed tasks={tasks}
                                              toggleFeed={toggleFeed}
                                              strength={strength}

@@ -57,10 +57,13 @@ const WaitingRoom = (props) => {
         interval = setInterval(async () => {
             fightInfo = await getFight(props.account_id)
             if (fightInfo) clearInterval(interval)
-            console.log('before', fightInfo)
-            // getFight(props.account_id)
+
         }, 1000)
-        setTimeout(resultTie,  20 * 1000)
+        let timout = setTimeout(resultTie,  20 * 1000)
+        if (fightInfo) {
+            clearTimeout(timout)
+            resultTie()
+        }
     })
 
     return (
